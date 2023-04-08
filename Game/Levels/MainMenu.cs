@@ -9,13 +9,8 @@ public abstract class MainMenu : ILevel
     {
         var result = new Scene
         {
-            BackgroundColor = Color.White
+            BackgroundColor = Color.SkyBlue
         };
         return result;
-    }
-
-    public static void UnloadAssets(InternalGame actualGame)
-    {
-
     }
 }
