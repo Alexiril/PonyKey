@@ -1,5 +1,5 @@
 ﻿using Game.BaseTypes;
-using Game.BuiltInComponents;
+using Game.Levels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -10,22 +10,34 @@ public class InternalGame : Microsoft.Xna.Framework.Game
 {
     public SpriteBatch DrawSpace;
     public GameTime ActualGameTime;
-    public readonly Scene GameScene;
 
-    private GraphicsDeviceManager _graphics;
+    public Scene GameScene
+    {
+        get => _gameScene;
+        set
+        {
+            _gameScene = value;
+            _gameScene.ActualGame = this;
+        }
+    }
+
+    private readonly GraphicsDeviceManager _graphics;
+    private Scene _gameScene;
 
     public InternalGame()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
-        GameScene = new();
         IsMouseVisible = true;
     }
 
     protected override void Initialize()
     {
-        var snake = GameScene.AddGameObject(new GameObject("PlayerSnake", this));
-        snake.AddComponent<Sprite>().LoadingTextureName = "SnakeTexture";
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredBackBufferWidth = 1280;
+        _graphics.PreferredBackBufferHeight = 720;
+        _graphics.ApplyChanges();
+        GameScene = MainMenu.GetScene();
         base.Initialize();
     }
 
@@ -48,7 +60,7 @@ public class InternalGame : Microsoft.Xna.Framework.Game
     protected override void Draw(GameTime gameTime)
     {
         ActualGameTime = gameTime;
-        GraphicsDevice.Clear(Color.CornflowerBlue);
+        GraphicsDevice.Clear(Color.White);
         DrawSpace.Begin();
         GameScene.Draw();
         DrawSpace.End();
