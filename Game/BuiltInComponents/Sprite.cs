@@ -6,9 +6,9 @@ namespace Game.BuiltInComponents;
 
 public class Sprite : Component
 {
-    public string LoadingTextureName;
+    public string LoadingTextureName = "";
 
-    public Texture2D Texture = null;
+    public Texture2D Texture;
 
     public SpriteEffects SpriteEffects = SpriteEffects.None;
 
@@ -16,7 +16,8 @@ public class Sprite : Component
 
     public override void LoadContent()
     {
-        Texture = GameObject.ActualGame.Content.Load<Texture2D>(LoadingTextureName);
+        if (LoadingTextureName != "")
+            Texture = GameObject.ActualGame.Content.Load<Texture2D>(LoadingTextureName);
     }
 
     public override void Draw()

@@ -10,6 +10,7 @@ public class InternalGame : Microsoft.Xna.Framework.Game
 {
     public SpriteBatch DrawSpace;
     public GameTime ActualGameTime;
+    public SpriteFont DebugFont;
 
     public Scene GameScene
     {
@@ -37,14 +38,14 @@ public class InternalGame : Microsoft.Xna.Framework.Game
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
-        GameScene = MainMenu.GetScene();
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         DrawSpace = new SpriteBatch(GraphicsDevice);
-        GameScene.LoadContent();
+        DebugFont = Content.Load<SpriteFont>("DebugFont");
+        GameScene = MainMenu.GetScene(this);
     }
 
     protected override void Update(GameTime gameTime)

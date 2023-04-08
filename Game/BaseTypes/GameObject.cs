@@ -50,6 +50,8 @@ public class GameObject
 
     internal bool RemoveComponent(Component component) => Components.Remove(component);
 
+    internal Component[] GetAllComponents() => Components.ToArray();
+
     public void LoadContent()
     {
         if (Active)

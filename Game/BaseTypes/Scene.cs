@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 
 namespace Game.BaseTypes;
@@ -38,7 +39,34 @@ public class Scene
     public void Draw()
     {
         ActualGame.GraphicsDevice.Clear(BackgroundColor);
+#if DEBUG
+        var debugColor = BackgroundColor == Color.White ? Color.Black : Color.White;
+        var posy = 0;
+#endif
+
         foreach (var gameObject in _gameObjects)
+        {
             gameObject.Draw();
+        }
+#if DEBUG
+        foreach (var gameObject in _gameObjects)
+        {
+            ActualGame.DrawSpace.DrawString(
+                ActualGame.DebugFont,
+                $"{gameObject.ObjectName}:",
+                new(10, posy),
+                debugColor
+            );
+            posy += 25;
+            ActualGame.DrawSpace.DrawString(
+                ActualGame.DebugFont,
+                string.Join(", ", gameObject.GetAllComponents().Select(x => x.GetType().Name)),
+                new(30, posy),
+                debugColor
+            );
+            posy += 25;
+        }
+#endif
+
     }
 }
