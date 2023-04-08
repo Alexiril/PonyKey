@@ -6,8 +6,6 @@ namespace Game.BaseTypes;
 
 public class Scene
 {
-    public string LevelName;
-
     public Color BackgroundColor { get; set; } = Color.CornflowerBlue;
 
     public InternalGame ActualGame { get; set; }
