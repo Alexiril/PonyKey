@@ -20,3 +20,9 @@
 /processorParam:TextureFormat=Compressed
 /build:debugFont.spritefont;DebugFont.spritefont
 
+#begin MainMenuBackground.svg
+/copy:MainMenuBackground.svg
+
+#begin MainMenuLogo.svg
+/copy:MainMenuLogo.svg
+
