@@ -6,13 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Game;
 
-public class InternalGame : Microsoft.Xna.Framework.Game
+internal class InternalGame : Microsoft.Xna.Framework.Game
 {
-    public SpriteBatch DrawSpace;
-    public GameTime ActualGameTime;
-    public SpriteFont DebugFont;
+    internal SpriteBatch DrawSpace;
+    internal GameTime ActualGameTime = new();
+    internal SpriteFont DebugFont;
 
-    public Scene GameScene
+    internal Scene GameScene
     {
         get => _gameScene;
         set
@@ -25,10 +25,10 @@ public class InternalGame : Microsoft.Xna.Framework.Game
     private readonly GraphicsDeviceManager _graphics;
     private Scene _gameScene;
 
-    public InternalGame()
+    internal InternalGame()
     {
         _graphics = new GraphicsDeviceManager(this);
-        _graphics.PreparingDeviceSettings += (o, args) =>
+        _graphics.PreparingDeviceSettings += (_, args) =>
         {
             _graphics.PreferMultiSampling = true;
             args.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 32;

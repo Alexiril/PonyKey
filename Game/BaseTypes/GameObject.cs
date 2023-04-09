@@ -4,19 +4,26 @@ using Game.BuiltInComponents;
 
 namespace Game.BaseTypes;
 
-public class GameObject
+internal class GameObject
 {
-    public string ObjectName { get; set; }
+    internal static void Destroy(GameObject gameObject)
+    {
+        gameObject.Destroy();
+    }
 
-    public bool Active { get; private set; }
+    internal string ObjectName { get; set; }
 
-    public readonly InternalGame ActualGame;
+    internal bool Active { get; private set; }
 
-    public Transform Transform { get; }
+    internal InternalGame ActualGame { get; private set; }
+
+    internal Scene ActualScene { get; set; }
+
+    internal Transform Transform { get; private set; }
 
     private readonly List<Component> _components;
 
-    public GameObject SetActive(bool active)
+    internal GameObject SetActive(bool active)
     {
         Active = active;
         return this;
@@ -58,24 +65,39 @@ public class GameObject
 
     internal Component[] GetAllComponents() => _components.ToArray();
 
-    public void LoadContent()
+    internal void LoadContent()
     {
         if (Active)
             foreach (var component in _components)
                 component.LoadContent();
     }
 
-    public void Update()
+    internal void Update()
     {
         if (Active)
             foreach (var component in _components)
                 component.Update();
     }
 
-    public void Draw()
+    internal void Draw()
     {
         if (Active)
             foreach (var component in _components)
                 component.Draw();
+    }
+
+    internal void Destroy()
+    {
+        ActualScene.DestroyGameObject(this);
+    }
+
+    internal void Remove()
+    {
+        foreach (var component in _components)
+            component.Destroy();
+        _components.Clear();
+        Transform = null;
+        ActualGame = null;
+        ActualScene = null;
     }
 }

@@ -1,11 +1,11 @@
 ﻿namespace Game.BaseTypes;
 
-public interface ILevel
+internal interface ILevel
 {
-    public static Scene GetScene(InternalGame actualGame)
+    internal static Scene GetScene(InternalGame actualGame)
     {
         return null;
     }
 
-    public static void UnloadAssets(InternalGame actualGame) {}
+    internal static void UnloadAssets(InternalGame actualGame) {}
 }

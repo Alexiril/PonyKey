@@ -1,8 +1,8 @@
 ﻿namespace Game.BaseTypes;
 
-public class Component
+internal class Component
 {
-    public GameObject GameObject
+    internal GameObject GameObject
     {
         get => _actualGameObject;
         init
@@ -12,11 +12,16 @@ public class Component
         }
     }
 
-    private readonly GameObject _actualGameObject;
+    private GameObject _actualGameObject;
 
-    public virtual void LoadContent() {}
+    internal virtual void LoadContent() {}
 
-    public virtual void Update() {}
+    internal virtual void Update() {}
 
-    public virtual void Draw() {}
+    internal virtual void Draw() {}
+
+    internal void Destroy()
+    {
+        _actualGameObject = null;
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,11 +12,11 @@ namespace Game;
 
 internal static class SvgConverter
 {
-    public static Texture2D TransformSvgToTexture2D(
+    internal static Texture2D TransformSvgToTexture2D(
         GraphicsDevice graphicsDevice,
         Stream svgStream,
         Vector2 size,
-        IFilter filter = null)
+        List<IFilter> filters = null)
     {
         var renderer = new GdiGraphicsRenderer();
         renderer.BackColor = System.Drawing.Color.Transparent;
@@ -32,8 +33,9 @@ internal static class SvgConverter
         renderer.Window.Resize((int)Math.Max(view.Width, 1d), (int)Math.Max(view.Height, 1d));
         renderer.Render(svgDocument);
         var resultBitmap = renderer.RasterImage;
-        if (filter != null)
-            resultBitmap = filter.Apply(resultBitmap);
+        if (filters != null)
+            foreach (var filter in filters)
+                resultBitmap = filter.Apply(resultBitmap);
         var bufferSize = resultBitmap.Height * resultBitmap.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
         resultBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);

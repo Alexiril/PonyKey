@@ -2,9 +2,9 @@
 
 namespace Game.Levels;
 
-public abstract class Level0 : ILevel
+internal abstract class Level0 : ILevel
 {
-    public static Scene GetScene(InternalGame actualGame)
+    internal static Scene GetScene(InternalGame actualGame)
     {
         return new Scene();
     }

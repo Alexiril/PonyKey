@@ -4,33 +4,37 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game.BuiltInComponents;
 
-public class Sprite : Component
+internal class Sprite : Component
 {
-    public Color TextureColor { get; private set; } = Color.White;
+    internal Color TextureColor { get; set; } = Color.White;
 
-    public Texture2D Texture { get; private set; }
+    internal Texture2D Texture { get; set; }
 
-    public SpriteEffects SpriteEffects { get; private set; } = SpriteEffects.None;
+    internal SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
 
-    public Sprite SetTexture(Texture2D texture)
+    internal Sprite SetTexture(Texture2D texture)
     {
         Texture = texture;
         return this;
     }
 
-    public Sprite SetSpriteEffects(SpriteEffects effects)
+    internal Sprite SetSpriteEffects(SpriteEffects effects)
     {
         SpriteEffects = effects;
         return this;
     }
 
-    public Sprite SetTextureColor(Color color)
+    internal Sprite SetTextureColor(Color color)
     {
         TextureColor = color;
         return this;
     }
 
-    public override void Draw()
+    internal int Width => Texture.Width;
+
+    internal int Height => Texture.Height;
+
+    internal override void Draw()
     {
         if (Texture != null)
         {

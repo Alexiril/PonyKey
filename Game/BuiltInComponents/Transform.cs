@@ -3,37 +3,41 @@ using Microsoft.Xna.Framework;
 
 namespace Game.BuiltInComponents;
 
-public class Transform : Component
+internal class Transform : Component
 {
-    public Vector2 Position { get; private set; } = new Vector2();
+    internal Vector2 Position { get; set; }
 
-    public Transform SetPosition(Vector2 position)
+    internal Transform SetPosition(Vector2 position)
     {
         Position = position;
         return this;
     }
 
-    public float LayerDepth { get; private set; } = 0;
+    internal float LayerDepth { get; set; }
 
-    public Transform SetLayerDepth(float layerDepth)
+    internal Transform SetLayerDepth(float layerDepth)
     {
         LayerDepth = layerDepth;
         return this;
     }
 
-    public float Rotation { get; private set; } = 0;
+    internal float Rotation { get; set; }
 
-    public Transform SetRotation(float rotation)
+    internal Transform SetRotation(float rotation)
     {
         Rotation = rotation;
         return this;
     }
 
-    public float Scale { get; private set; } = 1;
+    internal float Scale { get; set; } = 1;
 
-    public Transform SetScale(float scale)
+    internal Transform SetScale(float scale)
     {
         Scale = scale;
         return this;
     }
+
+    internal Vector2 Up => Vector2.Transform(new(0, -1), Matrix.CreateRotationZ(Rotation));
+
+    internal Vector2 Right => Vector2.Transform(new(1, 0), Matrix.CreateRotationZ(Rotation));
 }
