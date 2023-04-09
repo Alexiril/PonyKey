@@ -6,11 +6,17 @@ namespace Game.BaseTypes;
 
 public class Scene
 {
-    public Color BackgroundColor { get; set; } = Color.CornflowerBlue;
+    public Color BackgroundColor { get; private set; } = Color.CornflowerBlue;
 
     public InternalGame ActualGame { get; set; }
 
     private readonly List<GameObject> _gameObjects = new();
+
+    public Scene SetBackgroundColor(Color color)
+    {
+        BackgroundColor = color;
+        return this;
+    }
 
     public GameObject AddGameObject(GameObject gameObject)
     {

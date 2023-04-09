@@ -28,6 +28,11 @@ public class InternalGame : Microsoft.Xna.Framework.Game
     public InternalGame()
     {
         _graphics = new GraphicsDeviceManager(this);
+        _graphics.PreparingDeviceSettings += (o, args) =>
+        {
+            _graphics.PreferMultiSampling = true;
+            args.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 32;
+        };
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
     }
@@ -62,7 +67,7 @@ public class InternalGame : Microsoft.Xna.Framework.Game
     {
         ActualGameTime = gameTime;
         GraphicsDevice.Clear(Color.White);
-        DrawSpace.Begin();
+        DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
         GameScene.Draw();
         DrawSpace.End();
         base.Draw(gameTime);

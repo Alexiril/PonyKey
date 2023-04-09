@@ -6,22 +6,28 @@ namespace Game.BaseTypes;
 
 public class GameObject
 {
-    public string ObjectName;
+    public string ObjectName { get; set; }
 
-    public bool Active { get; set; }
+    public bool Active { get; private set; }
 
     public readonly InternalGame ActualGame;
 
     public Transform Transform { get; }
 
-    private List<Component> Components { get; }
+    private readonly List<Component> _components;
+
+    public GameObject SetActive(bool active)
+    {
+        Active = active;
+        return this;
+    }
 
     internal GameObject(string objectName, InternalGame actualGame)
     {
         ObjectName = objectName;
         ActualGame = actualGame;
         Active = true;
-        Components = new();
+        _components = new();
         Transform = AddComponent<Transform>();
     }
 
@@ -31,8 +37,8 @@ public class GameObject
     {
         if (component != null)
         {
-            if (!Components.Exists(x => x == component))
-                Components.Add(component);
+            if (!_components.Exists(x => x == component))
+                _components.Add(component);
             else
                 throw new NullReferenceException("Component is in the game object already.");
         }
@@ -42,34 +48,34 @@ public class GameObject
 
     internal T GetComponents<T>() where T : Component
     {
-        foreach (var component in Components)
+        foreach (var component in _components)
             if (component.GetType() == typeof(T))
                 return (T)component;
         return null;
     }
 
-    internal bool RemoveComponent(Component component) => Components.Remove(component);
+    internal bool RemoveComponent(Component component) => _components.Remove(component);
 
-    internal Component[] GetAllComponents() => Components.ToArray();
+    internal Component[] GetAllComponents() => _components.ToArray();
 
     public void LoadContent()
     {
         if (Active)
-            foreach (var component in Components)
+            foreach (var component in _components)
                 component.LoadContent();
     }
 
     public void Update()
     {
         if (Active)
-            foreach (var component in Components)
+            foreach (var component in _components)
                 component.Update();
     }
 
     public void Draw()
     {
         if (Active)
-            foreach (var component in Components)
+            foreach (var component in _components)
                 component.Draw();
     }
 }
