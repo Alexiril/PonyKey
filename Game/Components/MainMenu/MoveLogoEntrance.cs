@@ -13,25 +13,25 @@ internal class MoveLogoEntrance : Component
 
     internal override void Start()
     {
-        _logoSprite = GameObject.GetComponent<Sprite>();
-        _startMilliseconds = GameObject.ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
+        _logoSprite = GetComponent<Sprite>();
+        _startMilliseconds = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
     }
 
     internal override void Update()
     {
-        if (GameObject.ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)
+        if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)
         {
-            GameObject.Transform.Position +=
-                (float)GameObject.ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds *
-                .5f * GameObject.Transform.GlobalUp;
+            Transform.Position +=
+                (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds *
+                .5f * Transform.GlobalUp;
             _logoSprite.TextureColor *= .99f;
         }
         else
         {
             _logoSprite.TextureColor = Color.White *
-                MathF.Min(1f, (float)(GameObject.ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds) / 1000);
+                MathF.Min(1f, (float)(ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds) / 1000);
         }
-        if (GameObject.Transform.Position.Y < -GameObject.GetComponent<Sprite>().Height)
+        if (Transform.Position.Y < -GetComponent<Sprite>().Height)
             GameObject.Destroy();
     }
 }

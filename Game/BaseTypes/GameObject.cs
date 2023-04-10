@@ -42,6 +42,10 @@ internal class GameObject
 
     internal Component[] GetAllComponents() => _components.ToArray();
 
+    internal List<GameObject> Find(string name) => ActualScene.FindGameObjects(name);
+
+    internal GameObject GetGameObjectByIndex(int index) => ActualScene.GetGameObject(index);
+
     internal void Start()
     {
         if (Active)
@@ -53,7 +57,8 @@ internal class GameObject
     {
         if (Active)
             foreach (var component in _components)
-                component.Update();
+                if (component.Active)
+                    component.Update();
         foreach (var component in _removingComponents)
         {
             component.GameObject = null;
@@ -65,7 +70,8 @@ internal class GameObject
     {
         if (Active)
             foreach (var component in _components)
-                component.Draw();
+                if (component.Active)
+                    component.Draw();
     }
 
     internal void Destroy() => ActualScene.DestroyGameObject(this);

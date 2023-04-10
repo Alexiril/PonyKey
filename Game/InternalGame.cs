@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using AForge.Imaging.Filters;
 using Microsoft.Xna.Framework;
@@ -55,6 +54,9 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
+        // _graphics.IsFullScreen = true;
+        // _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
+        // _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
         _graphics.ApplyChanges();
         base.Initialize();
     }

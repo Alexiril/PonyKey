@@ -40,16 +40,16 @@ internal class Sprite : Component
     {
         if (Texture != null)
         {
-            GameObject.ActualGame.DrawSpace.Draw(
+            ActualGame.DrawSpace.Draw(
                 Texture,
-                GameObject.Transform.Position,
+                Transform.Position,
                 null,
                 TextureColor,
-                GameObject.Transform.Rotation,
+                Transform.Rotation,
                 new Vector2(Texture.Width / 2f, Texture.Height / 2f),
-                GameObject.Transform.Scale,
+                Transform.Scale,
                 SpriteEffects,
-                GameObject.Transform.LayerDepth
+                Transform.LayerDepth
                 );
         }
     }
