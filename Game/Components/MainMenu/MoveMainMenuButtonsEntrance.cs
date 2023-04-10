@@ -3,7 +3,7 @@ using Game.BuiltInComponents;
 
 namespace Game.Components.MainMenu;
 
-internal class MovePlayButtonEntrance : Component
+internal class MoveMainMenuButtonsEntrance : Component
 {
     private double _startMilliseconds;
 
@@ -19,9 +19,9 @@ internal class MovePlayButtonEntrance : Component
             if (Transform.Position.Y >
                 ActualGame.ViewportCenter.Y + GetComponent<Sprite>().Height)
             {
-                Transform.Position +=
-                                (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds *
-                                .5f * Transform.GlobalUp;
+                var delta = (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds * .5f * Transform.GlobalUp;
+                Transform.Position += delta;
+                GameObject.GetGameObjectByIndex(3).Transform.Position += delta;
             }
             else GameObject.DestroyComponent(this);
         }

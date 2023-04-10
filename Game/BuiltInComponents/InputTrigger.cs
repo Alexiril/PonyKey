@@ -11,6 +11,7 @@ internal class InputTrigger : Component
     internal event Action<MouseState> OnPointerDown;
     internal event Action<MouseState> OnPointerUp;
     internal event Action<MouseState> OnPointerHolds;
+    internal event Action<MouseState> OnPointerHover;
     internal event Action<MouseState> OnPointerExit;
 
     internal Vector2 TriggerSize
@@ -52,13 +53,9 @@ internal class InputTrigger : Component
     internal override void Update()
     {
         var mouseState = Mouse.GetState(ActualGame.Window);
-        if (AnyMouseKeyPressed(mouseState) &&
-            mouseState.X < Transform.Position.X + CenterOffset.X + TriggerSize.X &&
-            mouseState.X > Transform.Position.X + CenterOffset.X - TriggerSize.X &&
-            mouseState.Y < Transform.Position.Y + CenterOffset.Y + TriggerSize.Y &&
-            mouseState.Y > Transform.Position.Y + CenterOffset.Y - TriggerSize.Y
-        )
+        if (CheckAnyMouseKeyPressed(mouseState) && CheckPointerOverTrigger(mouseState))
         {
+            _pointerWasOverObject = true;
             if (!_pointerWasDown)
             {
                 OnPointerDown?.Invoke(mouseState);
@@ -71,24 +68,36 @@ internal class InputTrigger : Component
         {
             _triggerClicked = _pointerWasDown = false;
             OnPointerExit?.Invoke(mouseState);
-            if (!AnyMouseKeyPressed(mouseState))
+            if (!CheckAnyMouseKeyPressed(mouseState))
                 OnPointerUp?.Invoke(mouseState);
+        }
+        else if (CheckPointerOverTrigger(mouseState))
+        {
+            _pointerWasOverObject = true;
+            OnPointerHover?.Invoke(mouseState);
+        }
+        else if (_pointerWasOverObject)
+        {
+            OnPointerExit?.Invoke(mouseState);
         }
     }
 
 #if DEBUG
-    internal override void Draw() =>
-        ActualGame.DrawSpace.Draw(
-            _debugTexture,
-            Transform.Position + CenterOffset,
-            null,
-            Color.White,
-            0,
-            new Vector2(_debugTexture.Width / 2f, _debugTexture.Height / 2f),
-            1,
-            SpriteEffects.None,
-            Transform.LayerDepth
-        );
+    internal override void Draw()
+    {
+        if (_debugTexture != null)
+            ActualGame.DrawSpace.Draw(
+                _debugTexture,
+                Transform.Position + CenterOffset,
+                null,
+                Color.White,
+                0,
+                new Vector2(_debugTexture.Width / 2f, _debugTexture.Height / 2f),
+                1,
+                SpriteEffects.None,
+                Transform.LayerDepth
+            );
+    }
 
     private Texture2D _debugTexture;
 
@@ -111,14 +120,21 @@ internal class InputTrigger : Component
 
     private Vector2 _triggerSize = Vector2.One;
     private Vector2 _centerOffset = Vector2.Zero;
-    private bool _triggerClicked = false;
-    private bool _pointerWasDown = false;
+    private bool _triggerClicked;
+    private bool _pointerWasDown;
+    private bool _pointerWasOverObject;
 
-    private bool AnyMouseKeyPressed(MouseState mouseState) =>
+    private bool CheckAnyMouseKeyPressed(MouseState mouseState) =>
         mouseState.LeftButton == ButtonState.Pressed ||
         mouseState.RightButton == ButtonState.Pressed ||
         mouseState.MiddleButton == ButtonState.Pressed ||
         mouseState.XButton1 == ButtonState.Pressed ||
         mouseState.XButton2 == ButtonState.Pressed;
+
+    private bool CheckPointerOverTrigger(MouseState mouseState) =>
+        mouseState.X < Transform.Position.X + CenterOffset.X + TriggerSize.X &&
+        mouseState.X > Transform.Position.X + CenterOffset.X - TriggerSize.X &&
+        mouseState.Y < Transform.Position.Y + CenterOffset.Y + TriggerSize.Y &&
+        mouseState.Y > Transform.Position.Y + CenterOffset.Y - TriggerSize.Y;
 
 }

@@ -42,6 +42,8 @@ internal class Scene
 
     internal GameObject GetGameObject(int index) => _gameObjects[index];
 
+    internal int GameObjectsCount => _gameObjects.Count;
+
     internal void Start()
     {
         foreach (var gameObject in _gameObjects)

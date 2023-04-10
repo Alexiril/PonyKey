@@ -23,4 +23,6 @@ internal class Component
     internal Scene ActualScene => GameObject.ActualScene;
 
     internal InternalGame ActualGame => GameObject.ActualGame;
+
+    internal T AddComponent<T>() where T : Component, new() => GameObject.AddComponent<T>();
 }

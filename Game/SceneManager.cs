@@ -15,6 +15,7 @@ internal class SceneManager
             {
                 DestroyScene(CurrentScene);
                 CurrentScene = _levels[_requestedLoad].GetScene(actualGame);
+                CurrentScene.Start();
                 CurrentSceneIndex = _requestedLoad;
                 _requestedLoad = -1;
             }

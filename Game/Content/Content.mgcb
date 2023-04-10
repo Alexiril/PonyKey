@@ -23,6 +23,9 @@
 #begin MainMenuBackground.svg
 /copy:MainMenuBackground.svg
 
+#begin MainMenuExitButton.svg
+/copy:MainMenuExitButton.svg
+
 #begin MainMenuLogo.svg
 /copy:MainMenuLogo.svg
 

@@ -10,6 +10,8 @@ internal class PlayButton : Component
     {
         GetComponent<InputTrigger>().OnPointerDown += _ =>
             GetComponent<Sprite>().TextureColor = new Color(255, 200, 255, 255);
+        GetComponent<InputTrigger>().OnPointerHover += _ =>
+            GetComponent<Sprite>().TextureColor = new Color(255, 230, 255, 255);
         GetComponent<InputTrigger>().OnPointerExit += _ =>
             GetComponent<Sprite>().TextureColor = Color.White;
         GetComponent<InputTrigger>().OnPointerUp += _ =>
@@ -26,8 +28,12 @@ internal class PlayButton : Component
         {
             if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
             {
-                GetComponent<Sprite>().TextureColor *= .95f;
-                GameObject.GetGameObjectByIndex(0).GetComponent<Sprite>().TextureColor *= .95f;
+                for (int i = 0; i < ActualScene.GameObjectsCount; i++)
+                {
+                    var sprite = GameObject.GetGameObjectByIndex(i).GetComponent<Sprite>();
+                    if (sprite != null)
+                        sprite.TextureColor *= .95f;
+                }
             }
             else ActualGame.SceneManager.LoadScene(1);
         }
