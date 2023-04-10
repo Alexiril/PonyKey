@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using AForge.Imaging.Filters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpVectors.Dom.Svg;
 using SharpVectors.Renderers;
 using SharpVectors.Renderers.Gdi;
-using AForge.Imaging.Filters;
 
 namespace Game;
 
@@ -39,6 +39,7 @@ internal static class SvgConverter
         var bufferSize = resultBitmap.Height * resultBitmap.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
         resultBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+        svgStream.Dispose();
         return Texture2D.FromStream(graphicsDevice, memoryStream);
     }
 }

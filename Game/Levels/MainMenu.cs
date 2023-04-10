@@ -9,9 +9,9 @@ internal class MainMenu : ILevel
 {
     public Scene GetScene(InternalGame actualGame)
     {
-        // Challenge: make a scene in one function chain : done :)
+        // Challenge: make a scene in one function chain - done :)
         var result = new Scene(actualGame);
-        result.SetBackgroundColor(Color.SkyBlue)
+        return result.SetBackgroundColor(Color.SkyBlue)
             .AddGameObject(new GameObject("Background"))
             .AddComponent<Sprite>()
             .SetTexture(actualGame.LoadSvg("MainMenuBackground", actualGame.ViewportSize))
@@ -47,7 +47,18 @@ internal class MainMenu : ILevel
                 actualGame.ViewportSize.Y * 1.55f))
             .AddComponent<InputTrigger>()
             .SetTriggerSize(result.GetGameObject(3).GetComponent<Sprite>().Size / 2)
-            .AddComponent<ExitButton>();
-        return result;
+            .AddComponent<ExitButton>()
+            .ActualScene
+            .AddGameObject(new GameObject("DisplayButton"))
+            .AddComponent<Sprite>()
+            .SetTexture(actualGame.LoadSvg("MainMenuDisplayButton",
+                new Vector2(155, 155) * actualGame.ResolutionCoefficient))
+            .Transform
+            .SetPosition(new(actualGame.ViewportCenter.X - 225 * actualGame.ResolutionCoefficient,
+                actualGame.ViewportSize.Y * 1.55f))
+            .AddComponent<InputTrigger>()
+            .SetTriggerSize(result.GetGameObject(4).GetComponent<Sprite>().Size / 2)
+            .AddComponent<DisplayButton>()
+            .ActualScene;
     }
 }

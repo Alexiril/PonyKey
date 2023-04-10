@@ -22,6 +22,7 @@ internal class MoveMainMenuButtonsEntrance : Component
                 var delta = (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds * .5f * Transform.GlobalUp;
                 Transform.Position += delta;
                 GameObject.GetGameObjectByIndex(3).Transform.Position += delta;
+                GameObject.GetGameObjectByIndex(4).Transform.Position += delta;
             }
             else GameObject.DestroyComponent(this);
         }

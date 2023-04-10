@@ -49,14 +49,17 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         );
     }
 
+    internal void ChangeVideoMode()
+    {
+        _needChangeVideoMode = true;
+        SceneManager.LoadScene(SceneManager.CurrentSceneIndex);
+    }
+
     protected override void Initialize()
     {
         _graphics.IsFullScreen = false;
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
-        // _graphics.IsFullScreen = true;
-        // _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
-        // _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
         _graphics.ApplyChanges();
         base.Initialize();
     }
@@ -77,6 +80,23 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
             Exit();
         if (SceneManager.CurrentScene != null)
             SceneManager.CurrentScene.Update();
+        if (_needChangeVideoMode)
+        {
+            if (_graphics.IsFullScreen)
+            {
+                _graphics.IsFullScreen = false;
+                _graphics.PreferredBackBufferWidth = 1280;
+                _graphics.PreferredBackBufferHeight = 720;
+            }
+            else
+            {
+                _graphics.IsFullScreen = true;
+                _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
+                _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
+            }
+            _graphics.ApplyChanges();
+            _needChangeVideoMode = false;
+        }
         OnAfterUpdate?.Invoke();
         base.Update(gameTime);
     }
@@ -95,4 +115,5 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
     }
 
     private readonly GraphicsDeviceManager _graphics;
+    private bool _needChangeVideoMode;
 }
