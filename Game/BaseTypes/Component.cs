@@ -2,26 +2,13 @@
 
 internal class Component
 {
-    internal GameObject GameObject
-    {
-        get => _actualGameObject;
-        init
-        {
-            _actualGameObject = value;
-            _actualGameObject.AddComponent(this);
-        }
-    }
+    internal GameObject GameObject { get; set; }
 
-    private GameObject _actualGameObject;
-
-    internal virtual void LoadContent() {}
+    internal virtual void Start() {}
 
     internal virtual void Update() {}
 
     internal virtual void Draw() {}
 
-    internal void Destroy()
-    {
-        _actualGameObject = null;
-    }
+    internal void Print(string information) => GameObject.Print(information);
 }

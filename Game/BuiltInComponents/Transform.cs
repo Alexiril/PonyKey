@@ -40,4 +40,8 @@ internal class Transform : Component
     internal Vector2 Up => Vector2.Transform(new(0, -1), Matrix.CreateRotationZ(Rotation));
 
     internal Vector2 Right => Vector2.Transform(new(1, 0), Matrix.CreateRotationZ(Rotation));
+
+    internal Vector2 GlobalUp => -Vector2.UnitY;
+
+    internal Vector2 GlobalRight => Vector2.UnitX;
 }

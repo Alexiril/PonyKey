@@ -7,13 +7,18 @@ namespace Game.BaseTypes;
 
 internal class Scene
 {
-    internal Color BackgroundColor { get; private set; } = Color.CornflowerBlue;
+    internal Color BackgroundColor { get; set; } = Color.CornflowerBlue;
 
-    internal InternalGame ActualGame { get; set; }
+    internal InternalGame ActualGame { get; private set; }
 
     private readonly List<GameObject> _gameObjects = new();
 
     private readonly List<GameObject> _removingGameObjects = new();
+
+    public Scene(InternalGame actualGame)
+    {
+        ActualGame = actualGame;
+    }
 
     internal Scene SetBackgroundColor(Color color)
     {
@@ -24,6 +29,7 @@ internal class Scene
     internal GameObject AddGameObject(GameObject gameObject)
     {
         _gameObjects.Add(gameObject);
+        gameObject.ActualGame = ActualGame;
         gameObject.ActualScene = this;
         return gameObject;
     }
@@ -33,12 +39,13 @@ internal class Scene
     internal int RemoveGameObjectsByName(string name) => _gameObjects.RemoveAll(x => x.ObjectName == name);
 
     internal List<GameObject> FindGameObjects(string name) => _gameObjects.FindAll(x => x.ObjectName == name);
+
     internal GameObject GetGameObject(int index) => _gameObjects[index];
 
-    internal void LoadContent()
+    internal void Start()
     {
         foreach (var gameObject in _gameObjects)
-            gameObject.LoadContent();
+            gameObject.Start();
     }
 
     internal void Update()
@@ -53,8 +60,8 @@ internal class Scene
                 _gameObjects.Remove(gameObject);
                 gameObject.Remove();
             }
+
             _removingGameObjects.Clear();
-            GC.Collect();
         }
     }
 
@@ -71,11 +78,37 @@ internal class Scene
 
         ActualGame.DrawSpace.DrawString(
             ActualGame.DebugFont,
-            $"Total committed bytes: {GC.GetGCMemoryInfo().TotalCommittedBytes}",
+            $"Total committed memory: {MathF.Round((float)GC.GetGCMemoryInfo().TotalCommittedBytes / 0x100000, 3)} MB",
             new(5, posy),
             debugColor
         );
         posy += 25;
+        ActualGame.DrawSpace.DrawString(
+            ActualGame.DebugFont,
+            $"Scene index: {ActualGame.SceneManager.CurrentSceneIndex}",
+            new(5, posy),
+            debugColor
+        );
+        posy += 25;
+        ActualGame.DrawSpace.DrawString(
+            ActualGame.DebugFont,
+            $"Frames per second: {MathF.Round(1 / (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalSeconds, 2)}",
+            new(5, posy),
+            debugColor
+        );
+        posy += 25;
+        if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastPrintLogTime > 3000)
+            ClearLog();
+        foreach (var info in _logInformation)
+        {
+            ActualGame.DrawSpace.DrawString(
+                ActualGame.DebugFont,
+                info,
+                new(5, posy),
+                debugColor
+            );
+            posy += 25;
+        }
         foreach (var gameObject in _gameObjects)
         {
             ActualGame.DrawSpace.DrawString(
@@ -95,4 +128,36 @@ internal class Scene
         }
 #endif
     }
+
+    internal void Remove()
+    {
+        foreach (var gameObject in _gameObjects.ToList())
+        {
+            gameObject.SetActive(false);
+            _gameObjects.Remove(gameObject);
+            gameObject.Remove();
+        }
+
+        _gameObjects.Clear();
+        _removingGameObjects.Clear();
+        ActualGame = null;
+    }
+
+#if DEBUG
+
+    internal void Print(string information)
+    {
+        _logInformation.Enqueue(information);
+        if (_logInformation.Count > 6)
+            _logInformation.Dequeue();
+        _lastPrintLogTime = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
+    }
+
+    internal void ClearLog() => _logInformation.Clear();
+
+    private readonly Queue<string> _logInformation = new(7);
+
+    private double _lastPrintLogTime = -1;
+
+#endif
 }

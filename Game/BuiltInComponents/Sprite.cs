@@ -34,6 +34,8 @@ internal class Sprite : Component
 
     internal int Height => Texture.Height;
 
+    internal Vector2 Size => new(Width, Height);
+
     internal override void Draw()
     {
         if (Texture != null)

@@ -1,36 +1,29 @@
-﻿using System.IO;
-using Game.BaseTypes;
+﻿using Game.BaseTypes;
 using Game.BuiltInComponents;
-using Game.Components;
+using Game.Components.MainMenu;
 using Microsoft.Xna.Framework;
 
 namespace Game.Levels;
 
-internal abstract class MainMenu : ILevel
+internal class MainMenu : ILevel
 {
-    internal static Scene GetScene(InternalGame actualGame)
+    public Scene GetScene(InternalGame actualGame)
     {
-        var result = new Scene().SetBackgroundColor(Color.SkyBlue);
-        result.AddGameObject(new GameObject("Background", actualGame)).AddComponent<Sprite>().SetTexture(
-            SvgConverter.TransformSvgToTexture2D(
-                actualGame.GraphicsDevice,
-                new FileStream($"{actualGame.Content.RootDirectory}/MainMenuBackground.svg", FileMode.Open),
-                new(actualGame.GraphicsDevice.Viewport.Width, actualGame.GraphicsDevice.Viewport.Height)
-            )).GameObject.Transform.SetPosition(new(
-            (float)actualGame.GraphicsDevice.Viewport.Width / 2,
-            (float)actualGame.GraphicsDevice.Viewport.Height / 2)
-        );
-        result.AddGameObject(new GameObject("Logo", actualGame)).AddComponent<Sprite>().SetTexture(SvgConverter
-            .TransformSvgToTexture2D(
-                actualGame.GraphicsDevice,
-                new FileStream($"{actualGame.Content.RootDirectory}/MainMenuLogo.svg", FileMode.Open),
-                new(actualGame.GraphicsDevice.Viewport.Width, actualGame.GraphicsDevice.Viewport.Height)
-            )).
-            GameObject.Transform.SetPosition(new(
-            (float)actualGame.GraphicsDevice.Viewport.Width / 2,
-            (float)actualGame.GraphicsDevice.Viewport.Height / 2
-        )).GameObject.AddComponent<MoveLogoEntrance>();
-        result.LoadContent();
+        var result = new Scene(actualGame).SetBackgroundColor(Color.SkyBlue);
+        result.AddGameObject(new GameObject("Background")).AddComponent<Sprite>()
+            .SetTexture(actualGame.LoadSvg("MainMenuBackground", actualGame.ViewportSize)).GameObject.Transform
+            .SetPosition(actualGame.ViewportCenter);
+        result.AddGameObject(new GameObject("Logo")).AddComponent<Sprite>()
+            .SetTexture(actualGame.LoadSvg("MainMenuLogo", actualGame.ViewportSize)).GameObject.Transform
+            .SetPosition(actualGame.ViewportCenter).SetRotation(25).GameObject.AddComponent<MoveLogoEntrance>();
+        var inputTrigger = result.AddGameObject(new GameObject("PlayButton")).AddComponent<Sprite>()
+            .SetTexture(actualGame.LoadSvg("PlayButtonMainMenu",
+                new Vector2(220, 220) * actualGame.ResolutionCoefficient))
+            .GameObject.Transform.SetPosition(new(actualGame.ViewportCenter.X, actualGame.ViewportSize.Y * 1.5f))
+            .GameObject.AddComponent<MovePlayButtonEntrance>().GameObject.AddComponent<PlayButton>().GameObject
+            .AddComponent<InputTrigger>();
+        inputTrigger.TriggerSize = inputTrigger.GameObject.GetComponent<Sprite>().Size / 2;
+        result.Start();
         return result;
     }
 }

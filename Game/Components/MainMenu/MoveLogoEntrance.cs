@@ -3,7 +3,7 @@ using Game.BaseTypes;
 using Game.BuiltInComponents;
 using Microsoft.Xna.Framework;
 
-namespace Game.Components;
+namespace Game.Components.MainMenu;
 
 internal class MoveLogoEntrance : Component
 {
@@ -11,9 +11,9 @@ internal class MoveLogoEntrance : Component
 
     private double _startMilliseconds;
 
-    internal override void LoadContent()
+    internal override void Start()
     {
-        _logoSprite = GameObject.GetComponents<Sprite>();
+        _logoSprite = GameObject.GetComponent<Sprite>();
         _startMilliseconds = GameObject.ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
     }
 
@@ -23,7 +23,7 @@ internal class MoveLogoEntrance : Component
         {
             GameObject.Transform.Position +=
                 (float)GameObject.ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds *
-                .5f * GameObject.Transform.Up;
+                .5f * GameObject.Transform.GlobalUp;
             _logoSprite.TextureColor *= .99f;
         }
         else
@@ -31,7 +31,7 @@ internal class MoveLogoEntrance : Component
             _logoSprite.TextureColor = Color.White *
                 MathF.Min(1f, (float)(GameObject.ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds) / 1000);
         }
-        if (GameObject.Transform.Position.Y < -GameObject.GetComponents<Sprite>().Height)
+        if (GameObject.Transform.Position.Y < -GameObject.GetComponent<Sprite>().Height)
             GameObject.Destroy();
     }
 }
