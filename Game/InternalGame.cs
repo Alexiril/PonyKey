@@ -33,7 +33,7 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         SceneManager = new(this);
     }
 
-    internal float ResolutionCoefficient => .5f * (ViewportSize.X / 1280) + .5f * (ViewportSize.Y / 1280);
+    internal float ResolutionCoefficient => .5f * (ViewportSize.X / 1280) + .5f * (ViewportSize.Y / 720);
 
     internal Vector2 ViewportSize => new(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
 
@@ -46,6 +46,15 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
             new FileStream($"{Content.RootDirectory}/{assetName}.svg", FileMode.Open),
             size,
             filters
+        );
+    }
+
+    // actual texture loader sucks
+    internal Texture2D LoadImage(string assetName)
+    {
+        return Texture2D.FromStream(
+            GraphicsDevice,
+            new FileStream($"{Content.RootDirectory}/{assetName}", FileMode.Open)
         );
     }
 
@@ -78,8 +87,7 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        if (SceneManager.CurrentScene != null)
-            SceneManager.CurrentScene.Update();
+        SceneManager.CurrentScene?.Update();
         if (_needChangeVideoMode)
         {
             if (_graphics.IsFullScreen)
@@ -94,9 +102,11 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
                 _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
                 _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
             }
+
             _graphics.ApplyChanges();
             _needChangeVideoMode = false;
         }
+
         OnAfterUpdate?.Invoke();
         base.Update(gameTime);
     }
@@ -106,9 +116,8 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         OnBeforeDraw?.Invoke();
         ActualGameTime = gameTime;
         GraphicsDevice.Clear(Color.White);
-        DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-        if (SceneManager.CurrentScene != null)
-            SceneManager.CurrentScene.Draw();
+        DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        SceneManager.CurrentScene?.Draw();
         DrawSpace.End();
         OnAfterDraw?.Invoke();
         base.Draw(gameTime);

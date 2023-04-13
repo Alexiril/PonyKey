@@ -40,6 +40,8 @@ internal class GameObject
 
     internal void DestroyComponent(Component component) => _removingComponents.Add(component);
 
+    internal bool HaveComponent<T>() => _components.Exists(x => x.GetType() == typeof(T));
+
     internal Component[] GetAllComponents() => _components.ToArray();
 
     internal List<GameObject> Find(string name) => ActualScene.FindGameObjects(name);

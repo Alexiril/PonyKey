@@ -30,9 +30,12 @@ internal class PlayButton : Component
             {
                 for (int i = 0; i < ActualScene.GameObjectsCount; i++)
                 {
-                    var sprite = GameObject.GetGameObjectByIndex(i).GetComponent<Sprite>();
+                    var gameObject = GameObject.GetGameObjectByIndex(i);
+                    var sprite = gameObject.GetComponent<Sprite>();
                     if (sprite != null)
                         sprite.TextureColor *= .95f;
+                    if (gameObject.HaveComponent<InputTrigger>())
+                        gameObject.DestroyComponent(gameObject.GetComponent<InputTrigger>());
                 }
             }
             else ActualGame.SceneManager.LoadScene(1);

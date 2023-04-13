@@ -16,9 +16,18 @@
 #begin debugFont.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
+/processorParam:PremultiplyAlpha=False
 /processorParam:TextureFormat=Compressed
 /build:debugFont.spritefont;DebugFont.spritefont
+
+#begin Level0Background0.svg
+/copy:Level0Background0.svg
+
+#begin Level0Background1.svg
+/copy:Level0Background1.svg
+
+#begin Level0Background2.svg
+/copy:Level0Background2.svg
 
 #begin MainMenuBackground.svg
 /copy:MainMenuBackground.svg

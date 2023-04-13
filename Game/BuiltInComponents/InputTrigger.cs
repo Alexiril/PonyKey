@@ -50,6 +50,12 @@ internal class InputTrigger : Component
         return this;
     }
 
+    internal InputTrigger SetTriggerSizeFromSprite()
+    {
+        TriggerSize = GetComponent<Sprite>().Size / 2;
+        return this;
+    }
+
     internal override void Update()
     {
         var mouseState = Mouse.GetState(ActualGame.Window);

@@ -37,6 +37,12 @@ internal class Transform : Component
         return this;
     }
 
+    internal Transform SetScaleFromSprite()
+    {
+        Scale = GetComponent<Sprite>().ResolutionCoefficient * ActualGame.ResolutionCoefficient;
+        return this;
+    }
+
     internal Vector2 Up => Vector2.Transform(new(0, -1), Matrix.CreateRotationZ(Rotation));
 
     internal Vector2 Right => Vector2.Transform(new(1, 0), Matrix.CreateRotationZ(Rotation));
