@@ -13,12 +13,6 @@ namespace Game;
 
 internal static class SvgConverter
 {
-#if DEBUG
-
-    private static int _assetDebugNumber;
-
-#endif
-
     internal static Texture2D TransformSvgToTexture2D(
         GraphicsDevice graphicsDevice,
         Stream svgStream,
@@ -37,13 +31,6 @@ internal static class SvgConverter
         var bufferSize = resultBitmap.Height * resultBitmap.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
         resultBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
-#if DEBUG
-        if (!Directory.Exists("assetSvgDebug")) Directory.CreateDirectory("assetSvgDebug");
-        var debugStream = new FileStream($"assetSvgDebug/temp{_assetDebugNumber}.png", FileMode.OpenOrCreate);
-        resultBitmap.Save(debugStream, System.Drawing.Imaging.ImageFormat.Png);
-        _assetDebugNumber++;
-        debugStream.Dispose();
-#endif
         svgStream.Dispose();
         return Texture2D.FromStream(graphicsDevice, memoryStream);
     }

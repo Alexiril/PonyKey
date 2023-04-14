@@ -1,4 +1,5 @@
 ﻿using Game.BuiltInComponents;
+using Microsoft.Xna.Framework;
 
 namespace Game.BaseTypes;
 
@@ -20,9 +21,15 @@ internal class Component
 
     internal Transform Transform => GameObject.Transform;
 
+    internal Sprite Sprite => GetComponent<Sprite>();
+
     internal Scene ActualScene => GameObject.ActualScene;
 
     internal InternalGame ActualGame => GameObject.ActualGame;
+
+    internal GameTime ActualGameTime => ActualGame.ActualGameTime;
+
+    internal SceneManager SceneManager => ActualGame.SceneManager;
 
     internal T AddComponent<T>() where T : Component, new() => GameObject.AddComponent<T>();
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Game.BaseTypes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Game.BuiltInComponents;
@@ -52,7 +51,7 @@ internal class InputTrigger : Component
 
     internal InputTrigger SetTriggerSizeFromSprite()
     {
-        TriggerSize = GetComponent<Sprite>().Size / 2;
+        TriggerSize = Sprite.Size / 2;
         return this;
     }
 

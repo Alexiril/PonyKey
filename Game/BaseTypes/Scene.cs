@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 
@@ -71,43 +70,38 @@ internal class Scene
     {
         ActualGame.GraphicsDevice.Clear(BackgroundColor);
         foreach (var gameObject in _gameObjects)
-        {
             gameObject.Draw();
-        }
 #if DEBUG
-        var debugColor = BackgroundColor == Color.White ? Color.Black : Color.White;
         var posy = 10;
-
         ActualGame.DrawSpace.DrawString(
             ActualGame.DebugFont,
             $"Total committed memory: {MathF.Round((float)GC.GetGCMemoryInfo().TotalCommittedBytes / 0x100000, 3)} MB",
             new(5, posy),
-            debugColor
+            Color.White
         );
         posy += 25;
         ActualGame.DrawSpace.DrawString(
             ActualGame.DebugFont,
             $"Scene index: {ActualGame.SceneManager.CurrentSceneIndex}",
             new(5, posy),
-            debugColor
+            Color.White
         );
         posy += 25;
         ActualGame.DrawSpace.DrawString(
             ActualGame.DebugFont,
             $"Frames per second: {MathF.Round(1 / (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalSeconds, 2)}",
             new(5, posy),
-            debugColor
+            Color.White
         );
         posy += 25;
-        if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastPrintLogTime > 3000)
-            ClearLog();
+        if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastPrintLogTime > 3000) _logInformation.Clear();
         foreach (var info in _logInformation)
         {
             ActualGame.DrawSpace.DrawString(
                 ActualGame.DebugFont,
                 info,
                 new(5, posy),
-                debugColor
+                Color.White
             );
             posy += 25;
         }
@@ -117,14 +111,14 @@ internal class Scene
                 ActualGame.DebugFont,
                 $"{gameObject.ObjectName}:",
                 new(10, posy),
-                debugColor
+                Color.White
             );
             posy += 25;
             ActualGame.DrawSpace.DrawString(
                 ActualGame.DebugFont,
                 string.Join(", ", gameObject.GetAllComponents().Select(x => x.GetType().Name)),
                 new(30, posy),
-                debugColor
+                Color.White
             );
             posy += 25;
         }
@@ -154,8 +148,6 @@ internal class Scene
             _logInformation.Dequeue();
         _lastPrintLogTime = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
     }
-
-    internal void ClearLog() => _logInformation.Clear();
 
     private readonly Queue<string> _logInformation = new(7);
 

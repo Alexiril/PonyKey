@@ -1,30 +1,24 @@
 ﻿using Game.BaseTypes;
-using Game.BuiltInComponents;
 
 namespace Game.Components.MainMenu;
 
 internal class MoveMainMenuButtonsEntrance : Component
 {
-    private double _startMilliseconds;
-
-    internal override void Start()
-    {
-        _startMilliseconds = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
-    }
+    internal override void Start() => _startMilliseconds = ActualGameTime.TotalGameTime.TotalMilliseconds;
 
     internal override void Update()
     {
-        if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)
+        if (!(ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)) return;
+        if (Transform.Position.Y > ActualGame.ViewportCenter.Y + Sprite.Height)
         {
-            if (Transform.Position.Y >
-                ActualGame.ViewportCenter.Y + GetComponent<Sprite>().Height)
-            {
-                var delta = (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalMilliseconds * .5f * Transform.GlobalUp;
-                Transform.Position += delta;
-                GameObject.GetGameObjectByIndex(3).Transform.Position += delta;
-                GameObject.GetGameObjectByIndex(4).Transform.Position += delta;
-            }
-            else GameObject.DestroyComponent(this);
+            var delta = (float)ActualGameTime.ElapsedGameTime.TotalMilliseconds * .5f * Transform.GlobalUp;
+            Transform.Position += delta;
+            GameObject.GetGameObjectByIndex(3).Transform.Position += delta;
+            GameObject.GetGameObjectByIndex(4).Transform.Position += delta;
+            GameObject.GetGameObjectByIndex(5).Transform.Position += delta;
         }
+        else GameObject.DestroyComponent(this);
     }
+
+    private double _startMilliseconds;
 }

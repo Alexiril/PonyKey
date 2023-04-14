@@ -39,7 +39,7 @@ internal class Transform : Component
 
     internal Transform SetScaleFromSprite()
     {
-        Scale = GetComponent<Sprite>().ResolutionCoefficient * ActualGame.ResolutionCoefficient;
+        Scale = Sprite.ResolutionCoefficient * ActualGame.ResolutionCoefficient;
         return this;
     }
 

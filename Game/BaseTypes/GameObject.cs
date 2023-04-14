@@ -50,17 +50,16 @@ internal class GameObject
 
     internal void Start()
     {
-        if (Active)
-            foreach (var component in _components)
-                component.Start();
+        if (!Active) return;
+        foreach (var component in _components)
+            component.Start();
     }
 
     internal void Update()
     {
         if (Active)
-            foreach (var component in _components)
-                if (component.Active)
-                    component.Update();
+            foreach (var component in _components.Where(component => component.Active))
+                component.Update();
         foreach (var component in _removingComponents)
         {
             component.GameObject = null;
@@ -82,6 +81,7 @@ internal class GameObject
     {
         foreach (var component in _components.ToList())
         {
+            if (component.GetType() == typeof(SoundSource)) ((SoundSource)component).Stop();
             component.GameObject = null;
             _components.Remove(component);
         }

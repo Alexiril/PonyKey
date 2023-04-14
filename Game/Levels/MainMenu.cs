@@ -2,6 +2,7 @@
 using Game.BuiltInComponents;
 using Game.Components.MainMenu;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Game.Levels;
 
@@ -16,13 +17,17 @@ internal class MainMenu : ILevel
             .SetTexture(actualGame.LoadSvg("MainMenuBackground", actualGame.ViewportSize))
             .Transform
             .SetPosition(actualGame.ViewportCenter)
+            .AddComponent<SoundSource>()
+            .SetSound(actualGame.Content.Load<SoundEffect>("MainMenuBackgroundMusic"))
+            .SetIsLooped(true)
+            .SetVolume(1)
+            .SetPlayAtStart(true)
             .ActualScene
             .AddGameObject(new GameObject("Logo"))
             .AddComponent<Sprite>()
             .SetTexture(actualGame.LoadSvg("MainMenuLogo", actualGame.ViewportSize))
             .Transform
             .SetPosition(actualGame.ViewportCenter)
-            .SetRotation(25)
             .AddComponent<MoveLogoEntrance>()
             .ActualScene
             .AddGameObject(new GameObject("PlayButton"))
@@ -58,6 +63,21 @@ internal class MainMenu : ILevel
             .AddComponent<InputTrigger>()
             .SetTriggerSizeFromSprite()
             .AddComponent<DisplayButton>()
+            .ActualScene
+            .AddGameObject(new GameObject("SoundButton"))
+            .AddComponent<Sprite>()
+            .SetTexture(actualGame.LoadSvg("MainMenuSoundButton",
+                new Vector2(95, 95) * actualGame.ResolutionCoefficient))
+            .Transform
+            .SetPosition(new(actualGame.ViewportCenter.X - 380 * actualGame.ResolutionCoefficient,
+                actualGame.ViewportSize.Y * 1.57f))
+            .AddComponent<InputTrigger>()
+            .SetTriggerSizeFromSprite()
+            .AddComponent<SoundButton>()
+            .SetStandardButtonTexture(actualGame.LoadSvg("MainMenuSoundButton",
+                new Vector2(95, 95) * actualGame.ResolutionCoefficient))
+            .SetTurnedOffButtonTexture(actualGame.LoadSvg("MainMenuSoundOffButton",
+                new Vector2(95, 95) * actualGame.ResolutionCoefficient))
             .ActualScene;
     }
 }

@@ -32,6 +32,12 @@
 #begin MainMenuBackground.svg
 /copy:MainMenuBackground.svg
 
+#begin MainMenuBackgroundMusic.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:MainMenuBackgroundMusic.mp3
+
 #begin MainMenuDisplayButton.svg
 /copy:MainMenuDisplayButton.svg
 
@@ -40,6 +46,12 @@
 
 #begin MainMenuLogo.svg
 /copy:MainMenuLogo.svg
+
+#begin MainMenuSoundButton.svg
+/copy:MainMenuSoundButton.svg
+
+#begin MainMenuSoundOffButton.svg
+/copy:MainMenuSoundOffButton.svg
 
 #begin PlayButtonMainMenu.svg
 /copy:PlayButtonMainMenu.svg

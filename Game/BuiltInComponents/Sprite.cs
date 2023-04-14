@@ -1,10 +1,6 @@
-﻿
-using Game.BaseTypes;
+﻿using Game.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#if DEBUG
-using System.IO;
-#endif
 
 namespace Game.BuiltInComponents;
 
@@ -12,17 +8,7 @@ internal class Sprite : Component
 {
     internal Color TextureColor { get; set; } = Color.White;
 
-    internal Texture2D Texture
-    {
-        get => _texture;
-        set
-        {
-            _texture = value;
-#if DEBUG
-            _haveSaved = false;
-#endif
-        }
-    }
+    internal Texture2D Texture { get; set; }
 
     internal SpriteEffects SpriteEffects { get; set; } = SpriteEffects.None;
 
@@ -57,18 +43,6 @@ internal class Sprite : Component
     {
         if (Texture != null)
         {
-#if DEBUG
-            if (!_haveSaved)
-            {
-                if (!Directory.Exists("assetImageDebug")) Directory.CreateDirectory("assetImageDebug");
-                var debugStream = new FileStream($"assetImageDebug/temp_{GameObject.ObjectName}.png",
-                    FileMode.OpenOrCreate);
-                Texture.SaveAsPng(debugStream, Width, Height);
-                debugStream.Dispose();
-                _haveSaved = true;
-            }
-
-#endif
             ActualGame.DrawSpace.Draw(
                 Texture,
                 Transform.Position,
@@ -82,12 +56,4 @@ internal class Sprite : Component
             );
         }
     }
-
-#if DEBUG
-
-    private bool _haveSaved;
-
-#endif
-
-    private Texture2D _texture;
 }

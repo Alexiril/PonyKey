@@ -3,7 +3,6 @@ using System.IO;
 using AForge.Imaging.Filters;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Game;
 
@@ -49,15 +48,6 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         );
     }
 
-    // actual texture loader sucks
-    internal Texture2D LoadImage(string assetName)
-    {
-        return Texture2D.FromStream(
-            GraphicsDevice,
-            new FileStream($"{Content.RootDirectory}/{assetName}", FileMode.Open)
-        );
-    }
-
     internal void ChangeVideoMode()
     {
         _needChangeVideoMode = true;
@@ -70,6 +60,8 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
+        EventSystem.OnExit += Exit;
+        OnAfterUpdate += EventSystem.Update;
         base.Initialize();
     }
 
@@ -82,11 +74,8 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
 
     protected override void Update(GameTime gameTime)
     {
-        OnBeforeUpdate?.Invoke();
         ActualGameTime = gameTime;
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-            Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+        OnBeforeUpdate?.Invoke();
         SceneManager.CurrentScene?.Update();
         if (_needChangeVideoMode)
         {
@@ -102,11 +91,9 @@ internal class InternalGame : Microsoft.Xna.Framework.Game
                 _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
                 _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
             }
-
             _graphics.ApplyChanges();
             _needChangeVideoMode = false;
         }
-
         OnAfterUpdate?.Invoke();
         base.Update(gameTime);
     }

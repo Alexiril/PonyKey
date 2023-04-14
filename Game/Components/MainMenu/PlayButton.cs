@@ -9,37 +9,35 @@ internal class PlayButton : Component
     internal override void Start()
     {
         GetComponent<InputTrigger>().OnPointerDown += _ =>
-            GetComponent<Sprite>().TextureColor = new Color(255, 200, 255, 255);
+            Sprite.TextureColor = new Color(255, 200, 255, 255);
         GetComponent<InputTrigger>().OnPointerHover += _ =>
-            GetComponent<Sprite>().TextureColor = new Color(255, 230, 255, 255);
+            Sprite.TextureColor = new Color(255, 230, 255, 255);
         GetComponent<InputTrigger>().OnPointerExit += _ =>
-            GetComponent<Sprite>().TextureColor = Color.White;
-        GetComponent<InputTrigger>().OnPointerUp += _ =>
+            Sprite.TextureColor = Color.White;
+        GetComponent<InputTrigger>().OnPointerUp += delegate
         {
             _startingNextScene = true;
             GetComponent<InputTrigger>().Active = false;
-            _timeFromClick = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
+            _timeFromClick = ActualGameTime.TotalGameTime.TotalMilliseconds;
         };
     }
 
     internal override void Update()
     {
-        if (_startingNextScene)
+        if (!_startingNextScene) return;
+        if (ActualGameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
         {
-            if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
+            for (int i = 0; i < ActualScene.GameObjectsCount; i++)
             {
-                for (int i = 0; i < ActualScene.GameObjectsCount; i++)
-                {
-                    var gameObject = GameObject.GetGameObjectByIndex(i);
-                    var sprite = gameObject.GetComponent<Sprite>();
-                    if (sprite != null)
-                        sprite.TextureColor *= .95f;
-                    if (gameObject.HaveComponent<InputTrigger>())
-                        gameObject.DestroyComponent(gameObject.GetComponent<InputTrigger>());
-                }
+                var gameObject = GameObject.GetGameObjectByIndex(i);
+                var sprite = gameObject.GetComponent<Sprite>();
+                if (sprite != null)
+                    sprite.TextureColor *= .95f;
+                if (gameObject.HaveComponent<InputTrigger>())
+                    gameObject.DestroyComponent(gameObject.GetComponent<InputTrigger>());
             }
-            else ActualGame.SceneManager.LoadScene(1);
         }
+        else SceneManager.LoadScene(1);
     }
 
     private bool _startingNextScene;
