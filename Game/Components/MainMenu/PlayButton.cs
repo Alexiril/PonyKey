@@ -1,25 +1,19 @@
-﻿using Game.BaseTypes;
-using Game.BuiltInComponents;
-using Microsoft.Xna.Framework;
+﻿using Game.BuiltInComponents;
 
 namespace Game.Components.MainMenu;
 
-internal class PlayButton : Component
+internal class PlayButton : SpriteButton
 {
     internal override void Start()
     {
-        GetComponent<InputTrigger>().OnPointerDown += _ =>
-            Sprite.TextureColor = new Color(255, 200, 255, 255);
-        GetComponent<InputTrigger>().OnPointerHover += _ =>
-            Sprite.TextureColor = new Color(255, 230, 255, 255);
-        GetComponent<InputTrigger>().OnPointerExit += _ =>
-            Sprite.TextureColor = Color.White;
-        GetComponent<InputTrigger>().OnPointerUp += delegate
-        {
-            _startingNextScene = true;
-            GetComponent<InputTrigger>().Active = false;
-            _timeFromClick = ActualGameTime.TotalGameTime.TotalMilliseconds;
-        };
+        base.Start();
+        SetOnPointerUp(_ =>
+            {
+                _startingNextScene = true;
+                GetComponent<InputTrigger>().Active = false;
+                _timeFromClick = ActualGameTime.TotalGameTime.TotalMilliseconds;
+            }
+        );
     }
 
     internal override void Update()
@@ -30,10 +24,9 @@ internal class PlayButton : Component
             for (int i = 0; i < ActualScene.GameObjectsCount; i++)
             {
                 var gameObject = GameObject.GetGameObjectByIndex(i);
-                var sprite = gameObject.GetComponent<Sprite>();
-                if (sprite != null)
-                    sprite.TextureColor *= .95f;
-                if (gameObject.HaveComponent<InputTrigger>())
+                var sprite = gameObject.Sprite;
+                if (sprite != null) sprite.TextureColor *= .95f;
+                if (gameObject.HasComponent<InputTrigger>())
                     gameObject.DestroyComponent(gameObject.GetComponent<InputTrigger>());
             }
         }

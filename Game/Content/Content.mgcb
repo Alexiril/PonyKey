@@ -20,39 +20,42 @@
 /processorParam:TextureFormat=Compressed
 /build:debugFont.spritefont;DebugFont.spritefont
 
-#begin Level0Background0.svg
-/copy:Level0Background0.svg
+#begin Level0/Background0.svg
+/copy:Level0/Background0.svg
 
-#begin Level0Background1.svg
-/copy:Level0Background1.svg
+#begin Level0/Background1.svg
+/copy:Level0/Background1.svg
 
-#begin Level0Background2.svg
-/copy:Level0Background2.svg
+#begin Level0/Background2.svg
+/copy:Level0/Background2.svg
 
-#begin MainMenuBackground.svg
-/copy:MainMenuBackground.svg
+#begin MainMenu/Background.svg
+/copy:MainMenu/Background.svg
 
-#begin MainMenuBackgroundMusic.mp3
+#begin MainMenu/BackgroundMusic.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
-/build:MainMenuBackgroundMusic.mp3
+/build:MainMenu/BackgroundMusic.mp3
 
-#begin MainMenuDisplayButton.svg
-/copy:MainMenuDisplayButton.svg
+#begin MainMenu/DisplayButton.svg
+/copy:MainMenu/DisplayButton.svg
 
-#begin MainMenuExitButton.svg
-/copy:MainMenuExitButton.svg
+#begin MainMenu/ExitButton.svg
+/copy:MainMenu/ExitButton.svg
 
-#begin MainMenuLogo.svg
-/copy:MainMenuLogo.svg
+#begin MainMenu/InfoButton.svg
+/copy:MainMenu/InfoButton.svg
 
-#begin MainMenuSoundButton.svg
-/copy:MainMenuSoundButton.svg
+#begin MainMenu/Logo.svg
+/copy:MainMenu/Logo.svg
 
-#begin MainMenuSoundOffButton.svg
-/copy:MainMenuSoundOffButton.svg
+#begin MainMenu/PlayButton.svg
+/copy:MainMenu/PlayButton.svg
 
-#begin PlayButtonMainMenu.svg
-/copy:PlayButtonMainMenu.svg
+#begin MainMenu/SoundButton.svg
+/copy:MainMenu/SoundButton.svg
+
+#begin MainMenu/SoundOffButton.svg
+/copy:MainMenu/SoundOffButton.svg
 

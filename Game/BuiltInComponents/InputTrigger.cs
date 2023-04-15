@@ -1,6 +1,7 @@
 ﻿using System;
 using Game.BaseTypes;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace Game.BuiltInComponents;
@@ -10,7 +11,7 @@ internal class InputTrigger : Component
     internal event Action<MouseState> OnPointerDown;
     internal event Action<MouseState> OnPointerUp;
     internal event Action<MouseState> OnPointerHolds;
-    internal event Action<MouseState> OnPointerHover;
+    internal event Action<MouseState> OnPointerOver;
     internal event Action<MouseState> OnPointerExit;
 
     internal Vector2 TriggerSize
@@ -79,7 +80,7 @@ internal class InputTrigger : Component
         else if (CheckPointerOverTrigger(mouseState))
         {
             _pointerWasOverObject = true;
-            OnPointerHover?.Invoke(mouseState);
+            OnPointerOver?.Invoke(mouseState);
         }
         else if (_pointerWasOverObject)
         {

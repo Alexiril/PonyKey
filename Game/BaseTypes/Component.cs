@@ -1,11 +1,23 @@
-﻿using Game.BuiltInComponents;
+﻿using System;
+using System.Collections.Generic;
+using Game.BuiltInComponents;
 using Microsoft.Xna.Framework;
 
 namespace Game.BaseTypes;
 
 internal class Component
 {
-    internal GameObject GameObject { get; set; }
+    internal GameObject GameObject
+    {
+        get => _gameObject;
+        set
+        {
+            _gameObject = value;
+            if (_gameObject == null) return;
+            Requirements.ForEach(t => { if (!_gameObject.HasComponent(t)) _gameObject.AddComponent(t); });
+            Initiate();
+        }
+    }
 
     internal bool Active { get; set; } = true;
 
@@ -21,7 +33,7 @@ internal class Component
 
     internal Transform Transform => GameObject.Transform;
 
-    internal Sprite Sprite => GetComponent<Sprite>();
+    internal Sprite Sprite => GameObject.Sprite;
 
     internal Scene ActualScene => GameObject.ActualScene;
 
@@ -32,4 +44,10 @@ internal class Component
     internal SceneManager SceneManager => ActualGame.SceneManager;
 
     internal T AddComponent<T>() where T : Component, new() => GameObject.AddComponent<T>();
+
+    protected virtual List<Type> Requirements => new();
+
+    protected virtual void Initiate() {}
+
+    private GameObject _gameObject;
 }

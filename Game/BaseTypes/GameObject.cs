@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Game.BuiltInComponents;
 
@@ -28,7 +29,9 @@ internal class GameObject
         Transform = AddComponent<Transform>();
     }
 
-    internal T AddComponent<T>() where T : Component, new() => (T)AddComponent(new T { GameObject = this });
+    internal T AddComponent<T>() where T : Component, new() => (T)AddComponent(new T());
+
+    internal Component AddComponent(Type T) => AddComponent((Component)Activator.CreateInstance(T));
 
     internal T GetComponent<T>() where T : Component
     {
@@ -38,9 +41,13 @@ internal class GameObject
         return null;
     }
 
+    internal Sprite Sprite => GetComponent<Sprite>();
+
     internal void DestroyComponent(Component component) => _removingComponents.Add(component);
 
-    internal bool HaveComponent<T>() => _components.Exists(x => x.GetType() == typeof(T));
+    internal bool HasComponent<T>() => _components.Exists(x => x.GetType() == typeof(T));
+
+    internal bool HasComponent(Type T) => _components.Exists(x => x.GetType() == T);
 
     internal Component[] GetAllComponents() => _components.ToArray();
 
@@ -104,8 +111,11 @@ internal class GameObject
 
     private Component AddComponent(Component component)
     {
-        if (component != null && !_components.Exists(x => x == component))
-            _components.Add(component);
+        if (component == null)
+            throw new NullReferenceException("The component was null.");
+        if (_components.Exists(x => x == component)) return component;
+        component.GameObject = this;
+        _components.Add(component);
         return component;
     }
 }
