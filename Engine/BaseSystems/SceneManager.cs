@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Engine.BaseTypes;
 
 namespace Engine.BaseSystems;
@@ -10,12 +11,13 @@ public class SceneManager
 
     internal SceneManager(ActualGame actualGame)
     {
+        _actualGame = actualGame;
         actualGame.OnAfterUpdate += () =>
         {
             if (_requestedLoad == -1) return;
             CurrentScene?.Unload();
             DestroyScene(CurrentScene);
-            CurrentScene = _levels[_requestedLoad].GetScene(actualGame);
+            CurrentScene = _levels[_requestedLoad].GetScene(_actualGame);
             _noDestroyObjects.ForEach(o => CurrentScene.AddGameObject(o));
             CurrentScene.Start();
             CurrentSceneIndex = _requestedLoad;
@@ -27,9 +29,24 @@ public class SceneManager
 
     public int CurrentSceneIndex { get; private set; } = -1;
 
-    public void LoadScene(int index)
+    public void LoadScene(int index) => _requestedLoad = index;
+
+    public async Task LoadSceneAsync(int index)
     {
-        _requestedLoad = index;
+        LoadScene(index);
+        var task = new Task<Scene>(() =>
+        {
+            CurrentScene?.Unload();
+            DestroyScene(CurrentScene);
+            var scene = _levels[_requestedLoad].GetScene(_actualGame);
+            _noDestroyObjects.ForEach(o => scene.AddGameObject(o));
+            scene.Start();
+            return scene;
+        });
+        await task;
+        CurrentScene = task.Result;
+        CurrentSceneIndex = _requestedLoad;
+        _requestedLoad = -1;
     }
 
     public void DontDestroyOnLoad(GameObject gameObject)
@@ -45,6 +62,8 @@ public class SceneManager
     private readonly List<GameObject> _noDestroyObjects = new();
 
     private readonly List<ILevel> _levels = new();
+
+    private readonly ActualGame _actualGame;
 
     private static void DestroyScene(Scene scene)
     {

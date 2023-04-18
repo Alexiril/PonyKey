@@ -1,8 +1,7 @@
-﻿using Engine.BaseSystems;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Engine;
+namespace Engine.BaseSystems;
 
 public delegate void ProgramState();
 
@@ -61,6 +60,7 @@ public class ActualGame : Game
     {
         DrawSpace = new SpriteBatch(GraphicsDevice);
         DebugFont = Content.Load<SpriteFont>("DebugFont");
+
     }
 
     protected override void Update(GameTime gameTime)
