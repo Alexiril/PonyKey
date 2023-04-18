@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
-using Game.BaseTypes;
-using Game.BuiltInComponents;
+using Engine;
+using Engine.BaseComponents;
+using Engine.BaseTypes;
+using Game.Components.Common;
 using Game.Components.MainMenu;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -9,10 +11,8 @@ namespace Game.Levels;
 
 internal class MainMenu : ILevel
 {
-    public Scene GetScene(InternalGame actualGame)
-    {
-        // Challenge: make a scene in one function chain - done :)
-        return new Scene(actualGame).SetBackgroundColor(Color.SkyBlue)
+    public Scene GetScene(ActualGame actualGame) =>
+        new Scene(actualGame).SetBackgroundColor(Color.SkyBlue)
             .AddGameObject(new GameObject("Background"))
             .AddComponent<Sprite>()
             .SetTexture(actualGame.LoadSvg("MainMenu/Background", actualGame.ViewportSize))
@@ -29,7 +29,8 @@ internal class MainMenu : ILevel
             .SetTexture(actualGame.LoadSvg("MainMenu/Logo", actualGame.ViewportSize))
             .Transform
             .SetPosition(actualGame.ViewportCenter)
-            .AddComponent<MoveLogoEntrance>()
+            .AddComponent<MovingText>()
+            .SetShouldDestroy(text => text.Transform.Position.Y < -text.Sprite.Height)
             .ActualScene
             .AddGameObject(new GameObject("PlayButton"))
             .AddComponent<Sprite>()
@@ -83,5 +84,4 @@ internal class MainMenu : ILevel
             .AddComponent<SpriteButton>()
             .SetOnPointerUp(_ => Process.Start(new ProcessStartInfo { FileName = "https://github.com/Alexiril/PonyKey", UseShellExecute = true }))
             .ActualScene;
-    }
 }

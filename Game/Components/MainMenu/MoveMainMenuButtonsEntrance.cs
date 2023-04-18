@@ -1,12 +1,13 @@
-﻿using Game.BaseTypes;
+﻿using Engine.BaseComponents;
+using Engine.BaseTypes;
 
 namespace Game.Components.MainMenu;
 
 internal class MoveMainMenuButtonsEntrance : Component
 {
-    internal override void Start() => _startMilliseconds = ActualGameTime.TotalGameTime.TotalMilliseconds;
+    public override void Start() => _startMilliseconds = ActualGameTime.TotalGameTime.TotalMilliseconds;
 
-    internal override void Update()
+    public override void Update()
     {
         if (!(ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)) return;
         if (Transform.Position.Y > ActualGame.ViewportCenter.Y + Sprite.Height)

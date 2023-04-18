@@ -1,4 +1,4 @@
-﻿using Game.BuiltInComponents;
+﻿using Engine.BaseComponents;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game.Components.MainMenu;
@@ -17,7 +17,7 @@ internal class SoundButton : SpriteButton
         return this;
     }
 
-    internal override void Start()
+    public override void Start()
     {
         base.Start();
         var soundSource = GameObject.GetGameObjectByIndex(0).GetComponent<SoundSource>();

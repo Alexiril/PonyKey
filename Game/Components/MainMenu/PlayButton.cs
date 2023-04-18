@@ -1,10 +1,10 @@
-﻿using Game.BuiltInComponents;
+﻿using Engine.BaseComponents;
 
 namespace Game.Components.MainMenu;
 
 internal class PlayButton : SpriteButton
 {
-    internal override void Start()
+    public override void Start()
     {
         base.Start();
         SetOnPointerUp(_ =>
@@ -16,7 +16,7 @@ internal class PlayButton : SpriteButton
         );
     }
 
-    internal override void Update()
+    public override void Update()
     {
         if (!_startingNextScene) return;
         if (ActualGameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
