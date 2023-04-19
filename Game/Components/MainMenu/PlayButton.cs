@@ -30,7 +30,11 @@ internal class PlayButton : SpriteButton
                     gameObject.DestroyComponent(gameObject.GetComponent<InputTrigger>());
             }
         }
-        else SceneManager.LoadScene(1);
+        else
+        {
+            SceneManager.LoadSceneAsync(2).ConfigureAwait(false);
+            _startingNextScene = false;
+        }
     }
 
     private bool _startingNextScene;

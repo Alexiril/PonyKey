@@ -5,19 +5,18 @@ using Microsoft.Xna.Framework.Graphics;
 using SharpVectors.Dom.Svg;
 using SharpVectors.Renderers;
 using SharpVectors.Renderers.Gdi;
+using static System.Drawing.Imaging.ImageFormat;
 
 namespace Engine.BaseSystems;
 
 internal static class SvgConverter
 {
-    internal static Texture2D LoadSvg(ActualGame actualGame, string assetName, Vector2 size)
-    {
-        return TransformSvgToTexture2D(
+    internal static Texture2D LoadSvg(ActualGame actualGame, string assetName, Vector2 size) =>
+        TransformSvgToTexture2D(
             actualGame.GraphicsDevice,
             new FileStream($"{actualGame.Content.RootDirectory}/{assetName}.svg", FileMode.Open),
             size
         );
-    }
 
     private static Texture2D TransformSvgToTexture2D(
         GraphicsDevice graphicsDevice,
@@ -34,7 +33,7 @@ internal static class SvgConverter
         var resultBitmap = renderer.RasterImage;
         var bufferSize = resultBitmap.Height * resultBitmap.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
-        resultBitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Png);
+        resultBitmap.Save(memoryStream, Png);
         svgStream.Dispose();
         return Texture2D.FromStream(graphicsDevice, memoryStream);
     }
