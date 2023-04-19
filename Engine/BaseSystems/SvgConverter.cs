@@ -30,10 +30,9 @@ internal static class SvgConverter
         var view = svgDocument.RootElement.Viewport;
         renderer.Window.Resize((int)Math.Max(view.Width, 1d), (int)Math.Max(view.Height, 1d));
         renderer.Render(svgDocument);
-        var resultBitmap = renderer.RasterImage;
-        var bufferSize = resultBitmap.Height * resultBitmap.Width * 4;
+        var bufferSize = renderer.RasterImage.Height * renderer.RasterImage.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
-        resultBitmap.Save(memoryStream, Png);
+        renderer.RasterImage.Save(memoryStream, Png);
         svgStream.Dispose();
         return Texture2D.FromStream(graphicsDevice, memoryStream);
     }

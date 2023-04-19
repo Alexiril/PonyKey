@@ -16,17 +16,8 @@
 #begin Common/ApplejackAsking.svg
 /copy:Common/ApplejackAsking.svg
 
-#begin Common/LoadingSceneBackground.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Common/LoadingSceneBackground.png
+#begin Common/LoadingSceneBackground.svg
+/copy:Common/LoadingSceneBackground.svg
 
 #begin Common/PonyFont.ttf
 /copy:Common/PonyFont.ttf

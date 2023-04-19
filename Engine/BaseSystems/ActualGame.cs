@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Linq;
 using Engine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -84,7 +85,9 @@ public class ActualGame : Game
         DrawSpace = new SpriteBatch(GraphicsDevice);
         DebugFont = Content.Load<SpriteFont>("DebugFont");
         if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
-            LoadingScreenBackground = Content.Load<Texture2D>(_loadingScreenBackgroundAssetName);
+            LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
+                ? LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
+                : Content.Load<Texture2D>(_loadingScreenBackgroundAssetName);
         SceneManager.LoadScene(0);
     }
 
