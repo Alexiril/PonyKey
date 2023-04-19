@@ -1,4 +1,5 @@
-﻿using Engine.Scenes;
+﻿using System.Diagnostics;
+using Engine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,6 +26,8 @@ public class ActualGame : Game
         };
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        EventSystem.OnExit += Exit;
+        OnAfterUpdate += EventSystem.Update;
         SceneManager = new(this);
         SceneManager.RegisterLevels(new() { new StartScene() });
     }
@@ -42,8 +45,24 @@ public class ActualGame : Game
 
     public void ChangeVideoMode()
     {
-        _needChangeVideoMode = true;
-        SceneManager.LoadSceneAsync(0).ConfigureAwait(false);
+        if (_graphics.IsFullScreen)
+            PlayerSettings.SetValues(new()
+            {
+                { "fS", "false" },
+                { "bW", "1280" },
+                { "bH", "720" }
+            });
+        else
+            PlayerSettings.SetValues(new()
+            {
+                {"fS", "true"},
+                {"bW", GraphicsDevice.DisplayMode.Width.ToString()},
+                {"bH", GraphicsDevice.DisplayMode.Height.ToString()}
+            });
+        var p = new Process();
+        p.StartInfo.FileName = Process.GetCurrentProcess().MainModule?.FileName ?? string.Empty;
+        p.Start();
+        Exit();
     }
 
     internal SpriteFont DebugFont;
@@ -52,12 +71,11 @@ public class ActualGame : Game
 
     protected override void Initialize()
     {
-        _graphics.IsFullScreen = false;
-        _graphics.PreferredBackBufferWidth = 1280;
-        _graphics.PreferredBackBufferHeight = 720;
+        PlayerSettings.ForceUpdate();
+        _graphics.IsFullScreen = bool.TryParse(PlayerSettings.GetValue("fS"), out var fS) && fS;
+        _graphics.PreferredBackBufferWidth = int.TryParse(PlayerSettings.GetValue("bW"), out var bW) ? bW : 1280;
+        _graphics.PreferredBackBufferHeight = int.TryParse(PlayerSettings.GetValue("bH"), out var bH) ? bH : 720;
         _graphics.ApplyChanges();
-        EventSystem.OnExit += Exit;
-        OnAfterUpdate += EventSystem.Update;
         base.Initialize();
     }
 
@@ -75,23 +93,6 @@ public class ActualGame : Game
         ActualGameTime = gameTime;
         OnBeforeUpdate?.Invoke();
         SceneManager.CurrentScene?.Update();
-        if (_needChangeVideoMode)
-        {
-            if (_graphics.IsFullScreen)
-            {
-                _graphics.IsFullScreen = false;
-                _graphics.PreferredBackBufferWidth = 1280;
-                _graphics.PreferredBackBufferHeight = 720;
-            }
-            else
-            {
-                _graphics.IsFullScreen = true;
-                _graphics.PreferredBackBufferWidth = _graphics.GraphicsDevice.DisplayMode.Width;
-                _graphics.PreferredBackBufferHeight = _graphics.GraphicsDevice.DisplayMode.Height;
-            }
-            _graphics.ApplyChanges();
-            _needChangeVideoMode = false;
-        }
         OnAfterUpdate?.Invoke();
         base.Update(gameTime);
     }
@@ -107,6 +108,5 @@ public class ActualGame : Game
     }
 
     private readonly GraphicsDeviceManager _graphics;
-    private bool _needChangeVideoMode;
     private string _loadingScreenBackgroundAssetName;
 }

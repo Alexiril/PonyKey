@@ -107,6 +107,13 @@ public class Scene
             Color.White
         );
         posy += 25;
+        ActualGame.DrawSpace.DrawString(
+            ActualGame.DebugFont,
+            $"Resolution: {ActualGame.ViewportSize.X}x{ActualGame.ViewportSize.Y}, screen center: {ActualGame.ViewportCenter}",
+            new(5, posy),
+            Color.White
+        );
+        posy += 25;
         if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastPrintLogTime > 3000)
             _logInformation.Clear();
         foreach (var info in _logInformation)
