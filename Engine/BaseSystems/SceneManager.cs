@@ -14,40 +14,20 @@ public class SceneManager
         _actualGame = actualGame;
         actualGame.OnAfterUpdate += () =>
         {
-            if (_requestedLoad == -1) return;
+            if (_preLoadedScene == null) return;
             CurrentScene?.Unload();
             DestroyScene(CurrentScene);
-            CurrentScene = _levels[_requestedLoad].GetScene(_actualGame);
-            _noDestroyObjects.ForEach(o => CurrentScene.AddGameObject(o));
+            CurrentScene = _preLoadedScene;
             CurrentScene.Start();
-            CurrentSceneIndex = _requestedLoad;
-            _requestedLoad = -1;
+            _preLoadedScene = null;
         };
     }
 
     public Scene CurrentScene { get; private set; }
 
-    public int CurrentSceneIndex { get; private set; } = -1;
+    public void LoadScene(int index) => ActualSceneLoad(index);
 
-    public void LoadScene(int index) => _requestedLoad = index;
-
-    public async Task LoadSceneAsync(int index)
-    {
-        LoadScene(index);
-        var task = new Task<Scene>(() =>
-        {
-            CurrentScene?.Unload();
-            DestroyScene(CurrentScene);
-            var scene = _levels[_requestedLoad].GetScene(_actualGame);
-            _noDestroyObjects.ForEach(o => scene.AddGameObject(o));
-            scene.Start();
-            return scene;
-        });
-        await task;
-        CurrentScene = task.Result;
-        CurrentSceneIndex = _requestedLoad;
-        _requestedLoad = -1;
-    }
+    public async Task LoadSceneAsync(int index) => await Task.Run(() => ActualSceneLoad(index));
 
     public void DontDestroyOnLoad(GameObject gameObject)
     {
@@ -57,11 +37,11 @@ public class SceneManager
 
     public void DestroyOnLoad(GameObject gameObject) => _noDestroyObjects.Remove(gameObject);
 
-    private int _requestedLoad = -1;
-
     private readonly List<GameObject> _noDestroyObjects = new();
 
     private readonly List<ILevel> _levels = new();
+
+    private Scene _preLoadedScene;
 
     private readonly ActualGame _actualGame;
 
@@ -72,5 +52,12 @@ public class SceneManager
         var tempRef = new WeakReference(scene);
         scene.Remove();
         GC.Collect(GC.GetGeneration(tempRef));
+    }
+
+    private void ActualSceneLoad(int index)
+    {
+        _preLoadedScene = _levels[index].GetScene(_actualGame);
+        _preLoadedScene.AssemblyIndex = index;
+        _noDestroyObjects.ForEach(o => _preLoadedScene.AddGameObject(o));
     }
 }

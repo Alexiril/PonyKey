@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Engine.Scenes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Engine.BaseSystems;
@@ -14,9 +15,6 @@ public class ActualGame : Game
     public event ProgramState OnBeforeDraw;
     public event ProgramState OnAfterDraw;
 
-    internal SpriteFont DebugFont;
-    internal SpriteBatch DrawSpace;
-
     public ActualGame()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -28,7 +26,10 @@ public class ActualGame : Game
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
         SceneManager = new(this);
+        SceneManager.RegisterLevels(new() { new StartScene() });
     }
+
+    public void SetLoadingScreenBackground(string assetName) => _loadingScreenBackgroundAssetName = assetName;
 
     public Texture2D LoadSvg(string assetName, Vector2 size) =>
         SvgConverter.LoadSvg(this, assetName, size);
@@ -42,8 +43,12 @@ public class ActualGame : Game
     public void ChangeVideoMode()
     {
         _needChangeVideoMode = true;
-        SceneManager.LoadScene(SceneManager.CurrentSceneIndex);
+        SceneManager.LoadSceneAsync(0).ConfigureAwait(false);
     }
+
+    internal SpriteFont DebugFont;
+    internal SpriteBatch DrawSpace;
+    internal Texture2D LoadingScreenBackground { get; private set; }
 
     protected override void Initialize()
     {
@@ -60,7 +65,9 @@ public class ActualGame : Game
     {
         DrawSpace = new SpriteBatch(GraphicsDevice);
         DebugFont = Content.Load<SpriteFont>("DebugFont");
-
+        if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
+            LoadingScreenBackground = Content.Load<Texture2D>(_loadingScreenBackgroundAssetName);
+        SceneManager.LoadScene(0);
     }
 
     protected override void Update(GameTime gameTime)
@@ -101,4 +108,5 @@ public class ActualGame : Game
 
     private readonly GraphicsDeviceManager _graphics;
     private bool _needChangeVideoMode;
+    private string _loadingScreenBackgroundAssetName;
 }

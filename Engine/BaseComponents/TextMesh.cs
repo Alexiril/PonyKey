@@ -1,8 +1,10 @@
 ﻿using System;
-using Engine.BaseSystems;
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+#if DEBUG
+using Engine.BaseSystems;
+#endif
 
 namespace Engine.BaseComponents;
 
@@ -97,6 +99,12 @@ public class TextMesh : Component
     public TextMesh SetOffset(Vector2 offset)
     {
         Offset = offset;
+        return this;
+    }
+
+    public TextMesh SetCentralOffset()
+    {
+        Offset = - _font.MeasureString(_editedText) / 2;
         return this;
     }
 

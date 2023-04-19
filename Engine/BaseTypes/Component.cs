@@ -48,6 +48,8 @@ public class Component
 
     public T AddComponent<T>() where T : Component, new() => GameObject.AddComponent<T>();
 
+    public GameObject AddGameObject(GameObject gameObject) => ActualScene.AddGameObject(gameObject);
+
     protected virtual List<Type> Requirements => new();
 
     protected virtual void Initiate() {}

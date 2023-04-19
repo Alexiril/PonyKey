@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Engine.BaseSystems;
 using Microsoft.Xna.Framework;
@@ -12,6 +11,10 @@ namespace Engine.BaseTypes;
 
 public class Scene
 {
+    public readonly string Name;
+
+    public int AssemblyIndex { get; internal set; }
+
     public Color BackgroundColor { get; set; } = Color.CornflowerBlue;
 
     public ActualGame ActualGame { get; private set; }
@@ -20,9 +23,10 @@ public class Scene
 
     private readonly List<GameObject> _removingGameObjects = new();
 
-    public Scene(ActualGame actualGame)
+    public Scene(ActualGame actualGame, string name)
     {
         ActualGame = actualGame;
+        Name = name;
     }
 
     public Scene SetBackgroundColor(Color color)
@@ -43,11 +47,11 @@ public class Scene
 
     public int RemoveGameObjectsByName(string name) => _gameObjects.RemoveAll(x => x.ObjectName == name);
 
+    public int GameObjectsCount => _gameObjects.Count;
+
     internal List<GameObject> FindGameObjects(string name) => _gameObjects.FindAll(x => x.ObjectName == name);
 
     internal GameObject GetGameObject(int index) => _gameObjects[index];
-
-    public int GameObjectsCount => _gameObjects.Count;
 
     internal void Start()
     {
@@ -91,7 +95,7 @@ public class Scene
         posy += 25;
         ActualGame.DrawSpace.DrawString(
             ActualGame.DebugFont,
-            $"Scene index: {ActualGame.SceneManager.CurrentSceneIndex}",
+            $"Scene index: {AssemblyIndex}, scene name: '{Name}'",
             new(5, posy),
             Color.White
         );

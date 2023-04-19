@@ -20,3 +20,16 @@
 /processorParam:TextureFormat=Compressed
 /build:debugFont.spritefont
 
+#begin defaultLoadingScreenFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:defaultLoadingScreenFont.spritefont
+
+#begin ITCKRIST.TTF
+/copy:ITCKRIST.TTF
+
+#begin loadingSpinner.svg
+/copy:loadingSpinner.svg
+

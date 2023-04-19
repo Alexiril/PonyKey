@@ -1,9 +1,11 @@
 ﻿using System;
-using Engine.BaseSystems;
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+#if DEBUG
+using Engine.BaseSystems;
+using Microsoft.Xna.Framework.Graphics;
+#endif
 
 namespace Engine.BaseComponents;
 
@@ -54,6 +56,12 @@ public class InputTrigger : Component
     public InputTrigger SetTriggerSizeFromSprite()
     {
         TriggerSize = Sprite.Size / 2;
+        return this;
+    }
+
+    public InputTrigger SetPointerUpAction(Action<MouseState> action)
+    {
+        OnPointerUp += action;
         return this;
     }
 
