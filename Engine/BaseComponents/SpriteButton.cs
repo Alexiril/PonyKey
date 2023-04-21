@@ -9,7 +9,7 @@ namespace Engine.BaseComponents;
 
 public class SpriteButton : Component
 {
-    public Action<MouseState> OnPointerUp
+    public Action<MouseState> PointerUp
     {
         get => _onPointerUp;
         set
@@ -21,7 +21,7 @@ public class SpriteButton : Component
 
     public SpriteButton SetOnPointerUp(Action<MouseState> action)
     {
-        OnPointerUp = action;
+        PointerUp = action;
         return this;
     }
 

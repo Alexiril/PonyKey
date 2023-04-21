@@ -1,7 +1,7 @@
 ﻿using Engine.BaseSystems;
 using Game.Levels;
 
-using var game = new ActualGame();
+using var game = new Master();
 game.SceneManager.RegisterLevels(new()
 {
     new MainMenu(),

@@ -11,10 +11,10 @@ namespace Engine.BaseSystems;
 
 internal static class SvgConverter
 {
-    internal static Texture2D LoadSvg(ActualGame actualGame, string assetName, Vector2 size) =>
+    internal static Texture2D LoadSvg(Master master, string assetName, Vector2 size, string assets = "assets") =>
         TransformSvgToTexture2D(
-            actualGame.GraphicsDevice,
-            new FileStream($"{actualGame.Content.RootDirectory}/{assetName}.svg", FileMode.Open),
+            master.GraphicsDevice,
+            ArchivedContent.LoadFile($"{assetName}.svg", assets),
             size
         );
 

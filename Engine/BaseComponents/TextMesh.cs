@@ -110,8 +110,8 @@ public class TextMesh : Component
 
     public override void Draw()
     {
-        ActualGame.DrawSpace.Begin();
-        ActualGame.DrawSpace.DrawString(
+        Master.DrawSpace.Begin();
+        Master.DrawSpace.DrawString(
             Font,
             _editedText,
             Transform.Position + Offset,
@@ -125,7 +125,7 @@ public class TextMesh : Component
 #if DEBUG
         if (_debugTexture != null && _onDebug)
         {
-            ActualGame.DrawSpace.Draw(
+            Master.DrawSpace.Draw(
                 _debugTexture,
                 Transform.Position + Offset,
                 null,
@@ -138,7 +138,7 @@ public class TextMesh : Component
             );
         }
 #endif
-        ActualGame.DrawSpace.End();
+        Master.DrawSpace.End();
     }
 
 #if DEBUG
@@ -178,7 +178,7 @@ public class TextMesh : Component
 
     private void OnToggleDebugBoxes()
     {
-        if (GameObject?.ActualGame?.ActualGameTime == null ||
+        if (GameObject?.Master?.ActualGameTime == null ||
             ActualGameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
         _onDebug = !_onDebug;
         _lastDebugChange = ActualGameTime.TotalGameTime.TotalMilliseconds;
@@ -189,7 +189,7 @@ public class TextMesh : Component
         if (_font == null || _text == null) return;
         var height = (int)_font.MeasureString(_editedText).Y;
         _debugTexture = RuntimeTextureGenerator.GenerateTexture(
-            ActualGame.GraphicsDevice,
+            Master.GraphicsDevice,
             Width,
             height,
             i => i < Width || i > (height - 1) * Width || i % Width == 0 || i % Width == Width - 1

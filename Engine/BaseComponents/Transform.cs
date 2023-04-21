@@ -39,7 +39,7 @@ public class Transform : Component
 
     public Transform SetScaleFromSprite()
     {
-        Scale = Sprite.ResolutionCoefficient * ActualGame.ResolutionCoefficient;
+        Scale = Sprite.ResolutionCoefficient * Master.ResolutionCoefficient;
         return this;
     }
 

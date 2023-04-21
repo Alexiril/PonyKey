@@ -18,18 +18,18 @@ internal class PoniesTalking : Component
                 case 0:
                     GetComponent<TextMesh>()
                         .SetText("Applejack wants many apples to prepare for a rodeo. Can you help her?")
-                        .SetFont(ActualGame.Content.Load<SpriteFont>("Common/TwilightSpeechFont18"))
+                        .SetFont(Master.LoadContent<SpriteFont>("Common/TwilightSpeechFont18"))
                         .SetOffset(new(-115, -103));
                     _state++;
                     break;
                 case 1:
                     GameObject.Find("PonyTalking")[0]
                         .GetComponent<Sprite>()
-                        .SetTexture(ActualGame.LoadSvg("Common/ApplejackAsking",
-                            new Vector2(600, 600) * ActualGame.ResolutionCoefficient));
+                        .SetTexture(Master.LoadSvg("Common/ApplejackAsking",
+                            new Vector2(600, 600) * Master.ResolutionCoefficient));
                     GetComponent<TextMesh>()
                         .SetText("Yeah, I'd not mind helping. Yee-haw!")
-                        .SetFont(ActualGame.Content.Load<SpriteFont>("Common/TwilightSpeechFont21"))
+                        .SetFont(Master.LoadContent<SpriteFont>("Common/TwilightSpeechFont21"))
                         .SetOffset(new(-115, -90))
                         .SetWidth(270)
                         .SetColor(Color.Orange);

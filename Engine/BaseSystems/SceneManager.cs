@@ -9,10 +9,10 @@ public class SceneManager
 {
     public void RegisterLevels(List<ILevel> levels) => _levels.AddRange(levels);
 
-    internal SceneManager(ActualGame actualGame)
+    internal SceneManager(Master master)
     {
-        _actualGame = actualGame;
-        actualGame.OnAfterUpdate += () =>
+        _master = master;
+        master.OnAfterUpdate += () =>
         {
             if (_preLoadedScene == null) return;
             CurrentScene?.Unload();
@@ -43,7 +43,7 @@ public class SceneManager
 
     private Scene _preLoadedScene;
 
-    private readonly ActualGame _actualGame;
+    private readonly Master _master;
 
     private static void DestroyScene(Scene scene)
     {
@@ -56,7 +56,7 @@ public class SceneManager
 
     private void ActualSceneLoad(int index)
     {
-        _preLoadedScene = _levels[index].GetScene(_actualGame);
+        _preLoadedScene = _levels[index].GetScene(_master);
         _preLoadedScene.AssemblyIndex = index;
         _noDestroyObjects.ForEach(o => _preLoadedScene.AddGameObject(o));
     }

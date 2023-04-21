@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Engine.BaseComponents;
+﻿using Engine.BaseComponents;
 using Engine.BaseSystems;
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
@@ -9,34 +8,30 @@ namespace Engine.Scenes;
 
 internal class StartScene : ILevel
 {
-    public Scene GetScene(ActualGame actualGame)
+    public Scene GetScene(Master master)
     {
-        async void LoadNextSceneAction(int _)
-        {
-            await Task.Delay(1500);
-            await actualGame.SceneManager.LoadSceneAsync(1);
-        }
+        async void LoadNextSceneAction(int _) => await master.SceneManager.LoadSceneAsync(1);
 
         EventSystem.AddOnceTimeEvent(() => true, LoadNextSceneAction);
-        return new Scene(actualGame, "StartingScene")
+        return new Scene(master, "StartingScene")
             .SetBackgroundColor(Color.DeepSkyBlue)
             .AddGameObject(new("AltText"))
-            .Transform.SetPosition(actualGame.ViewportCenter)
+            .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<TextMesh>()
             .SetColor(Color.FloralWhite)
-            .SetFont(actualGame.Content.Load<SpriteFont>("defaultLoadingScreenFont"))
-            .SetWidth((int)(actualGame.ViewportSize.X  * .75f))
+            .SetFont(master.LoadContent<SpriteFont>("defaultLoadingScreenFont"))
+            .SetWidth((int)(master.ViewportSize.X  * .75f))
             .SetWordWrap(true)
             .SetText("Welcome here! :)")
             .SetCentralOffset()
             .AddGameObject(new("LoadingScreenBackground"))
-            .Transform.SetPosition(actualGame.ViewportCenter)
+            .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<Sprite>()
-            .SetTexture(actualGame.LoadingScreenBackground)
+            .SetTexture(master.LoadingScreenBackground)
             .AddGameObject(new("loadingSpinner"))
-            .Transform.SetPosition(actualGame.ViewportCenter)
+            .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<Sprite>()
-            .SetTexture(actualGame.LoadSvg("loadingSpinner", new(actualGame.ViewportSize.X * .7f)))
+            .SetTexture(master.LoadSvg("loadingSpinner", new(master.ViewportSize.X * .7f)))
             .AddComponent<Spinner>()
             .ActualScene;
     }

@@ -8,7 +8,7 @@ namespace Engine.BaseSystems;
 
 public delegate void ProgramState();
 
-public class ActualGame : Game
+public class Master : Game
 {
     public GameTime ActualGameTime = new();
     public readonly SceneManager SceneManager;
@@ -17,7 +17,7 @@ public class ActualGame : Game
     public event ProgramState OnBeforeDraw;
     public event ProgramState OnAfterDraw;
 
-    public ActualGame()
+    public Master()
     {
         _graphics = new GraphicsDeviceManager(this);
         _graphics.PreparingDeviceSettings += (_, args) =>
@@ -25,7 +25,7 @@ public class ActualGame : Game
             _graphics.PreferMultiSampling = true;
             args.GraphicsDeviceInformation.PresentationParameters.MultiSampleCount = 32;
         };
-        Content.RootDirectory = "Content";
+        Content.RootDirectory = "";
         IsMouseVisible = true;
         EventSystem.OnExit += Exit;
         OnAfterUpdate += EventSystem.Update;
@@ -35,8 +35,11 @@ public class ActualGame : Game
 
     public void SetLoadingScreenBackground(string assetName) => _loadingScreenBackgroundAssetName = assetName;
 
-    public Texture2D LoadSvg(string assetName, Vector2 size) =>
-        SvgConverter.LoadSvg(this, assetName, size);
+    public Texture2D LoadSvg(string assetName, Vector2 size, string assets = "assets") =>
+        SvgConverter.LoadSvg(this, assetName, size, assets);
+
+    public T LoadContent<T>(string assetName, string assets = "assets") =>
+        ArchivedContent.LoadContentFile<T>(this, assetName, assets);
 
     public float ResolutionCoefficient => .5f * (ViewportSize.X / 1280) + .5f * (ViewportSize.Y / 720);
 
@@ -83,11 +86,11 @@ public class ActualGame : Game
     protected override void LoadContent()
     {
         DrawSpace = new SpriteBatch(GraphicsDevice);
-        DebugFont = Content.Load<SpriteFont>("DebugFont");
+        DebugFont = LoadContent<SpriteFont>("DebugFont");
         if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
             LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
                 ? LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
-                : Content.Load<Texture2D>(_loadingScreenBackgroundAssetName);
+                : LoadContent<Texture2D>(_loadingScreenBackgroundAssetName);
         SceneManager.LoadScene(0);
     }
 

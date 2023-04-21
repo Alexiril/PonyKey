@@ -17,15 +17,15 @@ public class Scene
 
     public Color BackgroundColor { get; set; } = Color.CornflowerBlue;
 
-    public ActualGame ActualGame { get; private set; }
+    public Master Master { get; private set; }
 
     private readonly List<GameObject> _gameObjects = new();
 
     private readonly List<GameObject> _removingGameObjects = new();
 
-    public Scene(ActualGame actualGame, string name)
+    public Scene(Master master, string name)
     {
-        ActualGame = actualGame;
+        Master = master;
         Name = name;
     }
 
@@ -38,7 +38,7 @@ public class Scene
     public GameObject AddGameObject(GameObject gameObject)
     {
         _gameObjects.Add(gameObject);
-        gameObject.ActualGame = ActualGame;
+        gameObject.Master = Master;
         gameObject.ActualScene = this;
         return gameObject;
     }
@@ -79,47 +79,47 @@ public class Scene
 
     internal void Draw()
     {
-        ActualGame.GraphicsDevice.Clear(BackgroundColor);
+        Master.GraphicsDevice.Clear(BackgroundColor);
         foreach (var gameObject in _gameObjects)
             gameObject.Draw();
 #if DEBUG
         if (!_onDebug) return;
-        ActualGame.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        Master.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
         var posy = 10;
-        ActualGame.DrawSpace.DrawString(
-            ActualGame.DebugFont,
+        Master.DrawSpace.DrawString(
+            Master.DebugFont,
             $"Total committed memory: {MathF.Round((float)GC.GetGCMemoryInfo().TotalCommittedBytes / 0x100000, 3)} MB",
             new(5, posy),
             Color.White
         );
         posy += 25;
-        ActualGame.DrawSpace.DrawString(
-            ActualGame.DebugFont,
+        Master.DrawSpace.DrawString(
+            Master.DebugFont,
             $"Scene index: {AssemblyIndex}, scene name: '{Name}'",
             new(5, posy),
             Color.White
         );
         posy += 25;
-        ActualGame.DrawSpace.DrawString(
-            ActualGame.DebugFont,
-            $"Frames per second: {MathF.Round(1 / (float)ActualGame.ActualGameTime.ElapsedGameTime.TotalSeconds, 2)}",
+        Master.DrawSpace.DrawString(
+            Master.DebugFont,
+            $"Frames per second: {MathF.Round(1 / (float)Master.ActualGameTime.ElapsedGameTime.TotalSeconds, 2)}",
             new(5, posy),
             Color.White
         );
         posy += 25;
-        ActualGame.DrawSpace.DrawString(
-            ActualGame.DebugFont,
-            $"Resolution: {ActualGame.ViewportSize.X}x{ActualGame.ViewportSize.Y}, screen center: {ActualGame.ViewportCenter}",
+        Master.DrawSpace.DrawString(
+            Master.DebugFont,
+            $"Resolution: {Master.ViewportSize.X}x{Master.ViewportSize.Y}, screen center: {Master.ViewportCenter}",
             new(5, posy),
             Color.White
         );
         posy += 25;
-        if (ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastPrintLogTime > 3000)
+        if (Master.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastPrintLogTime > 3000)
             _logInformation.Clear();
         foreach (var info in _logInformation)
         {
-            ActualGame.DrawSpace.DrawString(
-                ActualGame.DebugFont,
+            Master.DrawSpace.DrawString(
+                Master.DebugFont,
                 info,
                 new(5, posy),
                 Color.White
@@ -129,15 +129,15 @@ public class Scene
 
         foreach (var gameObject in _gameObjects)
         {
-            ActualGame.DrawSpace.DrawString(
-                ActualGame.DebugFont,
+            Master.DrawSpace.DrawString(
+                Master.DebugFont,
                 $"{gameObject.ObjectName}:",
                 new(10, posy),
                 Color.White
             );
             posy += 25;
-            ActualGame.DrawSpace.DrawString(
-                ActualGame.DebugFont,
+            Master.DrawSpace.DrawString(
+                Master.DebugFont,
                 string.Join(", ", gameObject.GetAllComponents().Select(x => x.GetType().Name)),
                 new(30, posy),
                 Color.White
@@ -145,7 +145,7 @@ public class Scene
             posy += 25;
         }
 
-        ActualGame.DrawSpace.End();
+        Master.DrawSpace.End();
 
 #endif
     }
@@ -173,7 +173,7 @@ public class Scene
 
         _gameObjects.Clear();
         _removingGameObjects.Clear();
-        ActualGame = null;
+        Master = null;
     }
 
 #if DEBUG
@@ -183,15 +183,15 @@ public class Scene
         _logInformation.Enqueue(information);
         if (_logInformation.Count > 6)
             _logInformation.Dequeue();
-        _lastPrintLogTime = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
+        _lastPrintLogTime = Master.ActualGameTime.TotalGameTime.TotalMilliseconds;
     }
 
     private void OnToggleDebugInformation()
     {
-        if (ActualGame?.ActualGameTime == null || ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500)
+        if (Master?.ActualGameTime == null || Master.ActualGameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500)
             return;
         _onDebug = !_onDebug;
-        _lastDebugChange = ActualGame.ActualGameTime.TotalGameTime.TotalMilliseconds;
+        _lastDebugChange = Master.ActualGameTime.TotalGameTime.TotalMilliseconds;
     }
 
     private readonly Queue<string> _logInformation = new(7);

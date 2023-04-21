@@ -21,7 +21,7 @@ public class GameObject
         }
     }
 
-    public ActualGame ActualGame { get; set; }
+    public Master Master { get; set; }
 
     public Scene ActualScene { get; set; }
 
@@ -111,7 +111,7 @@ public class GameObject
         }
         _components.Clear();
         Transform = null;
-        ActualGame = null;
+        Master = null;
         ActualScene = null;
     }
 

@@ -40,11 +40,11 @@ public class Component
 
     public Scene ActualScene => GameObject.ActualScene;
 
-    public ActualGame ActualGame => GameObject.ActualGame;
+    public Master Master => GameObject.Master;
 
-    public GameTime ActualGameTime => ActualGame.ActualGameTime;
+    public GameTime ActualGameTime => Master.ActualGameTime;
 
-    public SceneManager SceneManager => ActualGame.SceneManager;
+    public SceneManager SceneManager => Master.SceneManager;
 
     public T AddComponent<T>() where T : Component, new() => GameObject.AddComponent<T>();
 

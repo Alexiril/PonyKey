@@ -67,7 +67,7 @@ public class InputTrigger : Component
 
     public override void Update()
     {
-        var mouseState = Mouse.GetState(ActualGame.Window);
+        var mouseState = Mouse.GetState(Master.Window);
         if (CheckAnyMouseKeyPressed(mouseState) && CheckPointerOverTrigger(mouseState))
         {
             _pointerWasOverObject = true;
@@ -103,8 +103,8 @@ public class InputTrigger : Component
     public override void Draw()
     {
         if (_debugTexture == null || !_onDebug) return;
-        ActualGame.DrawSpace.Begin();
-        ActualGame.DrawSpace.Draw(
+        Master.DrawSpace.Begin();
+        Master.DrawSpace.Draw(
             _debugTexture,
             Transform.Position + CenterOffset,
             null,
@@ -115,7 +115,7 @@ public class InputTrigger : Component
             SpriteEffects.None,
             Transform.LayerDepth
         );
-        ActualGame.DrawSpace.End();
+        Master.DrawSpace.End();
     }
 
     public override void Unload() => EventSystem.OnToggleDebugBoxes -= OnToggleDebugBoxes;
@@ -128,7 +128,7 @@ public class InputTrigger : Component
 
     private void OnToggleDebugBoxes()
     {
-        if (GameObject?.ActualGame?.ActualGameTime == null ||
+        if (GameObject?.Master?.ActualGameTime == null ||
             ActualGameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
         _onDebug = !_onDebug;
         _lastDebugChange = ActualGameTime.TotalGameTime.TotalMilliseconds;
@@ -136,7 +136,7 @@ public class InputTrigger : Component
 
     private void GenerateDebugTexture() =>
         _debugTexture = RuntimeTextureGenerator.GenerateTexture(
-            ActualGame.GraphicsDevice,
+            Master.GraphicsDevice,
             (int)TriggerSize.X * 2,
             (int)TriggerSize.Y * 2,
             i =>

@@ -37,13 +37,13 @@ public class Sprite : Component
     public Vector2 Size => new(Width, Height);
 
     public float ResolutionCoefficient =>
-        .5f * (Width / ActualGame.ViewportSize.X) + .5f * (Height / ActualGame.ViewportSize.Y);
+        .5f * (Width / Master.ViewportSize.X) + .5f * (Height / Master.ViewportSize.Y);
 
     public override void Draw()
     {
         if (Texture == null) return;
-        ActualGame.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-        ActualGame.DrawSpace.Draw(
+        Master.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        Master.DrawSpace.Draw(
             Texture,
             Transform.Position,
             null,
@@ -54,6 +54,6 @@ public class Sprite : Component
             SpriteEffects,
             Transform.LayerDepth
         );
-        ActualGame.DrawSpace.End();
+        Master.DrawSpace.End();
     }
 }
