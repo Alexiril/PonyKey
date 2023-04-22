@@ -19,9 +19,6 @@
 #begin Common/LoadingSceneBackground.svg
 /copy:Common/LoadingSceneBackground.svg
 
-#begin Common/PonyFont.ttf
-/copy:Common/PonyFont.ttf
-
 #begin Common/SpeechCloud.svg
 /copy:Common/SpeechCloud.svg
 
@@ -54,7 +51,7 @@
 #begin Level0/BackgroundMusic.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
+/processorParam:Quality=Medium
 /build:Level0/BackgroundMusic.mp3
 
 #begin Level0/TextHelper.svg
@@ -66,7 +63,7 @@
 #begin MainMenu/BackgroundMusic.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
-/processorParam:Quality=Best
+/processorParam:Quality=Medium
 /build:MainMenu/BackgroundMusic.mp3
 
 #begin MainMenu/DisplayButton.svg

@@ -4,10 +4,12 @@ from sys import argv
 from tarfile import open as taropen
 
 cwd = getcwd()
-print(cwd)
 
 if len(argv) < 2:
-    raise AssertionError("Not enough arguments")
+    print(f"""Sorry. This is not how to use that script.
+You need to start it giving it a name of the assets folder needed to pack and in the build folder,
+that was previously assembled by monogame environment. Arguments: {argv}""")
+    exit(-1)
 
 if not isdir(join(cwd, argv[1])):
     exit()

@@ -27,9 +27,6 @@
 /processorParam:TextureFormat=Compressed
 /build:defaultLoadingScreenFont.spritefont
 
-#begin ITCKRIST.TTF
-/copy:ITCKRIST.TTF
-
 #begin loadingSpinner.svg
 /copy:loadingSpinner.svg
 

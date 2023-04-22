@@ -19,7 +19,7 @@ internal class PoniesTalking : Component
                     GetComponent<TextMesh>()
                         .SetText("Applejack wants many apples to prepare for a rodeo. Can you help her?")
                         .SetFont(Master.LoadContent<SpriteFont>("Common/TwilightSpeechFont18"))
-                        .SetOffset(new(-115, -103));
+                        .SetOffset(new(-115, -120));
                     _state++;
                     break;
                 case 1:
