@@ -21,7 +21,7 @@ internal class MainMenu : ILevel
             .AddComponent<SoundSource>()
             .SetSound(master.LoadContent<SoundEffect>("MainMenu/BackgroundMusic"))
             .SetIsLooped(true)
-            .SetVolume(1)
+            .SetVolume(float.TryParse(PlayerSettings.GetValue("vl"), out var value) ? value : 1)
             .SetPlayAtStart(true)
             .AddGameObject(new GameObject("Logo"))
             .AddComponent<Sprite>()

@@ -21,7 +21,7 @@ internal class Level0 : ILevel
             .AddComponent<SoundSource>()
             .SetSound(master.LoadContent<SoundEffect>("Level0/BackgroundMusic"))
             .SetIsLooped(true)
-            .SetVolume(1)
+            .SetVolume(float.TryParse(PlayerSettings.GetValue("vl"), out var value) ? value : 1)
             .SetPlayAtStart(true)
             .AddGameObject(new("Background1"))
             .AddComponent<Sprite>()

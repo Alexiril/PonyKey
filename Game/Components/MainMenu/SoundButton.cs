@@ -1,4 +1,6 @@
-﻿using Engine.BaseComponents;
+﻿using System.Globalization;
+using Engine.BaseComponents;
+using Engine.BaseSystems;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game.Components.MainMenu;
@@ -26,12 +28,14 @@ internal class SoundButton : SpriteButton
                 if (soundSource.Sound.Volume < float.Epsilon)
                 {
                     soundSource.SetVolume(_initialVolume);
+                    PlayerSettings.SetValue("vl",_initialVolume.ToString(CultureInfo.InvariantCulture));
                     Sprite.Texture = _standardButton;
                 }
                 else
                 {
                     _initialVolume = soundSource.Sound.Volume;
                     soundSource.SetVolume(0);
+                    PlayerSettings.SetValue("vl", "0");
                     Sprite.Texture = _turnedOffButton;
                 }
             }
