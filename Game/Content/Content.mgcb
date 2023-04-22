@@ -39,6 +39,9 @@
 #begin Common/TwilightUnhappy.svg
 /copy:Common/TwilightUnhappy.svg
 
+#begin Level0/ajAnimation.asvg
+/copy:Level0/ajAnimation.asvg
+
 #begin Level0/Background0.svg
 /copy:Level0/Background0.svg
 

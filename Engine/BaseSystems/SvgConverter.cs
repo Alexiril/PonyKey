@@ -4,7 +4,8 @@ using System.IO;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpCompress.Readers.GZip;
+using SharpCompress.Compressors;
+using SharpCompress.Compressors.BZip2;
 using SharpVectors.Dom.Svg;
 using SharpVectors.Renderers;
 using SharpVectors.Renderers.Gdi;
@@ -12,9 +13,9 @@ using static System.Drawing.Imaging.ImageFormat;
 
 namespace Engine.BaseSystems;
 
-internal static class SvgConverter
+public static class SvgConverter
 {
-    internal static Texture2D LoadSvg(
+    public static Texture2D LoadSvg(
         Master master,
         string assetName,
         Vector2 size,
@@ -25,18 +26,19 @@ internal static class SvgConverter
             size
         );
 
-    internal static AnimationInformation LoadSvgAnimation(
+    public static AnimationInformation LoadSvgAnimation(
         Master master,
         string assetName,
         Vector2 size,
         string assets = "assets")
     {
-        var file = new MemoryStream();
-        var fileStream = new MemoryStream();
+        using var file = new MemoryStream();
+        using var fileStream = new MemoryStream();
         ArchivedContent.LoadFile($"{assetName}.asvg", assets, file);
-        using (var svgAnimation = GZipReader.Open(file))
-        using (var entryStream = svgAnimation.OpenEntryStream())
-            entryStream.CopyTo(fileStream);
+        file.Position = 0;
+        using (var svgAnimation = new BZip2Stream(file, CompressionMode.Decompress, true))
+            svgAnimation.CopyTo(fileStream);
+        fileStream.Position = 0;
         if (BinaryIO.DeserializeString(fileStream) != "PonyKey")
             throw new FileFormatException("Not correct svg animation asset.");
         var framerate = BinaryIO.DeserializeFloat(fileStream);

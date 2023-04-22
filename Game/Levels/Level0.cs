@@ -16,7 +16,7 @@ internal class Level0 : ILevel
             .SetBackgroundColor(Color.DeepSkyBlue)
             .AddGameObject(new("Background"))
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("Level0/Background0", master.ViewportSize))
+            .SetTexture(SvgConverter.LoadSvg(master,"Level0/Background0", master.ViewportSize))
             .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<SoundSource>()
             .SetSound(master.LoadContent<SoundEffect>("Level0/BackgroundMusic"))
@@ -25,22 +25,30 @@ internal class Level0 : ILevel
             .SetPlayAtStart(true)
             .AddGameObject(new("Background1"))
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("Level0/Background1",
+            .SetTexture(SvgConverter.LoadSvg(master,"Level0/Background1",
                 new Vector2(2560, 720) * master.ResolutionCoefficient))
             .Transform.SetPosition(new(master.ViewportSize.X, master.ViewportCenter.Y))
+            .AddGameObject(new GameObject("AJRunning"))
+            .AddComponent<Animator>()
+            .SetAnimationInformation(SvgConverter.LoadSvgAnimation(master, "Level0/ajAnimation",
+                new Vector2(512) * master.ResolutionCoefficient))
+            .SetPlaying(true)
+            .SetLoop(true)
+            .Transform.SetPosition(new(-master.ViewportSize.X * .2f, master.ViewportSize.Y * .75f))
+            .AddComponent<ApplejackRunning>()
             .AddGameObject(new("Background2"))
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("Level0/Background2",
+            .SetTexture(SvgConverter.LoadSvg(master,"Level0/Background2",
                 new Vector2(2560, 720) * master.ResolutionCoefficient))
             .Transform.SetPosition(new(master.ViewportSize.X, master.ViewportCenter.Y))
             .AddGameObject(new("PonyTalking"))
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("Common/TwilightUnhappy",
+            .SetTexture(SvgConverter.LoadSvg(master,"Common/TwilightUnhappy",
                 new Vector2(600, 600) * master.ResolutionCoefficient))
             .Transform.SetPosition(new(master.ViewportSize.X * .66f, master.ViewportCenter.Y))
             .AddGameObject(new("SpeechCloud"))
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("Common/SpeechCloud",
+            .SetTexture(SvgConverter.LoadSvg(master,"Common/SpeechCloud",
                 new Vector2(365, 365) * master.ResolutionCoefficient))
             .Transform.SetPosition(new(master.ViewportSize.X * .3f, master.ViewportSize.Y * .3f))
             .AddComponent<TextMesh>()
@@ -58,7 +66,7 @@ internal class Level0 : ILevel
             .AddGameObject(new("HelperText"))
             .SetActive(false)
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("Level0/TextHelper",
+            .SetTexture(SvgConverter.LoadSvg(master,"Level0/TextHelper",
                 new Vector2(687, 160) * master.ResolutionCoefficient))
             .SetTextureColor(Color.White * .8f)
             .Transform.SetPosition(master.ViewportCenter + new Vector2(0, -200))

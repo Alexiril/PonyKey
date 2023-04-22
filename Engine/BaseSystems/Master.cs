@@ -35,9 +35,6 @@ public class Master : Game
 
     public void SetLoadingScreenBackground(string assetName) => _loadingScreenBackgroundAssetName = assetName;
 
-    public Texture2D LoadSvg(string assetName, Vector2 size, string assets = "assets") =>
-        SvgConverter.LoadSvg(this, assetName, size, assets);
-
     public T LoadContent<T>(string assetName, string assets = "assets") =>
         ArchivedContent.LoadContentFile<T>(this, assetName, assets);
 
@@ -89,7 +86,7 @@ public class Master : Game
         DebugFont = LoadContent<SpriteFont>("DebugFont");
         if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
             LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
-                ? LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
+                ? SvgConverter.LoadSvg(this, _loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
                 : LoadContent<Texture2D>(_loadingScreenBackgroundAssetName);
         SceneManager.LoadScene(0);
     }

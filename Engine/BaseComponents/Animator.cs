@@ -10,11 +10,19 @@ public class Animator : Component
 {
     public bool Playing { get; set; }
 
+    public bool Loop { get; set; }
+
     public AnimationInformation AnimationInformation { get; set; }
 
     public Animator SetPlaying(bool playing)
     {
         Playing = playing;
+        return this;
+    }
+
+    public Animator SetLoop(bool loop)
+    {
+        Loop = loop;
         return this;
     }
 
@@ -54,6 +62,9 @@ public class Animator : Component
             _timeFromLastFrame += (float)ActualGameTime.ElapsedGameTime.TotalMilliseconds;
             return;
         }
+
+        if (_currentFrame + 1 == AnimationInformation.Frames.Count && !Loop)
+            Playing = false;
         _currentFrame = (_currentFrame + 1) % AnimationInformation.Frames.Count;
         _objectSprite.Texture = AnimationInformation.Frames[_currentFrame];
         _timeFromLastFrame = 0;

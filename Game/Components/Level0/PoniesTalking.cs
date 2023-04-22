@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine.BaseComponents;
+using Engine.BaseSystems;
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,7 +26,7 @@ internal class PoniesTalking : Component
                 case 1:
                     GameObject.Find("PonyTalking")[0]
                         .GetComponent<Sprite>()
-                        .SetTexture(Master.LoadSvg("Common/ApplejackAsking",
+                        .SetTexture(SvgConverter.LoadSvg(Master,"Common/ApplejackAsking",
                             new Vector2(600, 600) * Master.ResolutionCoefficient));
                     GetComponent<TextMesh>()
                         .SetText("Yeah, I'd not mind helping. Yee-haw!")
@@ -37,6 +38,7 @@ internal class PoniesTalking : Component
                     break;
                 case 2:
                     GameObject.Find("HelperText")[0].SetActive(true);
+                    GameObject.Find("AJRunning")[0].GetComponent<ApplejackRunning>().StartPlaying = true;
                     ActualScene.DestroyGameObject(GameObject.Find("PonyTalking")[0]);
                     GameObject.Destroy();
                     break;

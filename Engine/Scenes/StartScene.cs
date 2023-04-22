@@ -31,7 +31,7 @@ internal class StartScene : ILevel
             .AddGameObject(new("loadingSpinner"))
             .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<Sprite>()
-            .SetTexture(master.LoadSvg("loadingSpinner", new(master.ViewportSize.X * .7f)))
+            .SetTexture(SvgConverter.LoadSvg(master,"loadingSpinner", new(master.ViewportSize.X * .7f)))
             .AddComponent<Spinner>()
             .ActualScene;
     }
