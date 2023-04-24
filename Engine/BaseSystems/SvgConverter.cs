@@ -10,6 +10,7 @@ using SharpVectors.Dom.Svg;
 using SharpVectors.Renderers;
 using SharpVectors.Renderers.Gdi;
 using static System.Drawing.Imaging.ImageFormat;
+using Color = System.Drawing.Color;
 
 namespace Engine.BaseSystems;
 
@@ -59,7 +60,7 @@ public static class SvgConverter
         Stream svgStream,
         Vector2 size)
     {
-        var renderer = new GdiGraphicsRenderer { BackColor = System.Drawing.Color.Transparent };
+        var renderer = new GdiGraphicsRenderer { BackColor = Color.Transparent };
         renderer.Window = new GdiSvgWindow((int)size.X, (int)size.Y, renderer);
         var svgDocument = new SvgDocument(renderer.Window);
         svgDocument.Load(svgStream);

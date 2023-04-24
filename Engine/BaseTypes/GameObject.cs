@@ -43,10 +43,12 @@ public class GameObject
     {
         ObjectName = gameObject.ObjectName;
         foreach (var component in gameObject._components)
-            AddComponent(new Component(component));
+            AddComponent((Component)Activator.CreateInstance(component.GetType(), component));
 
         Transform = GetComponent<Transform>();
     }
+
+    public int GetIndexInScene() => ActualScene.GetGameObjectIndex(this);
 
     public T AddComponent<T>() where T : Component, new() => (T)AddComponent(new T());
 

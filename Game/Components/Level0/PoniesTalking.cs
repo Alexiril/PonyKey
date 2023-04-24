@@ -38,6 +38,7 @@ internal class PoniesTalking : Component
                     break;
                 case 2:
                     GameObject.Find("HelperText")[0].SetActive(true);
+                    GameObject.Find("TreesGenerator")[0].SetActive(true);
                     GameObject.Find("AJRunning")[0].GetComponent<ApplejackRunning>().StartPlaying = true;
                     ActualScene.DestroyGameObject(GameObject.Find("PonyTalking")[0]);
                     GameObject.Destroy();

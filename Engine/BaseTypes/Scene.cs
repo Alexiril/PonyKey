@@ -43,11 +43,26 @@ public class Scene
         return gameObject;
     }
 
-    public GameObject Instantiate(GameObject gameObject)
+    public int GetGameObjectIndex(GameObject gameObject)
     {
-        var newGameObject = new GameObject(gameObject);
-        EventSystem.AddOnceTimeEvent(() => true, _ => AddGameObject(newGameObject));
-        return newGameObject;
+        if (_gameObjects.Contains(gameObject))
+            return _gameObjects.IndexOf(gameObject);
+        return -1;
+    }
+
+    public GameObject Instantiate(GameObject gameObject, int index = -1)
+    {
+        gameObject = new GameObject(gameObject);
+        gameObject.ObjectName += "(Clone)";
+        EventSystem.AddOnceTimeEvent(() => true, _ =>
+        {
+            if (index != -1) _gameObjects.Insert(index, gameObject);
+            else _gameObjects.Add(gameObject);
+            gameObject.Master = Master;
+            gameObject.ActualScene = this;
+            gameObject.Start();
+        });
+        return gameObject;
     }
 
     public void DestroyGameObject(GameObject gameObject) => _removingGameObjects.Add(gameObject);

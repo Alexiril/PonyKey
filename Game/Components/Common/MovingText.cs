@@ -67,7 +67,7 @@ internal class MovingText : Component
     {
         if (ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > WaitingTime)
         {
-            Transform.Position += (float)ActualGameTime.ElapsedGameTime.TotalMilliseconds * MovingSpeed * MovingDirection;
+            Transform.Position += DeltaTime * MovingSpeed * MovingDirection;
             _actualSprite.TextureColor *= ColorChangeSpeed;
         }
         else

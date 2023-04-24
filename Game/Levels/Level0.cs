@@ -23,6 +23,10 @@ internal class Level0 : ILevel
             .SetIsLooped(true)
             .SetVolume(float.TryParse(PlayerSettings.GetValue("vl"), out var value) ? value : 1)
             .SetPlayAtStart(true)
+            .AddGameObject(new("TreesGenerator"))
+            .SetActive(false)
+            .Transform.SetPosition(new(master.ViewportSize.X * 1.5f, master.ViewportSize.Y*.65f))
+            .AddComponent<TreesGenerator>()
             .AddGameObject(new("Background1"))
             .AddComponent<Sprite>()
             .SetTexture(SvgConverter.LoadSvg(master,"Level0/Background1",
@@ -74,9 +78,5 @@ internal class Level0 : ILevel
             .SetShouldDestroy(text => text.Transform.Position.Y < -text.Sprite.Height)
             .SetColorChangeSpeed(.95f)
             .SetMovingSpeed(.2f)
-            .AddGameObject(new("TreesGenerator"))
-            .SetActive(false)
-            .Transform.SetPosition(new(master.ViewportSize.X * 1.5f, master.ViewportCenter.Y))
-            .AddComponent<TreesGenerator>()
             .ActualScene;
 }

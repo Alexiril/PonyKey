@@ -68,7 +68,7 @@ public class Animator : Component
         if (!Playing) return;
         if (_timeFromLastFrame < _framesDistance)
         {
-            _timeFromLastFrame += (float)ActualGameTime.ElapsedGameTime.TotalMilliseconds;
+            _timeFromLastFrame += DeltaTime;
             return;
         }
 

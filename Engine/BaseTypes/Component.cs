@@ -54,10 +54,17 @@ public class Component : ICloneable
 
     public GameObject AddGameObject(GameObject gameObject) => ActualScene.AddGameObject(gameObject);
 
+    public GameObject Instantiate(GameObject gameObject, int index = -1) =>
+        ActualScene.Instantiate(gameObject, index);
+
+    public object Clone() => new Component(this);
+
+    public float DeltaTime => (float)ActualGameTime.ElapsedGameTime.TotalMilliseconds;
+
     protected virtual List<Type> Requirements => new();
 
     protected virtual void Initiate() {}
 
     private GameObject _gameObject;
-    public object Clone() => new Component(this);
+
 }
