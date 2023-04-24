@@ -6,8 +6,12 @@ using Microsoft.Xna.Framework;
 
 namespace Engine.BaseTypes;
 
-public class Component
+public class Component : ICloneable
 {
+    public Component() {}
+
+    public Component(Component component) => GameObject = component.GameObject;
+
     public GameObject GameObject
     {
         get => _gameObject;
@@ -55,4 +59,5 @@ public class Component
     protected virtual void Initiate() {}
 
     private GameObject _gameObject;
+    public object Clone() => new Component(this);
 }

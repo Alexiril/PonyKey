@@ -6,6 +6,15 @@ namespace Engine.BaseComponents;
 
 public class Sprite : Component
 {
+    public Sprite() {}
+
+    public Sprite(Sprite sprite) : base(sprite)
+    {
+        TextureColor = sprite.TextureColor;
+        Texture = sprite.Texture;
+        SpriteEffects = sprite.SpriteEffects;
+    }
+
     public Color TextureColor { get; set; } = Color.White;
 
     public Texture2D Texture { get; set; }

@@ -10,6 +10,18 @@ namespace Engine.BaseComponents;
 
 public class TextMesh : Component
 {
+    public TextMesh() {}
+
+    public TextMesh(TextMesh mesh) : base(mesh)
+    {
+        Text = mesh.Text;
+        Font = mesh.Font;
+        Color = mesh.Color;
+        WordWrap = mesh.WordWrap;
+        Width = mesh.Width;
+        Offset = mesh.Offset;
+    }
+
     public string Text
     {
         get => _text;

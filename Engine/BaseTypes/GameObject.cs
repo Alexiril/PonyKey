@@ -39,6 +39,15 @@ public class GameObject
         Transform = AddComponent<Transform>();
     }
 
+    public GameObject(GameObject gameObject)
+    {
+        ObjectName = gameObject.ObjectName;
+        foreach (var component in gameObject._components)
+            AddComponent(new Component(component));
+
+        Transform = GetComponent<Transform>();
+    }
+
     public T AddComponent<T>() where T : Component, new() => (T)AddComponent(new T());
 
     public Component AddComponent(Type T) => AddComponent((Component)Activator.CreateInstance(T));

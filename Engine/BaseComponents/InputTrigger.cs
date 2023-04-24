@@ -11,6 +11,19 @@ namespace Engine.BaseComponents;
 
 public class InputTrigger : Component
 {
+    public InputTrigger() {}
+
+    public InputTrigger(InputTrigger trigger) : base(trigger)
+    {
+        OnPointerDown = (Action<MouseState>)trigger.OnPointerDown.Clone();
+        OnPointerUp = (Action<MouseState>)trigger.OnPointerUp.Clone();
+        OnPointerHolds = (Action<MouseState>)trigger.OnPointerHolds.Clone();
+        OnPointerOver = (Action<MouseState>)trigger.OnPointerOver.Clone();
+        OnPointerExit = (Action<MouseState>)trigger.OnPointerExit.Clone();
+        TriggerSize = trigger.TriggerSize;
+        CenterOffset = trigger.CenterOffset;
+    }
+
     public event Action<MouseState> OnPointerDown;
     public event Action<MouseState> OnPointerUp;
     public event Action<MouseState> OnPointerHolds;

@@ -8,6 +8,15 @@ namespace Engine.BaseComponents;
 
 public class Animator : Component
 {
+    public Animator() {}
+
+    public Animator(Animator animator) : base(animator)
+    {
+        Playing = animator.Playing;
+        Loop = animator.Loop;
+        AnimationInformation = new AnimationInformation(animator.AnimationInformation);
+    }
+
     public bool Playing { get; set; }
 
     public bool Loop { get; set; }

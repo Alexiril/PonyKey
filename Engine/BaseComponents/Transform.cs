@@ -5,6 +5,16 @@ namespace Engine.BaseComponents;
 
 public class Transform : Component
 {
+    public Transform() {}
+
+    public Transform(Transform transform) : base(transform)
+    {
+        Position = transform.Position;
+        LayerDepth = transform.LayerDepth;
+        Rotation = transform.Rotation;
+        Scale = transform.Scale;
+    }
+
     public Vector2 Position { get; set; }
 
     public Transform SetPosition(Vector2 position)

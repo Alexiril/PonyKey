@@ -9,6 +9,10 @@ namespace Engine.BaseComponents;
 
 public class SpriteButton : Component
 {
+    public SpriteButton() {}
+
+    public SpriteButton(SpriteButton button) : base(button) => PointerUp = (Action<MouseState>)button.PointerUp.Clone();
+
     public Action<MouseState> PointerUp
     {
         get => _onPointerUp;

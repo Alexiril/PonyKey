@@ -43,6 +43,13 @@ public class Scene
         return gameObject;
     }
 
+    public GameObject Instantiate(GameObject gameObject)
+    {
+        var newGameObject = new GameObject(gameObject);
+        EventSystem.AddOnceTimeEvent(() => true, _ => AddGameObject(newGameObject));
+        return newGameObject;
+    }
+
     public void DestroyGameObject(GameObject gameObject) => _removingGameObjects.Add(gameObject);
 
     public int RemoveGameObjectsByName(string name) => _gameObjects.RemoveAll(x => x.ObjectName == name);

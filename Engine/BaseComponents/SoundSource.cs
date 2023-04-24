@@ -5,6 +5,15 @@ namespace Engine.BaseComponents;
 
 public class SoundSource : Component
 {
+    public SoundSource() { }
+
+    public SoundSource(SoundSource source) : base(source)
+    {
+        Sound = source.Sound;
+        Name = source.Name;
+        _playAtStart = source._playAtStart;
+    }
+
     public string Name { get; private set; }
 
     public SoundSource Play() { Sound.Play(); return this; }
