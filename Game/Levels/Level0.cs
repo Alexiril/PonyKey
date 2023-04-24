@@ -74,5 +74,9 @@ internal class Level0 : ILevel
             .SetShouldDestroy(text => text.Transform.Position.Y < -text.Sprite.Height)
             .SetColorChangeSpeed(.95f)
             .SetMovingSpeed(.2f)
+            .AddGameObject(new("TreesGenerator"))
+            .SetActive(false)
+            .Transform.SetPosition(new(master.ViewportSize.X * 1.5f, master.ViewportCenter.Y))
+            .AddComponent<TreesGenerator>()
             .ActualScene;
 }
