@@ -46,7 +46,8 @@ public static class ArchivedContent
 
     public static T LoadContent<T>(Master master, string filename, string assets = "assets")
     {
-        var resultFileName = $"{Path.GetTempPath()}tmp_asf";
+        var randomKey = new Random().Next(0x1000, 0xFFFFFF);
+        var resultFileName = $"{Path.GetTempPath()}tmp_asf{randomKey}";
         using (var temporaryFile = File.OpenWrite($"{resultFileName}.xnb"))
             LoadFile($"{filename}.xnb", assets, temporaryFile).Dispose();
         var result = master.Content.Load<T>(resultFileName);

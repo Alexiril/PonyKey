@@ -32,12 +32,8 @@ internal class StartScene : ILevel
             .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<Sprite>()
             .SetTexture(SvgConverter.LoadSvg(master,"loadingSpinner", new(master.ViewportSize.X * .7f)))
-            .AddComponent<Spinner>()
+            .AddComponent<LoadingSpinner>()
+            .SetSpeed(5)
             .ActualScene;
-    }
-
-    private class Spinner : Component
-    {
-        public override void Update() => Transform.Rotation += .5f;
     }
 }

@@ -46,12 +46,10 @@ public static class SvgConverter
         var framesAmount = BinaryIO.DeserializeNumber(fileStream);
         var textures = new List<Texture2D>();
         for (var i = 0; i < framesAmount; i++)
-            textures.Add(
-                TransformSvgToTexture2D(
-                    master.GraphicsDevice,
-                    new MemoryStream(Encoding.ASCII.GetBytes(BinaryIO.DeserializeString(fileStream))),
-                    size)
-            );
+            textures.Add(TransformSvgToTexture2D(
+                master.GraphicsDevice,
+                new MemoryStream(Encoding.ASCII.GetBytes(BinaryIO.DeserializeString(fileStream))),
+                size));
         return new AnimationInformation(textures, framerate);
     }
 
@@ -70,7 +68,17 @@ public static class SvgConverter
         var bufferSize = renderer.RasterImage.Height * renderer.RasterImage.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
         renderer.RasterImage.Save(memoryStream, Png);
+#if SVGDebug
+        _rendered++;
+        if (!Directory.Exists("svgdebug")) Directory.CreateDirectory("svgdebug");
+        using (var stream = new FileStream($"svgdebug/{_rendered}.png", FileMode.OpenOrCreate))
+            renderer.RasterImage.Save(stream, Png);
+#endif
         svgStream.Dispose();
         return Texture2D.FromStream(graphicsDevice, memoryStream);
     }
+
+#if SVGDebug
+    private static int _rendered;
+#endif
 }

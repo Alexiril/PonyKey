@@ -105,8 +105,7 @@ public class GameObject
 
     internal void Unload()
     {
-        if (!Active) return;
-        foreach (var component in _components.Where(component => component.Active))
+        foreach (var component in _components)
             component.Unload();
     }
 

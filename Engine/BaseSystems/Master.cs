@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Engine.Scenes;
 using Microsoft.Xna.Framework;
@@ -17,8 +18,11 @@ public class Master : Microsoft.Xna.Framework.Game
     public event ProgramState OnBeforeDraw;
     public event ProgramState OnAfterDraw;
 
-    public Master()
+    public Master(int framerate = 60, bool fixedTimeStep = false, string screenBackgroundAssetName = null)
     {
+        IsFixedTimeStep = fixedTimeStep;
+        TargetElapsedTime = TimeSpan.FromSeconds(1d / framerate);
+        _loadingScreenBackgroundAssetName = screenBackgroundAssetName;
         _graphics = new GraphicsDeviceManager(this);
         _graphics.PreparingDeviceSettings += (_, args) =>
         {
@@ -32,8 +36,6 @@ public class Master : Microsoft.Xna.Framework.Game
         SceneManager = new(this);
         SceneManager.RegisterLevels(new() { new StartScene() });
     }
-
-    public void SetLoadingScreenBackground(string assetName) => _loadingScreenBackgroundAssetName = assetName;
 
     public float ResolutionCoefficient => .5f * (ViewportSize.X / 1280) + .5f * (ViewportSize.Y / 720);
 
@@ -108,5 +110,5 @@ public class Master : Microsoft.Xna.Framework.Game
     }
 
     private readonly GraphicsDeviceManager _graphics;
-    private string _loadingScreenBackgroundAssetName;
+    private readonly string _loadingScreenBackgroundAssetName;
 }

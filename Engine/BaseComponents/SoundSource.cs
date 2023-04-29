@@ -10,11 +10,8 @@ public class SoundSource : Component
     public SoundSource(SoundSource source) : base(source)
     {
         Sound = source.Sound;
-        Name = source.Name;
         _playAtStart = source._playAtStart;
     }
-
-    public string Name { get; private set; }
 
     public SoundSource Play() { Sound?.Play(); return this; }
 
@@ -47,7 +44,6 @@ public class SoundSource : Component
     public SoundSource SetSound(SoundEffect sound)
     {
         Sound = sound.CreateInstance();
-        Name = sound.Name;
         return this;
     }
 

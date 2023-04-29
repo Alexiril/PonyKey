@@ -18,7 +18,8 @@ internal class MainMenu : ILevel
             .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<Sprite>()
             .SetTexture(SvgConverter.LoadSvg(master,"loadingSpinner", new(master.ViewportSize.X * .7f)))
-            .AddComponent<Spinner>()
+            .AddComponent<LoadingSpinner>()
+            .SetSpeed(5)
             .AddGameObject(new GameObject("Background"))
             .AddComponent<Sprite>()
             .SetTexture(SvgConverter.LoadSvg(master,"MainMenu/Background", master.ViewportSize))
@@ -80,9 +81,4 @@ internal class MainMenu : ILevel
             .AddComponent<SpriteButton>()
             .SetOnPointerUp(_ => Process.Start(new ProcessStartInfo { FileName = "https://github.com/Alexiril/PonyKey", UseShellExecute = true }))
             .ActualScene;
-
-    private class Spinner : Component
-    {
-        public override void Update() => Transform.Rotation += .5f;
-    }
 }
