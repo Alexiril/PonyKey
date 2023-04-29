@@ -45,6 +45,8 @@ public class GameObject
         Transform = GetComponent<Transform>();
     }
 
+    public GameObject AddGameObject(GameObject gameObject) => ActualScene.AddGameObject(gameObject);
+
     public int GetIndexInScene() => ActualScene.GetGameObjectIndex(this);
 
     public T AddComponent<T>() where T : Component, new() => (T)AddComponent(new T());
