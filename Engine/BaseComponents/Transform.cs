@@ -1,5 +1,6 @@
 ﻿using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
+using Game = Engine.BaseSystems.Game;
 
 namespace Engine.BaseComponents;
 
@@ -49,7 +50,7 @@ public class Transform : Component
 
     public Transform SetScaleFromSprite()
     {
-        Scale = Sprite.ResolutionCoefficient * Master.ResolutionCoefficient;
+        Scale = Sprite.ResolutionCoefficient * Game.ResolutionCoefficient;
         return this;
     }
 

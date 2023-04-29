@@ -5,45 +5,39 @@ using Engine.BaseTypes;
 
 namespace Engine.BaseSystems;
 
-public class SceneManager
+public static class SceneManager
 {
-    public void RegisterLevels(List<ILevel> levels) => _levels.AddRange(levels);
+    public static void RegisterLevels(List<ILevel> levels) => Levels.AddRange(levels);
 
-    internal SceneManager(Master master)
+    internal static void Update()
     {
-        _master = master;
-        master.OnAfterUpdate += () =>
-        {
-            if (_preLoadedScene == null) return;
-            CurrentScene?.Unload();
-            DestroyScene(CurrentScene);
-            CurrentScene = _preLoadedScene;
-            CurrentScene.Start();
-            _preLoadedScene = null;
-        };
+        if (_preLoadedScene == null) return;
+        CurrentScene?.Unload();
+        DestroyScene(CurrentScene);
+        CurrentScene = _preLoadedScene;
+        CurrentScene.Start();
+        _preLoadedScene = null;
     }
 
-    public Scene CurrentScene { get; private set; }
+    public static Scene CurrentScene { get; private set; }
 
-    public void LoadScene(int index) => ActualSceneLoad(index);
+    public static void LoadScene(int index) => ActualSceneLoad(index);
 
-    public async Task LoadSceneAsync(int index) => await Task.Run(() => ActualSceneLoad(index));
+    public static async Task LoadSceneAsync(int index) => await Task.Run(() => ActualSceneLoad(index));
 
-    public void DontDestroyOnLoad(GameObject gameObject)
+    public static void DontDestroyOnLoad(GameObject gameObject)
     {
-        if (!_noDestroyObjects.Contains(gameObject))
-            _noDestroyObjects.Add(gameObject);
+        if (!NoDestroyObjects.Contains(gameObject))
+            NoDestroyObjects.Add(gameObject);
     }
 
-    public void DestroyOnLoad(GameObject gameObject) => _noDestroyObjects.Remove(gameObject);
+    public static void DestroyOnLoad(GameObject gameObject) => NoDestroyObjects.Remove(gameObject);
 
-    private readonly List<GameObject> _noDestroyObjects = new();
+    private static readonly List<GameObject> NoDestroyObjects = new();
 
-    private readonly List<ILevel> _levels = new();
+    private static readonly List<ILevel> Levels = new();
 
-    private Scene _preLoadedScene;
-
-    private readonly Master _master;
+    private static Scene _preLoadedScene;
 
     private static void DestroyScene(Scene scene)
     {
@@ -54,10 +48,10 @@ public class SceneManager
         GC.Collect(GC.GetGeneration(tempRef));
     }
 
-    private void ActualSceneLoad(int index)
+    private static void ActualSceneLoad(int index)
     {
-        _preLoadedScene = _levels[index].GetScene(_master);
+        _preLoadedScene = Levels[index].GetScene();
         _preLoadedScene.AssemblyIndex = index;
-        _noDestroyObjects.ForEach(o => _preLoadedScene.AddGameObject(o));
+        NoDestroyObjects.ForEach(o => _preLoadedScene.AddGameObject(o));
     }
 }

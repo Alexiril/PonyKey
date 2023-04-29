@@ -1,4 +1,5 @@
 ﻿using Engine.BaseComponents;
+using Engine.BaseSystems;
 
 namespace Game.Components.MainMenu;
 
@@ -11,7 +12,7 @@ internal class PlayButton : SpriteButton
             {
                 _startingNextScene = true;
                 GetComponent<InputTrigger>().Active = false;
-                _timeFromClick = ActualGameTime.TotalGameTime.TotalMilliseconds;
+                _timeFromClick = GameTime.TotalGameTime.TotalMilliseconds;
             }
         );
     }
@@ -19,7 +20,7 @@ internal class PlayButton : SpriteButton
     public override void Update()
     {
         if (!_startingNextScene) return;
-        if (ActualGameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
+        if (GameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
         {
             for (var i = 1; i < ActualScene.GameObjectsCount; i++)
             {

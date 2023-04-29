@@ -1,10 +1,7 @@
-﻿using Engine.BaseSystems;
-using Game.Levels;
+﻿using Game.Levels;
+using static Engine.BaseSystems.Game;
+using static Engine.BaseSystems.SceneManager;
 
-using var game = new Master(144, true, screenBackgroundAssetName:"Common/LoadingSceneBackground.svg");
-game.SceneManager.RegisterLevels(new()
-{
-    new MainMenu(),
-    new Level0()
-});
-game.Run();
+Init(144, true, "Common/LoadingSceneBackground.svg");
+RegisterLevels(new() { new MainMenu(), new Level0() });
+Run();

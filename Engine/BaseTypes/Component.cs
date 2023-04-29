@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Engine.BaseComponents;
-using Engine.BaseSystems;
 using Microsoft.Xna.Framework;
+using Game = Engine.BaseSystems.Game;
 
 namespace Engine.BaseTypes;
 
@@ -44,11 +44,7 @@ public class Component : ICloneable
 
     public Scene ActualScene => GameObject.ActualScene;
 
-    public Master Master => GameObject.Master;
-
-    public GameTime ActualGameTime => Master.ActualGameTime;
-
-    public SceneManager SceneManager => Master.SceneManager;
+    public static GameTime GameTime => Game.GameTime;
 
     public T AddComponent<T>() where T : Component, new() => GameObject.AddComponent<T>();
 
@@ -59,7 +55,7 @@ public class Component : ICloneable
 
     public object Clone() => new Component(this);
 
-    public float DeltaTime => (float)ActualGameTime.ElapsedGameTime.TotalMilliseconds;
+    public float DeltaTime => (float)GameTime.ElapsedGameTime.TotalMilliseconds;
 
     protected virtual List<Type> Requirements => new();
 

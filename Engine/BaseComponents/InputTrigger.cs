@@ -2,6 +2,7 @@
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Game = Engine.BaseSystems.Game;
 #if DEBUG
 using Engine.BaseSystems;
 using Microsoft.Xna.Framework.Graphics;
@@ -80,7 +81,7 @@ public class InputTrigger : Component
 
     public override void Update()
     {
-        var mouseState = Mouse.GetState(Master.Window);
+        var mouseState = Mouse.GetState(Game.Window);
         if (CheckAnyMouseKeyPressed(mouseState) && CheckPointerOverTrigger(mouseState))
         {
             _pointerWasOverObject = true;
@@ -116,8 +117,8 @@ public class InputTrigger : Component
     public override void Draw()
     {
         if (_debugTexture == null || !_onDebug) return;
-        Master.DrawSpace.Begin();
-        Master.DrawSpace.Draw(
+        Game.DrawSpace.Begin();
+        Game.DrawSpace.Draw(
             _debugTexture,
             Transform.Position + CenterOffset,
             null,
@@ -128,7 +129,7 @@ public class InputTrigger : Component
             SpriteEffects.None,
             Transform.LayerDepth
         );
-        Master.DrawSpace.End();
+        Game.DrawSpace.End();
     }
 
     public override void Unload() => EventSystem.OnToggleDebugBoxes -= OnToggleDebugBoxes;
@@ -141,15 +142,14 @@ public class InputTrigger : Component
 
     private void OnToggleDebugBoxes()
     {
-        if (GameObject?.Master?.ActualGameTime == null ||
-            ActualGameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
+        if (Game.GameTime == null ||
+            GameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
         _onDebug = !_onDebug;
-        _lastDebugChange = ActualGameTime.TotalGameTime.TotalMilliseconds;
+        _lastDebugChange = GameTime.TotalGameTime.TotalMilliseconds;
     }
 
     private void GenerateDebugTexture() =>
         _debugTexture = RuntimeTextureGenerator.GenerateTexture(
-            Master.GraphicsDevice,
             (int)TriggerSize.X * 2,
             (int)TriggerSize.Y * 2,
             i =>

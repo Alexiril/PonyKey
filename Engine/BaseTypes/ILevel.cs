@@ -1,8 +1,6 @@
-﻿using Engine.BaseSystems;
-
-namespace Engine.BaseTypes;
+﻿namespace Engine.BaseTypes;
 
 public interface ILevel
 {
-    public Scene GetScene(Master master);
+    public Scene GetScene();
 }

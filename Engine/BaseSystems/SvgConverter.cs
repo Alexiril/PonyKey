@@ -17,18 +17,12 @@ namespace Engine.BaseSystems;
 public static class SvgConverter
 {
     public static Texture2D LoadSvg(
-        Master master,
         string assetName,
         Vector2 size,
         string assets = "assets") =>
-        TransformSvgToTexture2D(
-            master.GraphicsDevice,
-            ArchivedContent.LoadFile($"{assetName}.svg", assets),
-            size
-        );
+        TransformSvgToTexture2D(ArchivedContent.LoadFile($"{assetName}.svg", assets), size);
 
     public static AnimationInformation LoadSvgAnimation(
-        Master master,
         string assetName,
         Vector2 size,
         string assets = "assets")
@@ -47,14 +41,12 @@ public static class SvgConverter
         var textures = new List<Texture2D>();
         for (var i = 0; i < framesAmount; i++)
             textures.Add(TransformSvgToTexture2D(
-                master.GraphicsDevice,
                 new MemoryStream(Encoding.ASCII.GetBytes(BinaryIO.DeserializeString(fileStream))),
                 size));
         return new AnimationInformation(textures, framerate);
     }
 
     private static Texture2D TransformSvgToTexture2D(
-        GraphicsDevice graphicsDevice,
         Stream svgStream,
         Vector2 size)
     {
@@ -75,7 +67,7 @@ public static class SvgConverter
             renderer.RasterImage.Save(stream, Png);
 #endif
         svgStream.Dispose();
-        return Texture2D.FromStream(graphicsDevice, memoryStream);
+        return Texture2D.FromStream(Game.GraphicsDevice, memoryStream);
     }
 
 #if SVGDebug

@@ -46,7 +46,7 @@ internal class GameTree : Component
     public override void Update()
     {
         Transform.Position += -Transform.Right * DeltaTime;
-        if (Transform.Position.X < -Master.ViewportSize.X * .2f)
+        if (Transform.Position.X < -Engine.BaseSystems.Game.ViewportSize.X * .2f)
             GameObject.Destroy();
     }
 

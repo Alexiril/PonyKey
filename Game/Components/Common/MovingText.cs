@@ -60,19 +60,19 @@ internal class MovingText : Component
     {
         _actualSprite = Sprite;
         _transparency = (float)_actualSprite.TextureColor.A / 256;
-        _startMilliseconds = ActualGameTime.TotalGameTime.TotalMilliseconds;
+        _startMilliseconds = GameTime.TotalGameTime.TotalMilliseconds;
     }
 
     public override void Update()
     {
-        if (ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > WaitingTime)
+        if (GameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > WaitingTime)
         {
             Transform.Position += DeltaTime * MovingSpeed * MovingDirection;
             _actualSprite.TextureColor *= ColorChangeSpeed;
         }
         else
             _actualSprite.TextureColor =
-                Color.White * MathF.Min(_transparency, (float)(ActualGameTime.TotalGameTime.TotalMilliseconds -
+                Color.White * MathF.Min(_transparency, (float)(GameTime.TotalGameTime.TotalMilliseconds -
                 _startMilliseconds) / ShowingTime);
         if (ShouldDestroy.Invoke(this)) GameObject.Destroy();
     }

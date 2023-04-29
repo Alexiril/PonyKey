@@ -2,6 +2,7 @@
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Game = Engine.BaseSystems.Game;
 #if DEBUG
 using Engine.BaseSystems;
 #endif
@@ -122,8 +123,8 @@ public class TextMesh : Component
 
     public override void Draw()
     {
-        Master.DrawSpace.Begin();
-        Master.DrawSpace.DrawString(
+        Game.DrawSpace.Begin();
+        Game.DrawSpace.DrawString(
             Font,
             _editedText,
             Transform.Position + Offset,
@@ -137,7 +138,7 @@ public class TextMesh : Component
 #if DEBUG
         if (_debugTexture != null && _onDebug)
         {
-            Master.DrawSpace.Draw(
+            Game.DrawSpace.Draw(
                 _debugTexture,
                 Transform.Position + Offset,
                 null,
@@ -150,7 +151,7 @@ public class TextMesh : Component
             );
         }
 #endif
-        Master.DrawSpace.End();
+        Game.DrawSpace.End();
     }
 
 #if DEBUG
@@ -190,10 +191,9 @@ public class TextMesh : Component
 
     private void OnToggleDebugBoxes()
     {
-        if (GameObject?.Master?.ActualGameTime == null ||
-            ActualGameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
+        if (Game.GameTime == null || GameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
         _onDebug = !_onDebug;
-        _lastDebugChange = ActualGameTime.TotalGameTime.TotalMilliseconds;
+        _lastDebugChange = GameTime.TotalGameTime.TotalMilliseconds;
     }
 
     private void GenerateDebugTexture()
@@ -201,7 +201,6 @@ public class TextMesh : Component
         if (_font == null || _text == null) return;
         var height = (int)_font.MeasureString(_editedText).Y;
         _debugTexture = RuntimeTextureGenerator.GenerateTexture(
-            Master.GraphicsDevice,
             Width,
             height,
             i => i < Width || i > (height - 1) * Width || i % Width == 0 || i % Width == Width - 1

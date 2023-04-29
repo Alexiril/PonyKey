@@ -1,6 +1,7 @@
 ﻿using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Game = Engine.BaseSystems.Game;
 
 namespace Engine.BaseComponents;
 
@@ -48,31 +49,31 @@ public class Sprite : Component
     public Vector2 Size => new(Width, Height);
 
     public float ResolutionCoefficient =>
-        .5f * (Width / Master.ViewportSize.X) + .5f * (Height / Master.ViewportSize.Y);
+        .5f * (Width / Game.ViewportSize.X) + .5f * (Height / Game.ViewportSize.Y);
 
     public void AppendTexture(Texture2D texture, Vector2 position)
     {
         var rt = new RenderTarget2D(
-            Master.GraphicsDevice,
+            Game.GraphicsDevice,
             texture.Width > Texture.Width ? texture.Width : Texture.Width,
             texture.Height > Texture.Height ? texture.Height : Texture.Height
         );
-        var targets = Master.GraphicsDevice.GetRenderTargets();
-        Master.GraphicsDevice.SetRenderTarget(rt);
-        Master.GraphicsDevice.Clear(Color.Transparent);
-        Master.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-        Master.DrawSpace.Draw(Texture, new Vector2(0, 0), Color.White);
-        Master.DrawSpace.Draw(texture, position, Color.White);
-        Master.DrawSpace.End();
-        Master.GraphicsDevice.SetRenderTargets(targets);
+        var targets = Game.GraphicsDevice.GetRenderTargets();
+        Game.GraphicsDevice.SetRenderTarget(rt);
+        Game.GraphicsDevice.Clear(Color.Transparent);
+        Game.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        Game.DrawSpace.Draw(Texture, new Vector2(0, 0), Color.White);
+        Game.DrawSpace.Draw(texture, position, Color.White);
+        Game.DrawSpace.End();
+        Game.GraphicsDevice.SetRenderTargets(targets);
         Texture = rt;
     }
 
     public override void Draw()
     {
         if (Texture == null) return;
-        Master.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
-        Master.DrawSpace.Draw(
+        Game.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        Game.DrawSpace.Draw(
             Texture,
             Transform.Position,
             null,
@@ -83,6 +84,6 @@ public class Sprite : Component
             SpriteEffects,
             Transform.LayerDepth
         );
-        Master.DrawSpace.End();
+        Game.DrawSpace.End();
     }
 }

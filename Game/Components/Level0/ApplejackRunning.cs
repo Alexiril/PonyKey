@@ -1,4 +1,5 @@
 ﻿using Engine.BaseTypes;
+using EGame = Engine.BaseSystems.Game;
 
 namespace Game.Components.Level0;
 
@@ -15,7 +16,7 @@ internal class ApplejackRunning : Component
     public override void Update()
     {
         if (!StartPlaying) return;
-        if (Transform.Position.X < Master.ViewportSize.X * .2f)
+        if (Transform.Position.X < EGame.ViewportSize.X * .2f)
             Transform.Position += Transform.Right * DeltaTime;
         else
         {
@@ -23,12 +24,12 @@ internal class ApplejackRunning : Component
                 _ground.Transform.Position +=
                     -Transform.Right * DeltaTime;
             else
-                _ground.Transform.Position = new(Master.ViewportSize.X, Master.ViewportCenter.Y);
-            if (_grassForeground.Transform.Position.X > -Master.ViewportSize.X * .2f)
+                _ground.Transform.Position = new(EGame.ViewportSize.X, EGame.ViewportCenter.Y);
+            if (_grassForeground.Transform.Position.X > -EGame.ViewportSize.X * .2f)
                 _grassForeground.Transform.Position +=
                     -Transform.Right * 1.5f * DeltaTime;
             else
-                _grassForeground.Transform.Position = new(Master.ViewportSize.X * 2, Master.ViewportCenter.Y);
+                _grassForeground.Transform.Position = new(EGame.ViewportSize.X * 2, EGame.ViewportCenter.Y);
         }
     }
 

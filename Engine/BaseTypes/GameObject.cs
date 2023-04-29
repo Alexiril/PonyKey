@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Engine.BaseComponents;
-using Engine.BaseSystems;
 
 namespace Engine.BaseTypes;
 
@@ -20,8 +19,6 @@ public class GameObject
                 Start();
         }
     }
-
-    public Master Master { get; set; }
 
     public Scene ActualScene { get; set; }
 
@@ -120,7 +117,6 @@ public class GameObject
         }
         _components.Clear();
         Transform = null;
-        Master = null;
         ActualScene = null;
     }
 

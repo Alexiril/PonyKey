@@ -5,12 +5,12 @@ namespace Game.Components.MainMenu;
 
 internal class MoveMainMenuButtonsEntrance : Component
 {
-    public override void Start() => _startMilliseconds = ActualGameTime.TotalGameTime.TotalMilliseconds;
+    public override void Start() => _startMilliseconds = GameTime.TotalGameTime.TotalMilliseconds;
 
     public override void Update()
     {
-        if (!(ActualGameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)) return;
-        if (Transform.Position.Y > Master.ViewportCenter.Y + Sprite.Height)
+        if (!(GameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)) return;
+        if (Transform.Position.Y > Engine.BaseSystems.Game.ViewportCenter.Y + Sprite.Height)
         {
             var delta = DeltaTime * .5f * Transform.GlobalUp;
             for (var i = 3; i < 8; i++) GameObject.GetGameObjectByIndex(i).Transform.Position += delta;

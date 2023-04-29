@@ -4,6 +4,7 @@ using Engine.BaseComponents;
 using Engine.BaseSystems;
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
+using EGame = Engine.BaseSystems.Game;
 
 namespace Game.Components.Level0;
 
@@ -19,20 +20,20 @@ internal class TreesGenerator : Component
             .SetTreesTextures(
                 new()
                 {
-                    SvgConverter.LoadSvg(Master, "Level0/Appletree1", new Vector2(512) * Master.ResolutionCoefficient),
-                    SvgConverter.LoadSvg(Master, "Level0/Appletree2", new Vector2(512) * Master.ResolutionCoefficient)
+                    SvgConverter.LoadSvg( "Level0/Appletree1", new Vector2(512) * EGame.ResolutionCoefficient),
+                    SvgConverter.LoadSvg( "Level0/Appletree2", new Vector2(512) * EGame.ResolutionCoefficient)
                 },
                 new()
                 {
-                    SvgConverter.LoadSvg(Master, "Level0/Tree1", new Vector2(512) * Master.ResolutionCoefficient),
-                    SvgConverter.LoadSvg(Master, "Level0/Tree2", new Vector2(512) * Master.ResolutionCoefficient),
-                    SvgConverter.LoadSvg(Master, "Level0/Bushes", new Vector2(512) * Master.ResolutionCoefficient),
+                    SvgConverter.LoadSvg( "Level0/Tree1", new Vector2(512) * EGame.ResolutionCoefficient),
+                    SvgConverter.LoadSvg( "Level0/Tree2", new Vector2(512) * EGame.ResolutionCoefficient),
+                    SvgConverter.LoadSvg( "Level0/Bushes", new Vector2(512) * EGame.ResolutionCoefficient),
                 }
             )
             .SetButtons(
                 ArchivedContent.GetFilesNames("Buttons")
                     .Select(x => (x, SvgConverter
-                        .LoadSvg(Master, x.Replace(".svg", ""), new Vector2(100) * Master.ResolutionCoefficient))).ToList())
+                        .LoadSvg( x.Replace(".svg", ""), new Vector2(100) * EGame.ResolutionCoefficient))).ToList())
             .AddComponent<Sprite>()
             .GameObject;
     }

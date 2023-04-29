@@ -44,13 +44,13 @@ public static class ArchivedContent
         throw new FileNotFoundException($"File {filename} wasn't found.");
     }
 
-    public static T LoadContent<T>(Master master, string filename, string assets = "assets")
+    public static T LoadContent<T>(string filename, string assets = "assets")
     {
         var randomKey = new Random().Next(0x1000, 0xFFFFFF);
         var resultFileName = $"{Path.GetTempPath()}tmp_asf{randomKey}";
         using (var temporaryFile = File.OpenWrite($"{resultFileName}.xnb"))
             LoadFile($"{filename}.xnb", assets, temporaryFile).Dispose();
-        var result = master.Content.Load<T>(resultFileName);
+        var result = Game.Content.Load<T>(resultFileName);
         File.Delete($"{resultFileName}.xnb");
         return result;
     }
