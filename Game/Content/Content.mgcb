@@ -13,6 +13,9 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Buttons/Space.svg
+/copy:Buttons/Space.svg
+
 #begin Common/ApplejackAsking.svg
 /copy:Common/ApplejackAsking.svg
 
@@ -66,11 +69,11 @@
 #begin Level0/Background2.svg
 /copy:Level0/Background2.svg
 
-#begin Level0/BackgroundMusic.mp3
+#begin Level0/BackgroundMusicLevel0.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Medium
-/build:Level0/BackgroundMusic.mp3
+/build:Level0/BackgroundMusicLevel0.mp3
 
 #begin Level0/Bushes.svg
 /copy:Level0/Bushes.svg
@@ -87,11 +90,11 @@
 #begin MainMenu/Background.svg
 /copy:MainMenu/Background.svg
 
-#begin MainMenu/BackgroundMusic.mp3
+#begin MainMenu/BackgroundMusicMenu.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Medium
-/build:MainMenu/BackgroundMusic.mp3
+/build:MainMenu/BackgroundMusicMenu.mp3
 
 #begin MainMenu/DisplayButton.svg
 /copy:MainMenu/DisplayButton.svg

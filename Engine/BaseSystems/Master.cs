@@ -8,7 +8,7 @@ namespace Engine.BaseSystems;
 
 public delegate void ProgramState();
 
-public class Master : Game
+public class Master : Microsoft.Xna.Framework.Game
 {
     public GameTime ActualGameTime = new();
     public readonly SceneManager SceneManager;
@@ -34,9 +34,6 @@ public class Master : Game
     }
 
     public void SetLoadingScreenBackground(string assetName) => _loadingScreenBackgroundAssetName = assetName;
-
-    public T LoadContent<T>(string assetName, string assets = "assets") =>
-        ArchivedContent.LoadContentFile<T>(this, assetName, assets);
 
     public float ResolutionCoefficient => .5f * (ViewportSize.X / 1280) + .5f * (ViewportSize.Y / 720);
 
@@ -83,11 +80,11 @@ public class Master : Game
     protected override void LoadContent()
     {
         DrawSpace = new SpriteBatch(GraphicsDevice);
-        DebugFont = LoadContent<SpriteFont>("DebugFont");
+        DebugFont = ArchivedContent.LoadContent<SpriteFont>(this, "DebugFont");
         if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
             LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
                 ? SvgConverter.LoadSvg(this, _loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
-                : LoadContent<Texture2D>(_loadingScreenBackgroundAssetName);
+                : ArchivedContent.LoadContent<Texture2D>(this, _loadingScreenBackgroundAssetName);
         SceneManager.LoadScene(0);
     }
 

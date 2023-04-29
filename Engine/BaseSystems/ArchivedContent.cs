@@ -1,12 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using SharpCompress.Readers;
 
 namespace Engine.BaseSystems;
 
-internal static class ArchivedContent
+public static class ArchivedContent
 {
-    internal static MemoryStream LoadFile(string filename, string assets = "assets", Stream copyTo = null)
+
+    public static List<string> GetFilesNames(string folder, string assets = "assets")
+    {
+        var result = new List<string>();
+        using Stream stream = File.OpenRead($"{assets}.dat");
+        using var reader = ReaderFactory.Open(stream);
+        while (reader.MoveToNextEntry())
+        {
+            if (reader.Entry.IsDirectory || reader.Entry.Key[..folder.Length] != folder) continue;
+            result.Add(reader.Entry.Key);
+        }
+
+        return result;
+    }
+
+    public static MemoryStream LoadFile(string filename, string assets = "assets", Stream copyTo = null)
     {
         using Stream stream = File.OpenRead($"{assets}.dat");
         using var reader = ReaderFactory.Open(stream);
@@ -28,7 +44,7 @@ internal static class ArchivedContent
         throw new FileNotFoundException($"File {filename} wasn't found.");
     }
 
-    internal static T LoadContentFile<T>(Master master, string filename, string assets = "assets")
+    public static T LoadContent<T>(Master master, string filename, string assets = "assets")
     {
         var resultFileName = $"{Path.GetTempPath()}tmp_asf";
         using (var temporaryFile = File.OpenWrite($"{resultFileName}.xnb"))

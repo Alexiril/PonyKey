@@ -19,7 +19,7 @@ internal class PoniesTalking : Component
                 case 0:
                     GetComponent<TextMesh>()
                         .SetText("Applejack wants many apples to prepare for a rodeo. Can you help her?")
-                        .SetFont(Master.LoadContent<SpriteFont>("Common/TwilightSpeechFont18"))
+                        .SetFont(ArchivedContent.LoadContent<SpriteFont>(Master, "Common/TwilightSpeechFont18"))
                         .SetOffset(new(-115, -120));
                     _state++;
                     break;
@@ -30,9 +30,9 @@ internal class PoniesTalking : Component
                             new Vector2(600, 600) * Master.ResolutionCoefficient));
                     GetComponent<TextMesh>()
                         .SetText("Yeah, I'd not mind helping. Yee-haw!")
-                        .SetFont(Master.LoadContent<SpriteFont>("Common/TwilightSpeechFont21"))
+                        .SetFont(ArchivedContent.LoadContent<SpriteFont>(Master, "Common/TwilightSpeechFont21"))
                         .SetOffset(new(-115, -90))
-                        .SetWidth(270)
+                        .SetWidth(250)
                         .SetColor(Color.Orange);
                     _state++;
                     break;

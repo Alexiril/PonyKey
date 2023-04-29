@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Engine.BaseComponents;
 using Engine.BaseTypes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game.Components.Level0;
@@ -14,12 +15,19 @@ internal class GameTree : Component
     {
         _appleTrees = tree._appleTrees;
         _backTrees = tree._backTrees;
+        _buttons = tree._buttons;
     }
 
     public GameTree SetTreesTextures(List<Texture2D> appleTrees, List<Texture2D> backTrees)
     {
         _appleTrees = appleTrees;
         _backTrees = backTrees;
+        return this;
+    }
+
+    public GameTree SetButtons(List<(string, Texture2D)> buttons)
+    {
+        _buttons = buttons;
         return this;
     }
 
@@ -30,6 +38,9 @@ internal class GameTree : Component
         Sprite.SetTexture(_appleTree
             ? _appleTrees[random.Next(0, _appleTrees.Count)]
             : _backTrees[random.Next(0, _backTrees.Count)]);
+        if (!_appleTree) return;
+        _currentButton = random.Next(0, _buttons.Count - 1);
+        Sprite.AppendTexture(_buttons[_currentButton].Item2, Sprite.Center + new Vector2(0, -Sprite.Center.Y));
     }
 
     public override void Update()
@@ -44,4 +55,6 @@ internal class GameTree : Component
     private bool _appleTree;
     private List<Texture2D> _appleTrees;
     private List<Texture2D> _backTrees;
+    private List<(string, Texture2D)> _buttons;
+    private int _currentButton = -1;
 }

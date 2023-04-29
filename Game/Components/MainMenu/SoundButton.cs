@@ -22,7 +22,7 @@ internal class SoundButton : SpriteButton
     public override void Start()
     {
         base.Start();
-        var soundSource = GameObject.GetGameObjectByIndex(0).GetComponent<SoundSource>();
+        var soundSource = GameObject.GetGameObjectByIndex(1).GetComponent<SoundSource>();
         SetOnPointerUp(_ =>
             {
                 if (soundSource.Sound.Volume < float.Epsilon)
@@ -33,7 +33,7 @@ internal class SoundButton : SpriteButton
                 }
                 else
                 {
-                    _initialVolume = soundSource.Sound.Volume;
+                    _initialVolume = soundSource.Sound.Volume > 0 ? soundSource.Sound.Volume : 1;
                     soundSource.SetVolume(0);
                     PlayerSettings.SetValue("vl", "0");
                     Sprite.Texture = _turnedOffButton;
@@ -46,5 +46,5 @@ internal class SoundButton : SpriteButton
 
     private Texture2D _turnedOffButton;
 
-    private float _initialVolume;
+    private float _initialVolume = 1;
 }

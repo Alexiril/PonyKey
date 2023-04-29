@@ -43,10 +43,30 @@ public class Sprite : Component
 
     public int Height => Texture.Height;
 
+    public Vector2 Center => new((float)Width / 2, (float)Height / 2);
+
     public Vector2 Size => new(Width, Height);
 
     public float ResolutionCoefficient =>
         .5f * (Width / Master.ViewportSize.X) + .5f * (Height / Master.ViewportSize.Y);
+
+    public void AppendTexture(Texture2D texture, Vector2 position)
+    {
+        var rt = new RenderTarget2D(
+            Master.GraphicsDevice,
+            texture.Width > Texture.Width ? texture.Width : Texture.Width,
+            texture.Height > Texture.Height ? texture.Height : Texture.Height
+        );
+        var targets = Master.GraphicsDevice.GetRenderTargets();
+        Master.GraphicsDevice.SetRenderTarget(rt);
+        Master.GraphicsDevice.Clear(Color.Transparent);
+        Master.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+        Master.DrawSpace.Draw(Texture, new Vector2(0, 0), Color.White);
+        Master.DrawSpace.Draw(texture, position, Color.White);
+        Master.DrawSpace.End();
+        Master.GraphicsDevice.SetRenderTargets(targets);
+        Texture = rt;
+    }
 
     public override void Draw()
     {

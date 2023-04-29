@@ -21,7 +21,7 @@ internal class PlayButton : SpriteButton
         if (!_startingNextScene) return;
         if (ActualGameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
         {
-            for (var i = 0; i < ActualScene.GameObjectsCount; i++)
+            for (var i = 1; i < ActualScene.GameObjectsCount; i++)
             {
                 var gameObject = GameObject.GetGameObjectByIndex(i);
                 var sprite = gameObject.Sprite;

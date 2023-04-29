@@ -116,7 +116,6 @@ public class GameObject
     {
         foreach (var component in _components.ToList())
         {
-            if (component.GetType() == typeof(SoundSource)) ((SoundSource)component).Stop();
             component.GameObject = null;
             _components.Remove(component);
         }

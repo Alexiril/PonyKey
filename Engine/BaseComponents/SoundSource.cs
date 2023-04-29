@@ -16,19 +16,31 @@ public class SoundSource : Component
 
     public string Name { get; private set; }
 
-    public SoundSource Play() { Sound.Play(); return this; }
+    public SoundSource Play() { Sound?.Play(); return this; }
 
-    public SoundSource Stop() { Sound.Stop(); return this; }
+    public SoundSource Stop() { Sound?.Stop(); return this; }
 
-    public SoundSource Pause() { Sound.Pause(); return this; }
+    public SoundSource Pause() { Sound?.Pause(); return this; }
 
-    public SoundSource Resume() { Sound.Resume(); return this; }
+    public SoundSource Resume() { Sound?.Resume(); return this; }
 
-    public SoundSource SetVolume(float volume) { Sound.Volume = volume; return this; }
+    public SoundSource SetVolume(float volume)
+    {
+        if (Sound != null) Sound.Volume = volume;
+        return this;
+    }
 
-    public SoundSource SetPan(float pan) { Sound.Pan = pan; return this; }
+    public SoundSource SetPan(float pan)
+    {
+        if (Sound != null) Sound.Pan = pan;
+        return this;
+    }
 
-    public SoundSource SetIsLooped(bool isLooped) { Sound.IsLooped = isLooped; return this; }
+    public SoundSource SetIsLooped(bool isLooped)
+    {
+        if (Sound != null) Sound.IsLooped = isLooped;
+        return this;
+    }
 
     public SoundSource SetPlayAtStart(bool playAtStart) { _playAtStart = playAtStart; return this; }
 
@@ -43,7 +55,14 @@ public class SoundSource : Component
 
     public override void Start()
     {
-        if (_playAtStart) Sound.Play();
+        if (_playAtStart) Sound?.Play();
+    }
+
+    public override void Unload()
+    {
+        Sound?.Stop();
+        Sound?.Dispose();
+        Sound = null;
     }
 
     public SoundEffectInstance Sound;

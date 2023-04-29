@@ -19,7 +19,7 @@ internal class StartScene : ILevel
             .Transform.SetPosition(master.ViewportCenter)
             .AddComponent<TextMesh>()
             .SetColor(Color.FloralWhite)
-            .SetFont(master.LoadContent<SpriteFont>("defaultLoadingScreenFont"))
+            .SetFont(ArchivedContent.LoadContent<SpriteFont>(master, "defaultLoadingScreenFont"))
             .SetWidth((int)(master.ViewportSize.X  * .75f))
             .SetWordWrap(true)
             .SetText("Welcome here! :)")

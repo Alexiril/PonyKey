@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Engine.BaseComponents;
 using Engine.BaseSystems;
 using Engine.BaseTypes;
@@ -10,7 +11,8 @@ internal class TreesGenerator : Component
 {
     public TreesGenerator() => _random = new Random();
 
-    public override void Start() =>
+    public override void Start()
+    {
         _gameTree = new GameObject("GameTree")
             .Transform.SetPosition(Transform.Position)
             .AddComponent<GameTree>()
@@ -26,9 +28,14 @@ internal class TreesGenerator : Component
                     SvgConverter.LoadSvg(Master, "Level0/Tree2", new Vector2(512) * Master.ResolutionCoefficient),
                     SvgConverter.LoadSvg(Master, "Level0/Bushes", new Vector2(512) * Master.ResolutionCoefficient),
                 }
-                )
+            )
+            .SetButtons(
+                ArchivedContent.GetFilesNames("Buttons")
+                    .Select(x => (x, SvgConverter
+                        .LoadSvg(Master, x.Replace(".svg", ""), new Vector2(100) * Master.ResolutionCoefficient))).ToList())
             .AddComponent<Sprite>()
             .GameObject;
+    }
 
     public override void Update()
     {
@@ -37,13 +44,14 @@ internal class TreesGenerator : Component
             _currentTimeFromPreviousTree += DeltaTime;
             return;
         }
+
         if (_random.Next(0, 100) != 2) return;
+        _currentTimeFromPreviousTree = 0;
         Instantiate(_gameTree, GameObject.GetIndexInScene());
     }
 
     private float _currentTimeFromPreviousTree;
     private GameObject _gameTree;
-
     private readonly Random _random;
     private const float MinTimeOffsetBetweenTrees = 1000;
 }

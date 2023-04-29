@@ -13,7 +13,7 @@ internal class MoveMainMenuButtonsEntrance : Component
         if (Transform.Position.Y > Master.ViewportCenter.Y + Sprite.Height)
         {
             var delta = DeltaTime * .5f * Transform.GlobalUp;
-            for (var i = 2; i < 7; i++) GameObject.GetGameObjectByIndex(i).Transform.Position += delta;
+            for (var i = 3; i < 8; i++) GameObject.GetGameObjectByIndex(i).Transform.Position += delta;
         }
         else GameObject.DestroyComponent(this);
     }
