@@ -16,7 +16,7 @@ internal class Level0 : ILevel
         new Scene("Level0")
             .SetBackgroundColor(Color.DeepSkyBlue)
             .AddGameObject(Background)
-            .AddGameObject(TreeGenerator)
+            .AddGameObject(TreesGenerator)
             .AddGameObject(Background1)
             .AddGameObject(AJRunning)
             .AddGameObject(Background2)
@@ -37,8 +37,8 @@ internal class Level0 : ILevel
             .SetPlayAtStart(true)
             .GameObject;
 
-    private static GameObject TreeGenerator =>
-        new GameObject("TreeGenerator")
+    private static GameObject TreesGenerator =>
+        new GameObject("TreesGenerator")
             .SetActive(false)
             .Transform.SetPosition(new(EGame.ViewportSize.X * 1.5f, EGame.ViewportSize.Y * .7f))
             .AddComponent<TreesGenerator>()
