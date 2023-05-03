@@ -22,7 +22,7 @@ internal class SoundButton : SpriteButton
     public override void Start()
     {
         base.Start();
-        var soundSource = GameObject.GetGameObjectByIndex(1).GetComponent<SoundSource>();
+        var soundSource = gameObject.GetGameObjectByIndex(1).GetComponent<SoundSource>();
         SetOnPointerUp(_ =>
             {
                 if (soundSource.Sound.Volume < float.Epsilon)

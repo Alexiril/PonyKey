@@ -35,7 +35,7 @@ public static class SvgConverter
             svgAnimation.CopyTo(fileStream);
         fileStream.Position = 0;
         if (BinaryIO.DeserializeString(fileStream) != "PonyKey")
-            throw new FileFormatException("Not correct svg animation asset.");
+            throw new EngineException("Not correct svg animation asset.");
         var framerate = BinaryIO.DeserializeFloat(fileStream);
         var framesAmount = BinaryIO.DeserializeNumber(fileStream);
         var textures = new List<Texture2D>();
@@ -60,7 +60,7 @@ public static class SvgConverter
         var bufferSize = renderer.RasterImage.Height * renderer.RasterImage.Width * 4;
         var memoryStream = new MemoryStream(bufferSize);
         renderer.RasterImage.Save(memoryStream, Png);
-#if SVGDebug
+#if SVGDEBUG
         _rendered++;
         if (!Directory.Exists("svgdebug")) Directory.CreateDirectory("svgdebug");
         using (var stream = new FileStream($"svgdebug/{_rendered}.png", FileMode.OpenOrCreate))

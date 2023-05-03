@@ -1,0 +1,123 @@
+# YAML PonyKey Engine v1
+---
+Game objects:
+  LoadingSpinner:
+    Transform:
+      Position: "@ViewportCenter"
+    Sprite:
+      Texture: "%u01"
+    LoadingSpinner:
+      Speed: '5'
+  Background:
+    Transform:
+      Position: "@ViewportCenter"
+    Sprite:
+      Texture: "%u02"
+    SoundSource:
+      Sound: "%u03"
+      IsLooped: true
+      Volume: 'float.TryParse(PlayerSettings.GetValue("vl"), out var value)?value:1'
+      PlayAtStart: true
+  Logo:
+    Transform:
+      Position: "@ViewportCenter"
+    Sprite:
+      Texture: "%u04"
+    MovingText:
+      ShouldDestroy: _ => _.Transform.Position.Y < -_.Sprite.Height
+  PlayButton:
+    Transform:
+      Position: new(@ViewportCenter.X, @ViewportSize.Y * 1.55f)
+    Sprite:
+      Texture: "%u05"
+    Components.MainMenu.MoveMainMenuButtonsEntrance: {}
+    Components.MainMenu.PlayButton: {}
+  ExitButton:
+    Transform:
+      Position: new(@ViewportCenter.X + 225 * @ResolutionCoefficient, @ViewportSize.Y
+        * 1.55f)
+    Sprite:
+      Texture: "%u06"
+    SpriteButton:
+      OnPointerUp: _ => @Exit()
+  DisplayButton:
+    Transform:
+      Position: new(@ViewportCenter.X - 225 * @ResolutionCoefficient, @ViewportSize.Y
+        * 1.55f)
+    Sprite:
+      Texture: "%u07"
+    SpriteButton:
+      OnPointerUp: _ => @ChangeVideoMode()
+  SoundButton:
+    Transform:
+      Position: new(@ViewportCenter.X - 380 * @ResolutionCoefficient, @ViewportSize.Y
+        * 1.57f)
+    Sprite:
+      Texture: "%u08"
+    Components.MainMenu.SoundButton:
+      StandardButtonTexture: "%u09"
+      TurnedOffButtonTexture: "%u10"
+  InfoButton:
+    Transform:
+      Position: new(@ViewportCenter.X + 380 * @ResolutionCoefficient, @ViewportSize.Y
+        * 1.57f)
+    Sprite:
+      Texture: "%u11"
+    SpriteButton:
+      OnPointerUp: _=>System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo{FileName
+        ="https://github.com/Alexiril/PonyKey",UseShellExecute=true})
+Hierarchy:
+- LoadingSpinner
+- Background
+- Logo
+- PlayButton
+- ExitButton
+- DisplayButton
+- SoundButton
+- InfoButton
+BackgroundColor: Color.DeepSkyBlue
+Assets:
+  u01:
+    type: texture-svg
+    assetName: '"loadingSpinner"'
+    size: new(@ViewportSize.X * .7f)
+  u02:
+    type: texture-svg
+    assetName: '"MainMenu/Background"'
+    size: "@ViewportSize"
+  u03:
+    type: SoundEffect
+    filename: '"MainMenu/BackgroundMusicMenu"'
+  u04:
+    type: texture-svg
+    assetName: '"MainMenu/Logo"'
+    size: "@ViewportSize"
+  u05:
+    type: texture-svg
+    assetName: '"MainMenu/PlayButton"'
+    size: new Vector2(190, 190) * @ResolutionCoefficient
+  u06:
+    type: texture-svg
+    assetName: '"MainMenu/ExitButton"'
+    size: new Vector2(125, 125) * @ResolutionCoefficient
+  u07:
+    type: texture-svg
+    assetName: '"MainMenu/DisplayButton"'
+    size: new Vector2(125, 125) * @ResolutionCoefficient
+  u08:
+    type: texture-svg
+    assetName: '!float.TryParse(PlayerSettings.GetValue("vl"), out var soundValue)?"MainMenu/SoundButton":soundValue
+      > 0 ?"MainMenu/SoundButton":"MinMenu/SoundOffButton"'
+    size: new Vector2(95, 95) * @ResolutionCoefficient
+  u09:
+    type: texture-svg
+    assetName: '"MainMenu/SoundButton"'
+    size: new Vector2(95, 95) * @ResolutionCoefficient
+  u10:
+    type: texture-svg
+    assetName: '"MainMenu/SoundOffButton"'
+    size: new Vector2(95, 95) * @ResolutionCoefficient
+  u11:
+    type: texture-svg
+    assetName: '"MainMenu/InfoButton"'
+    size: new Vector2(95, 95) * @ResolutionCoefficient

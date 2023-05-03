@@ -42,50 +42,50 @@
 #begin Common/TwilightUnhappy.svg
 /copy:Common/TwilightUnhappy.svg
 
-#begin Level0/ajAnimation.asvg
-/copy:Level0/ajAnimation.asvg
+#begin Level1/ajAnimation.asvg
+/copy:Level1/ajAnimation.asvg
 
-#begin Level0/Apple1.svg
-/copy:Level0/Apple1.svg
+#begin Level1/Apple1.svg
+/copy:Level1/Apple1.svg
 
-#begin Level0/Apple2.svg
-/copy:Level0/Apple2.svg
+#begin Level1/Apple2.svg
+/copy:Level1/Apple2.svg
 
-#begin Level0/Apple3.svg
-/copy:Level0/Apple3.svg
+#begin Level1/Apple3.svg
+/copy:Level1/Apple3.svg
 
-#begin Level0/Appletree1.svg
-/copy:Level0/Appletree1.svg
+#begin Level1/Appletree1.svg
+/copy:Level1/Appletree1.svg
 
-#begin Level0/Appletree2.svg
-/copy:Level0/Appletree2.svg
+#begin Level1/Appletree2.svg
+/copy:Level1/Appletree2.svg
 
-#begin Level0/Background0.svg
-/copy:Level0/Background0.svg
+#begin Level1/Background0.svg
+/copy:Level1/Background0.svg
 
-#begin Level0/Background1.svg
-/copy:Level0/Background1.svg
+#begin Level1/Background1.svg
+/copy:Level1/Background1.svg
 
-#begin Level0/Background2.svg
-/copy:Level0/Background2.svg
+#begin Level1/Background2.svg
+/copy:Level1/Background2.svg
 
-#begin Level0/BackgroundMusicLevel0.mp3
+#begin Level1/BackgroundMusicLevel1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
 /processorParam:Quality=Medium
-/build:Level0/BackgroundMusicLevel0.mp3
+/build:Level1/BackgroundMusicLevel1.mp3
 
-#begin Level0/Bushes.svg
-/copy:Level0/Bushes.svg
+#begin Level1/Bushes.svg
+/copy:Level1/Bushes.svg
 
-#begin Level0/TextHelper.svg
-/copy:Level0/TextHelper.svg
+#begin Level1/TextHelper.svg
+/copy:Level1/TextHelper.svg
 
-#begin Level0/Tree1.svg
-/copy:Level0/Tree1.svg
+#begin Level1/Tree1.svg
+/copy:Level1/Tree1.svg
 
-#begin Level0/Tree2.svg
-/copy:Level0/Tree2.svg
+#begin Level1/Tree2.svg
+/copy:Level1/Tree2.svg
 
 #begin MainMenu/Background.svg
 /copy:MainMenu/Background.svg
@@ -116,4 +116,13 @@
 
 #begin MainMenu/SoundOffButton.svg
 /copy:MainMenu/SoundOffButton.svg
+
+#begin Scenes.yaml
+/copy:Scenes.yaml
+
+#begin Scenes/Level1.yaml
+/copy:Scenes/Level1.yaml
+
+#begin Scenes/MainMenu.yaml
+/copy:Scenes/MainMenu.yaml
 

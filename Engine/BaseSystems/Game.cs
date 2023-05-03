@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Engine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -21,8 +21,7 @@ public static class Game
     {
         Master.IsFixedTimeStep = fixedTimeStep;
         Master.TargetElapsedTime = TimeSpan.FromSeconds(1d / framerate);
-        _loadingScreenBackgroundAssetName = screenBackgroundAssetName;
-        SceneManager.RegisterLevels(new() { new StartScene() });
+        SceneManager.RegisterLevels(new List<string>() { ArchivedContent.LoadScene("StartScene") });
         EventSystem.OnExit += Exit;
         PlayerSettings.ForceUpdate();
         Graphics.IsFullScreen = bool.TryParse(PlayerSettings.GetValue("fS"), out var fS) && fS;
@@ -31,10 +30,10 @@ public static class Game
         Graphics.ApplyChanges();
         DrawSpace = new SpriteBatch(GraphicsDevice);
         DebugFont = ArchivedContent.LoadContent<SpriteFont>( "DebugFont");
-        if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
-            LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
-                ? SvgConverter.LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
-                : ArchivedContent.LoadContent<Texture2D>( _loadingScreenBackgroundAssetName);
+        if (!string.IsNullOrEmpty(screenBackgroundAssetName))
+            LoadingScreenBackground = screenBackgroundAssetName.Split(".").Last() == "svg"
+                ? SvgConverter.LoadSvg(screenBackgroundAssetName.Split(".")[0], ViewportSize)
+                : ArchivedContent.LoadContent<Texture2D>( screenBackgroundAssetName);
         Master.OnBeforeUpdate += OnBeforeUpdate.Invoke;
         Master.OnBeforeDraw += OnBeforeDraw.Invoke;
         Master.OnAfterUpdate += OnAfterUpdate.Invoke;
@@ -90,5 +89,4 @@ public static class Game
     internal static Texture2D LoadingScreenBackground { get; private set; }
 
     private static readonly Master Master = new();
-    private static string _loadingScreenBackgroundAssetName;
 }

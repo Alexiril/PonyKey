@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using SharpCompress.Readers;
 
 namespace Engine.BaseSystems;
@@ -41,7 +42,7 @@ public static class ArchivedContent
             return new MemoryStream();
         }
 
-        throw new FileNotFoundException($"File {filename} wasn't found.");
+        throw new EngineException($"File {filename} wasn't found.");
     }
 
     public static T LoadContent<T>(string filename, string assets = "assets")
@@ -53,5 +54,12 @@ public static class ArchivedContent
         var result = Game.Content.Load<T>(resultFileName);
         File.Delete($"{resultFileName}.xnb");
         return result;
+    }
+
+    public static string LoadScene(string filename, string assets = "assets")
+    {
+        var file = new MemoryStream();
+        LoadFile($"{filename}.yaml", assets, file);
+        return Encoding.UTF8.GetString(file.GetBuffer());
     }
 }

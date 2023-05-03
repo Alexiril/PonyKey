@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Engine.BaseComponents;
+using Engine.BaseSystems;
 
 namespace Engine.BaseTypes;
 
@@ -22,7 +23,7 @@ public class GameObject
 
     public Scene ActualScene { get; set; }
 
-    public Transform Transform { get; private set; }
+    public Transform Transform => GetComponent<Transform>();
 
     public GameObject SetActive(bool active)
     {
@@ -30,22 +31,19 @@ public class GameObject
         return this;
     }
 
-    public GameObject(string objectName)
-    {
-        ObjectName = objectName;
-        Transform = AddComponent<Transform>();
-    }
+    public GameObject(string objectName) => ObjectName = objectName;
 
     public GameObject(GameObject gameObject)
     {
         ObjectName = gameObject.ObjectName;
         foreach (var component in gameObject._components)
             AddComponent((Component)Activator.CreateInstance(component.GetType(), component));
-
-        Transform = GetComponent<Transform>();
     }
 
-    public GameObject AddGameObject(GameObject gameObject) => ActualScene.AddGameObject(gameObject);
+    // ReSharper disable once InconsistentNaming
+    public GameObject gameObject => this;
+
+    public GameObject AddGameObject(GameObject obj) => ActualScene.AddGameObject(obj);
 
     public int GetIndexInScene() => ActualScene.GetGameObjectIndex(this);
 
@@ -90,7 +88,7 @@ public class GameObject
                 component.Update();
         foreach (var component in _removingComponents)
         {
-            component.GameObject = null;
+            component.gameObject = null;
             _components.Remove(component);
         }
     }
@@ -114,11 +112,10 @@ public class GameObject
     {
         foreach (var component in _components.ToList())
         {
-            component.GameObject = null;
+            component.gameObject = null;
             _components.Remove(component);
         }
         _components.Clear();
-        Transform = null;
         ActualScene = null;
     }
 
@@ -139,9 +136,9 @@ public class GameObject
     private Component AddComponent(Component component)
     {
         if (component == null)
-            throw new NullReferenceException("The component was null.");
+            throw new EngineException("The component was null.");
         if (_components.Exists(x => x == component)) return component;
-        component.GameObject = this;
+        component.gameObject = this;
         _components.Add(component);
         return component;
     }
