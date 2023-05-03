@@ -1,0 +1,115 @@
+# YAML PonyKey Engine v1
+---
+Game objects:
+  Background:
+    Transform:
+      Position: "@ViewportCenter"
+    Sprite:
+      Texture: "%u01"
+    SoundSource:
+      Sound: "%u02"
+      IsLooped: true
+      Volume: 'float.TryParse(PlayerSettings.GetValue("vl"), out var value)?value:1'
+      PlayAtStart: true
+  TreesGenerator:
+    GameObject:
+      Active: false
+    Transform:
+      Position: 'new(@ViewportSize.X * 1.5f, @ViewportSize.Y * .7f)'
+    Components.Level1.TreesGenerator:
+  Background1:
+    Transform:
+      Position: 'new(@ViewportSize.X, @ViewportCenter.Y)'
+    Sprite:
+      Texture: "%u03"
+  AJRunning:
+    Transform:
+      Position: 'new(-@ViewportSize.X * .2f, @ViewportSize.Y * .75f)'
+    Animator:
+      AnimationInformation: "%u04"
+      Playing: true
+      Loop: true
+    Components.Level1.ApplejackRunning:
+  Background2:
+    Transform:
+      Position: 'new(@ViewportSize.X, @ViewportCenter.Y)'
+    Sprite:
+      Texture: "%u05"
+  PonyTalking:
+    Transform:
+      Position: 'new(@ViewportSize.X * .66f, @ViewportCenter.Y)'
+    Sprite:
+      Texture: "%u06"
+  SpeechCloud:
+    Transform:
+      Position: '@ViewportSize * .3f'
+    Sprite:
+      Texture: "%u07"
+    TextMesh:
+      Color: "Color.Violet"
+      WordWrap: true
+      Font: "%u08"
+      Text: '"Hi there! We do need some help here, can you help us?"'
+      Width: 200
+      Offset: 'new(-100,-110)'
+    InputTrigger:
+      TriggerSize: "@ViewportCenter"
+      CenterOffset: '@ViewportCenter - @ViewportSize * .3f'
+    Components.Level1.PoniesTalking:
+  HelperText:
+    GameObject:
+      Active: false
+    Transform:
+      Position: '@ViewportCenter + new Vector2(0,-200)'
+    Sprite:
+      Texture: "%u09"
+      TextureColor: "Color.White * .8f"
+    MovingText:
+      ShouldDestroy: '_=>_.Transform.Position.Y<-_.Sprite.Height'
+      ColorChangeSpeed: '.95f'
+      MovingSpeed: '.2f'
+Hierarchy:
+- Background
+- TreesGenerator
+- Background1
+- AJRunning
+- Background2
+- PonyTalking
+- SpeechCloud
+- HelperText
+BackgroundColor: Color.DeepSkyBlue
+Assets:
+  u01:
+    type: texture-svg
+    assetName: '"Level1/Background0"'
+    size: @ViewportSize
+  u02:
+    type: SoundEffect
+    filename: '"Level1/BackgroundMusicLevel1"'
+  u03:
+    type: texture-svg
+    assetName: '"Level1/Background1"'
+    size: 'new Vector2(2560, 720) * @ResolutionCoefficient'
+  u04:
+    type: animation-svg
+    assetName: '"Level1/ajAnimation"'
+    size: 'new Vector2(512) * @ResolutionCoefficient'
+  u05:
+    type: texture-svg
+    assetName: '"Level1/Background2"'
+    size: 'new Vector2(2560, 720) * @ResolutionCoefficient'
+  u06:
+    type: texture-svg
+    assetName: '"Common/TwilightUnhappy"'
+    size: 'new Vector2(600, 600) * @ResolutionCoefficient'
+  u07:
+    type: texture-svg
+    assetName: '"Common/SpeechCloud"'
+    size: 'new Vector2(365, 365) * @ResolutionCoefficient'
+  u08:
+    type: SpriteFont
+    filename: '"Common/TwilightSpeechFont21"'
+  u09:
+    type: texture-svg
+    assetName: '"Level1/TextHelper"'
+    size: 'new Vector2(687, 160) * @ResolutionCoefficient'

@@ -30,3 +30,6 @@
 #begin loadingSpinner.svg
 /copy:loadingSpinner.svg
 
+#begin StartScene.yaml
+/copy:StartScene.yaml
+

@@ -1,7 +1,8 @@
-﻿using Game.Levels;
+﻿using System.Windows.Forms;
 using static Engine.BaseSystems.Game;
-using static Engine.BaseSystems.SceneManager;
+
+Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
 Init(144, true, "Common/LoadingSceneBackground.svg");
-RegisterLevels(new() { new MainMenu(), new Level0() });
+//RegisterLevels(Game.BuildTime.BuildingScenes.Scenes);
 Run();

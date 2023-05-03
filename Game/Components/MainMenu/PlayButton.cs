@@ -24,11 +24,11 @@ internal class PlayButton : SpriteButton
         {
             for (var i = 1; i < ActualScene.GameObjectsCount; i++)
             {
-                var gameObject = GameObject.GetGameObjectByIndex(i);
-                var sprite = gameObject.Sprite;
+                var obj = gameObject.GetGameObjectByIndex(i);
+                var sprite = obj.Sprite;
                 if (sprite != null) sprite.TextureColor *= .95f;
-                if (gameObject.HasComponent<InputTrigger>())
-                    gameObject.DestroyComponent(gameObject.GetComponent<InputTrigger>());
+                if (obj.HasComponent<InputTrigger>())
+                    obj.DestroyComponent(obj.GetComponent<InputTrigger>());
             }
         }
         else

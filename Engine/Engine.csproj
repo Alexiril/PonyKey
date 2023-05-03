@@ -1,6 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0-windows</TargetFramework>
+        <Company>Alex Kirel</Company>
+        <Product>PonyKey Engine</Product>
+        <NeutralLanguage>en-US</NeutralLanguage>
+        <AssemblyVersion>1.5</AssemblyVersion>
+        <FileVersion>1.1.6</FileVersion>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
@@ -11,5 +16,6 @@
         <PackageReference Include="SharpVectors" Version="1.8.1" />
         <PackageReference Include="Svg" Version="3.4.4" />
         <PackageReference Include="System.Drawing.Common" Version="8.0.0-preview.2.23128.3" />
+        <PackageReference Include="YamlDotNet" Version="13.1.0" />
     </ItemGroup>
 </Project>

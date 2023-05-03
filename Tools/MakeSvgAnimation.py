@@ -10,15 +10,14 @@ print(f"SVG animation packing asset script v{version}")
 
 if len(argv) < 2:
     print(f"""Sorry. This is not how to use that script.
-You need to get it the package file name,
-that was previously assembled by monogame environment.""")
+You need to get it the package file name, that will be use for saving.""")
     exit(-1)
 
 fileName: str = argv[1]
 resultBytes: bytes = b''
 mark: str = "PonyKey"
 framerate: float = float(input("Set framerate: "))
-filesRanged: bool = True if input("Are filenames ranged? (y/n) ")[0].lower() == 'y' else False
+filesRanged: bool | list[int] = True if input("Are filenames ranged? (y/n) ")[0].lower() == 'y' else False
 filesRange = (0, 0)
 if filesRanged:
     filesRanged = list(map(int, input("Set filenames range (from, to): ").replace(" ", "").split(",")))

@@ -74,7 +74,7 @@ internal class MovingText : Component
             _actualSprite.TextureColor =
                 Color.White * MathF.Min(_transparency, (float)(GameTime.TotalGameTime.TotalMilliseconds -
                 _startMilliseconds) / ShowingTime);
-        if (ShouldDestroy.Invoke(this)) GameObject.Destroy();
+        if (ShouldDestroy.Invoke(this)) gameObject.Destroy();
     }
 
     protected override List<Type> Requirements => new() { typeof(Sprite) };

@@ -1,0 +1,53 @@
+﻿using System;
+using System.Collections.Generic;
+using Engine.BaseComponents;
+using Engine.BaseSystems;
+using Engine.BaseTypes;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace Game.Components.Level1;
+
+internal class PoniesTalking : Component
+{
+    public override void Start()
+    {
+        GetComponent<InputTrigger>().OnPointerUp += _ =>
+        {
+            switch (_state)
+            {
+                case 0:
+                    GetComponent<TextMesh>()
+                        .SetText("Applejack wants many apples to prepare for a rodeo. Can you help her?")
+                        .SetFont(ArchivedContent.LoadContent<SpriteFont>("Common/TwilightSpeechFont18"))
+                        .SetOffset(new(-115, -120));
+                    _state++;
+                    break;
+                case 1:
+                    gameObject.Find("PonyTalking")[0]
+                        .GetComponent<Sprite>()
+                        .SetTexture(SvgConverter.LoadSvg("Common/ApplejackAsking",
+                            new Vector2(600, 600) * Engine.BaseSystems.Game.ResolutionCoefficient));
+                    GetComponent<TextMesh>()
+                        .SetText("Yeah, I'd not mind helping. Yee-haw!")
+                        .SetFont(ArchivedContent.LoadContent<SpriteFont>("Common/TwilightSpeechFont21"))
+                        .SetOffset(new(-115, -90))
+                        .SetWidth(250)
+                        .SetColor(Color.Orange);
+                    _state++;
+                    break;
+                case 2:
+                    gameObject.Find("HelperText")[0].SetActive(true);
+                    gameObject.Find("TreesGenerator")[0].SetActive(true);
+                    gameObject.Find("AJRunning")[0].GetComponent<ApplejackRunning>().StartPlaying = true;
+                    ActualScene.DestroyGameObject(gameObject.Find("PonyTalking")[0]);
+                    gameObject.Destroy();
+                    break;
+            }
+        };
+    }
+
+    protected override List<Type> Requirements => new() { typeof(InputTrigger), typeof(TextMesh) };
+
+    private int _state;
+}

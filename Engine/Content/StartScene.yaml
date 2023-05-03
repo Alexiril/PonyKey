@@ -1,0 +1,39 @@
+﻿---
+name: Start scene
+backgroundColor: DeepSkyBlue
+hierarchy:
+  - AltText
+  - LoadingScreenBackground
+  - LoadingSpinner
+assets:
+  u01:
+    type: SpriteFont
+    filename: '"defaultLoadingScreenFont"'
+  u02:
+    type: texture-svg
+    assetName: '"loadingSpinner"'
+    size: "new(@ViewportSize.X * .7f)"
+gameObjects:
+  AltText:
+    Transform:
+      Position: "@ViewportCenter"
+    TextMesh:
+      Color: "Color.FloralWhite"
+      Font: "%u01"
+      Width: "(int)(@ViewportSize.X * .75f)"
+      WordWrap: "true"
+      Text: '"Welcome here! :)"'
+      CentralOffset:
+  LoadingScreenBackground:
+    Transform:
+      Position: "@ViewportCenter"
+    Sprite:
+      Texture: "@LoadingScreenBackground"
+  LoadingSpinner:
+    Transform:
+      Position: "@ViewportCenter"
+    Sprite:
+      Texture: "%u02"
+    LoadingSpinner:
+      Speed: '5'
+    NextSceneLoader:
