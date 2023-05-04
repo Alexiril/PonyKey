@@ -2,6 +2,6 @@
 using static Engine.BaseSystems.Game;
 using static Engine.BaseSystems.SceneManager;
 
-Init(144, true, "Common/LoadingSceneBackground.svg");
+Init(framerate: 144, fixedTimeStep: true, screenBackgroundAssetName: "Common/LoadingSceneBackground.svg");
 RegisterLevels(new() { new MainMenu(), new Level1() });
 Run();
