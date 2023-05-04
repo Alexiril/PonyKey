@@ -50,7 +50,9 @@ def CountLines(rootFolder: str, extensions: list = []):
         with open(f, 'r') as t:
             text = t.readlines()
             lines += len(text)
-            chars += len("".join(text))
+            charsInside = len("".join(text))
+            chars += charsInside
+            print(f"File {f} contains {len(text)} lines and {charsInside} characters.")
     print("Opened folder:", rootFolder)
     print("Files amount:", len(codeFiles))
     print("Lines in the project code:", lines)
@@ -199,7 +201,7 @@ if (phase == "prebuild"):
     pass
 elif (phase == "postbuild"):
     PackAssets(outFolder, join(outFolder, "Content"))
-    CountLines(rootFolder, ["yaml", "json", "py"])
+    CountLines(rootFolder, ["py"])
     #ClearBuildTime(buildTimeFolder)
 else:
     raise AssertionError("Not correct build phase.")

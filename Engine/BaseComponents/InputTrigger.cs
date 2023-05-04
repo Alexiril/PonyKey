@@ -112,11 +112,9 @@ public class InputTrigger : Component
     }
 
 #if DEBUG
-    public override void Start() => EventSystem.OnToggleDebugBoxes += OnToggleDebugBoxes;
-
     public override void Draw()
     {
-        if (_debugTexture == null || !_onDebug) return;
+        if (_debugTexture == null || !Game.DebugBoxesOn) return;
         Game.DrawSpace.Begin();
         Game.DrawSpace.Draw(
             _debugTexture,
@@ -132,32 +130,18 @@ public class InputTrigger : Component
         Game.DrawSpace.End();
     }
 
-    public override void Unload() => EventSystem.OnToggleDebugBoxes -= OnToggleDebugBoxes;
-
     private Texture2D _debugTexture;
 
-    private bool _onDebug = true;
-
-    private double _lastDebugChange;
-
-    private void OnToggleDebugBoxes()
-    {
-        if (Game.GameTime == null ||
-            GameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
-        _onDebug = !_onDebug;
-        _lastDebugChange = GameTime.TotalGameTime.TotalMilliseconds;
-    }
-
     private void GenerateDebugTexture() =>
-        _debugTexture = RuntimeTextureGenerator.GenerateTexture(
+        _debugTexture = TextureGenerator.GenerateTexture(
             (int)TriggerSize.X * 2,
             (int)TriggerSize.Y * 2,
-            i =>
+            (x, y) =>
             {
-                if (i < TriggerSize.X * 2 ||
-                    i > TriggerSize.Y * TriggerSize.X * 4 - TriggerSize.X * 2 ||
-                    i % (int)(TriggerSize.X * 2) == 0 ||
-                    i % (int)(TriggerSize.X * 2) == (int)(TriggerSize.X * 2) - 1)
+                if (y == 0 ||
+                    y == (int)TriggerSize.Y * 2 - 1 ||
+                    x == 1 ||
+                    x == (int)TriggerSize.X * 2 - 1)
                     return Color.Green;
                 return Color.Transparent;
             }

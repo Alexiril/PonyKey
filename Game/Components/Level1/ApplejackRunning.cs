@@ -1,7 +1,7 @@
 ﻿using Engine.BaseTypes;
 using EGame = Engine.BaseSystems.Game;
 
-namespace Game.Components.Level0;
+namespace Game.Components.Level1;
 
 internal class ApplejackRunning : Component
 {

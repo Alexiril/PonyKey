@@ -20,6 +20,8 @@ internal class MovingText : Component
 
     internal Func<MovingText, bool> ShouldDestroy { get; set; } = _ => false;
 
+    internal Func<MovingText, bool> ShouldStop { get; set; } = _ => false;
+
     internal MovingText SetWaitingTime(float time)
     {
         WaitingTime = time;
@@ -56,6 +58,12 @@ internal class MovingText : Component
         return this;
     }
 
+    internal MovingText SetShouldStop(Func<MovingText, bool> shouldStop)
+    {
+        ShouldStop = shouldStop;
+        return this;
+    }
+
     public override void Start()
     {
         _actualSprite = Sprite;
@@ -65,7 +73,7 @@ internal class MovingText : Component
 
     public override void Update()
     {
-        if (GameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > WaitingTime)
+        if (GameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > WaitingTime && _work)
         {
             Transform.Position += DeltaTime * MovingSpeed * MovingDirection;
             _actualSprite.TextureColor *= ColorChangeSpeed;
@@ -75,6 +83,7 @@ internal class MovingText : Component
                 Color.White * MathF.Min(_transparency, (float)(GameTime.TotalGameTime.TotalMilliseconds -
                 _startMilliseconds) / ShowingTime);
         if (ShouldDestroy.Invoke(this)) GameObject.Destroy();
+        if (ShouldStop.Invoke(this)) _work = false;
     }
 
     protected override List<Type> Requirements => new() { typeof(Sprite) };
@@ -82,4 +91,5 @@ internal class MovingText : Component
     private Sprite _actualSprite;
     private float _transparency;
     private double _startMilliseconds;
+    private bool _work = true;
 }

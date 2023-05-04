@@ -14,10 +14,17 @@ public static class EventSystem
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             OnExit?.Invoke();
 #if DEBUG
-        if (Keyboard.GetState().IsKeyDown(Keys.F1))
-            OnToggleDebugInformation?.Invoke();
-        if (Keyboard.GetState().IsKeyDown(Keys.F2))
-            OnToggleDebugBoxes?.Invoke();
+        var state = Keyboard.GetState();
+        if (_previousState != null)
+        {
+            if (state.IsKeyUp(Keys.F1) && _previousState.Value.IsKeyDown(Keys.F1))
+                OnToggleDebugInformation?.Invoke();
+            if (state.IsKeyUp(Keys.F2) && _previousState.Value.IsKeyDown(Keys.F2))
+                OnToggleDebugBoxes?.Invoke();
+            if (state.IsKeyUp(Keys.F3) && _previousState.Value.IsKeyDown(Keys.F3))
+                OnToggleDebugPoints?.Invoke();
+        }
+        _previousState = state;
 #endif
         OnUpdate?.Invoke();
         var index = 0;
@@ -49,6 +56,8 @@ public static class EventSystem
     internal static event Action OnToggleDebugInformation;
 
     internal static event Action OnToggleDebugBoxes;
+
+    internal static event Action OnToggleDebugPoints;
 #endif
 
     public static event Action OnUpdate;
@@ -87,4 +96,9 @@ public static class EventSystem
     private static readonly List<int> OnceTimeEvents = new();
 
     private static int _eventCode;
+
+#if DEBUG
+    private static KeyboardState? _previousState;
+#endif
+
 }

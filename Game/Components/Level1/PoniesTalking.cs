@@ -6,7 +6,7 @@ using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Game.Components.Level0;
+namespace Game.Components.Level1;
 
 internal class PoniesTalking : Component
 {
@@ -19,18 +19,18 @@ internal class PoniesTalking : Component
                 case 0:
                     GetComponent<TextMesh>()
                         .SetText("Applejack wants many apples to prepare for a rodeo. Can you help her?")
-                        .SetFont(ArchivedContent.LoadContent<SpriteFont>("Common/TwilightSpeechFont18"))
+                        .SetFont(EngineContent.LoadContent<SpriteFont>("Common/TwilightSpeechFont18"))
                         .SetOffset(new(-115, -120));
                     _state++;
                     break;
                 case 1:
                     GameObject.Find("PonyTalking")[0]
                         .GetComponent<Sprite>()
-                        .SetTexture(SvgConverter.LoadSvg("Common/ApplejackAsking",
+                        .SetTexture(EngineContent.LoadSvg("Common/ApplejackAsking",
                             new Vector2(600, 600) * Engine.BaseSystems.Game.ResolutionCoefficient));
                     GetComponent<TextMesh>()
                         .SetText("Yeah, I'd not mind helping. Yee-haw!")
-                        .SetFont(ArchivedContent.LoadContent<SpriteFont>("Common/TwilightSpeechFont21"))
+                        .SetFont(EngineContent.LoadContent<SpriteFont>("Common/TwilightSpeechFont21"))
                         .SetOffset(new(-115, -90))
                         .SetWidth(250)
                         .SetColor(Color.Orange);
@@ -39,8 +39,9 @@ internal class PoniesTalking : Component
                 case 2:
                     GameObject.Find("HelperText")[0].SetActive(true);
                     GameObject.Find("TreesGenerator")[0].SetActive(true);
+                    GameObject.Find("ScorePanel")[0].SetActive(true);
                     GameObject.Find("AJRunning")[0].GetComponent<ApplejackRunning>().StartPlaying = true;
-                    ActualScene.DestroyGameObject(GameObject.Find("PonyTalking")[0]);
+                    GameObject.Find("PonyTalking")[0].Destroy();
                     GameObject.Destroy();
                     break;
             }

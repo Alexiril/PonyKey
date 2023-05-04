@@ -10,7 +10,7 @@ internal class MoveMainMenuButtonsEntrance : Component
     public override void Update()
     {
         if (!(GameTime.TotalGameTime.TotalMilliseconds - _startMilliseconds > 2500)) return;
-        if (Transform.Position.Y > Engine.BaseSystems.Game.ViewportCenter.Y + Sprite.Height)
+        if (Transform.Position.Y > Engine.BaseSystems.Game.ViewportCenter.Y + (float)Sprite.Height / 2)
         {
             var delta = DeltaTime * .5f * Transform.GlobalUp;
             for (var i = 3; i < 8; i++) GameObject.GetGameObjectByIndex(i).Transform.Position += delta;

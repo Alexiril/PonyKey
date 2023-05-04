@@ -70,10 +70,6 @@ public class Scene
 
     internal void Start()
     {
-#if DEBUG
-        EventSystem.OnToggleDebugInformation += OnToggleDebugInformation;
-
-#endif
         foreach (var gameObject in _gameObjects)
             gameObject.Start();
     }
@@ -98,7 +94,7 @@ public class Scene
         foreach (var gameObject in _gameObjects)
             gameObject.Draw();
 #if DEBUG
-        if (!_onDebug) return;
+        if (!Game.DebugInformationOn) return;
         Game.DrawSpace.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
         var posy = 10;
         Game.DrawSpace.DrawString(
@@ -146,7 +142,7 @@ public class Scene
         {
             Game.DrawSpace.DrawString(
                 Game.DebugFont,
-                $"{gameObject.ObjectName}:",
+                $"{gameObject.ObjectName}{(gameObject.Active ? "" : " (Inactive)")}:",
                 new(10, posy),
                 Color.White
             );
@@ -167,9 +163,6 @@ public class Scene
 
     internal void Unload()
     {
-#if DEBUG
-        EventSystem.OnToggleDebugInformation -= OnToggleDebugInformation;
-#endif
         foreach (var gameObject in _gameObjects)
         {
             EventSystem.RemoveEventByGameObject(gameObject);
@@ -200,19 +193,9 @@ public class Scene
         _lastPrintLogTime = Game.GameTime.TotalGameTime.TotalMilliseconds;
     }
 
-    private void OnToggleDebugInformation()
-    {
-        if (Game.GameTime == null || Game.GameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
-        _onDebug = !_onDebug;
-        _lastDebugChange = Game.GameTime.TotalGameTime.TotalMilliseconds;
-    }
-
     private readonly Queue<string> _logInformation = new(7);
 
     private double _lastPrintLogTime = -1;
-
-    private bool _onDebug = true;
-    private double _lastDebugChange;
 
 #endif
 }

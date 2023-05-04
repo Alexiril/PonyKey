@@ -55,7 +55,7 @@ public class Component : ICloneable
 
     public object Clone() => new Component(this);
 
-    public float DeltaTime => (float)GameTime.ElapsedGameTime.TotalMilliseconds;
+    public static float DeltaTime => (float)GameTime.ElapsedGameTime.TotalMilliseconds;
 
     protected virtual List<Type> Requirements => new();
 

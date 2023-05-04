@@ -12,7 +12,7 @@ public class GameObject
     public bool Active
     {
         get => _active;
-        private set
+        set
         {
             _active = value;
             if (!_started)
@@ -98,7 +98,7 @@ public class GameObject
     internal void Draw()
     {
         if (!Active) return;
-        foreach (var component in _components.Where(component => component.Active))
+        foreach (var component in _components.Where(component => component.Active).Reverse())
             component.Draw();
     }
 

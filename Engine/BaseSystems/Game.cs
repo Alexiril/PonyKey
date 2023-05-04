@@ -30,17 +30,22 @@ public static class Game
         Graphics.PreferredBackBufferHeight = int.TryParse(PlayerSettings.GetValue("bH"), out var bH) ? bH : 720;
         Graphics.ApplyChanges();
         DrawSpace = new SpriteBatch(GraphicsDevice);
-        DebugFont = ArchivedContent.LoadContent<SpriteFont>( "DebugFont");
+        DebugFont = EngineContent.LoadContent<SpriteFont>( "DebugFont");
         if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
             LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
-                ? SvgConverter.LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
-                : ArchivedContent.LoadContent<Texture2D>( _loadingScreenBackgroundAssetName);
+                ? EngineContent.LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
+                : EngineContent.LoadContent<Texture2D>( _loadingScreenBackgroundAssetName);
         Master.OnBeforeUpdate += OnBeforeUpdate.Invoke;
         Master.OnBeforeDraw += OnBeforeDraw.Invoke;
         Master.OnAfterUpdate += OnAfterUpdate.Invoke;
         Master.OnAfterDraw += OnAfterDraw.Invoke;
         Master.OnAfterUpdate += EventSystem.Update;
         Master.OnAfterDraw += SceneManager.Update;
+#if DEBUG
+        EventSystem.OnToggleDebugInformation += () => DebugInformationOn = !DebugInformationOn;
+        EventSystem.OnToggleDebugBoxes += () => DebugBoxesOn = !DebugBoxesOn;
+        EventSystem.OnToggleDebugPoints += () => DebugPointsOn = !DebugPointsOn;
+#endif
         SceneManager.LoadScene(0);
     }
 
@@ -88,6 +93,14 @@ public static class Game
     internal static GraphicsDeviceManager Graphics => Master.Graphics;
 
     internal static Texture2D LoadingScreenBackground { get; private set; }
+
+#if DEBUG
+
+    internal static bool DebugInformationOn { get; private set; } = true;
+    internal static bool DebugBoxesOn { get; private set; } = true;
+    internal static bool DebugPointsOn { get; private set; } = true;
+
+#endif
 
     private static readonly Master Master = new();
     private static string _loadingScreenBackgroundAssetName;

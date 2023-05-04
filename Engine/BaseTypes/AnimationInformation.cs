@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Engine.BaseSystems;
+namespace Engine.BaseTypes;
 
 public struct AnimationInformation
 {

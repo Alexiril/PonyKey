@@ -27,7 +27,7 @@ internal class StartScene : ILevel
             .Transform.SetPosition(Game.ViewportCenter)
             .AddComponent<TextMesh>()
             .SetColor(Color.FloralWhite)
-            .SetFont(ArchivedContent.LoadContent<SpriteFont>("defaultLoadingScreenFont"))
+            .SetFont(EngineContent.LoadContent<SpriteFont>("defaultLoadingScreenFont"))
             .SetWidth((int)(Game.ViewportSize.X * .75f))
             .SetWordWrap(true)
             .SetText("Welcome here! :)")
@@ -44,7 +44,7 @@ internal class StartScene : ILevel
     private static GameObject LoadingSpinner =>
         new GameObject("LoadingSpinner").Transform.SetPosition(Game.ViewportCenter)
             .AddComponent<Sprite>()
-            .SetTexture(SvgConverter.LoadSvg("loadingSpinner", new(Game.ViewportSize.X * .7f)))
+            .SetTexture(EngineContent.LoadSvg("loadingSpinner", new(Game.ViewportSize.X * .7f)))
             .AddComponent<LoadingSpinner>()
             .SetSpeed(5)
             .GameObject;

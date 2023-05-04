@@ -136,8 +136,7 @@ public class TextMesh : Component
             Transform.LayerDepth
         );
 #if DEBUG
-        if (_debugTexture != null && _onDebug)
-        {
+        if (_debugTexture != null && Game.DebugBoxesOn)
             Game.DrawSpace.Draw(
                 _debugTexture,
                 Transform.Position + Offset,
@@ -149,16 +148,9 @@ public class TextMesh : Component
                 SpriteEffects.None,
                 Transform.LayerDepth
             );
-        }
 #endif
         Game.DrawSpace.End();
     }
-
-#if DEBUG
-    public override void Start() => EventSystem.OnToggleDebugBoxes += OnToggleDebugBoxes;
-
-    public override void Unload() => EventSystem.OnToggleDebugBoxes -= OnToggleDebugBoxes;
-#endif
 
     private string _text;
     private string _editedText;
@@ -185,25 +177,14 @@ public class TextMesh : Component
 #if DEBUG
     private Texture2D _debugTexture;
 
-    private bool _onDebug = true;
-
-    private double _lastDebugChange;
-
-    private void OnToggleDebugBoxes()
-    {
-        if (Game.GameTime == null || GameTime.TotalGameTime.TotalMilliseconds - _lastDebugChange < 500) return;
-        _onDebug = !_onDebug;
-        _lastDebugChange = GameTime.TotalGameTime.TotalMilliseconds;
-    }
-
     private void GenerateDebugTexture()
     {
         if (_font == null || _text == null) return;
         var height = (int)_font.MeasureString(_editedText).Y;
-        _debugTexture = RuntimeTextureGenerator.GenerateTexture(
+        _debugTexture = TextureGenerator.GenerateTexture(
             Width,
             height,
-            i => i < Width || i > (height - 1) * Width || i % Width == 0 || i % Width == Width - 1
+            (x, y) => y == 1 || y == height - 1 || x == 1 || x == Width - 1
                 ? Color.LightGreen
                 : Color.Transparent
         );
