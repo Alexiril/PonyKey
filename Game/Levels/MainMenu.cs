@@ -29,7 +29,7 @@ internal class MainMenu : ILevel
         new GameObject("LoadingSpinner")
             .Transform.SetPosition(EGame.ViewportCenter)
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg("loadingSpinner", new(EGame.ViewportSize.X * .7f)))
+            .SetTexture(EngineContent.LoadSvgTexture("loadingSpinner", new(EGame.ViewportSize.X * .7f)))
             .AddComponent<LoadingSpinner>()
             .SetSpeed(5)
             .GameObject;
@@ -37,7 +37,7 @@ internal class MainMenu : ILevel
     private static GameObject Background =>
         new GameObject("Background")
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg("MainMenu/Background", EGame.ViewportSize))
+            .SetTexture(EngineContent.LoadSvgTexture("MainMenu/Background", EGame.ViewportSize))
             .Transform.SetPosition(EGame.ViewportCenter)
             .AddComponent<SoundSource>()
             .SetSound(EngineContent.LoadContent<SoundEffect>("MainMenu/BackgroundMusicMenu"))
@@ -49,7 +49,7 @@ internal class MainMenu : ILevel
     private static GameObject Logo =>
         new GameObject("Logo")
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg("MainMenu/Logo", EGame.ViewportSize))
+            .SetTexture(EngineContent.LoadSvgTexture("MainMenu/Logo", EGame.ViewportSize))
             .Transform.SetPosition(EGame.ViewportCenter)
             .AddComponent<MovingText>()
             .SetShouldDestroy(text => text.Transform.Position.Y < -text.Sprite.Height)
@@ -58,7 +58,7 @@ internal class MainMenu : ILevel
     private static GameObject GenerateButton(string name, string assetName, Vector2 size, Vector2 position) =>
         new GameObject(name)
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg(assetName, size))
+            .SetTexture(EngineContent.LoadSvgTexture(assetName, size))
             .Transform.SetPosition(position)
             .GameObject;
 
@@ -116,9 +116,9 @@ internal class MainMenu : ILevel
                     )
                 )
             .AddComponent<SoundButton>()
-            .SetStandardButtonTexture(EngineContent.LoadSvg(
+            .SetStandardButtonTexture(EngineContent.LoadSvgTexture(
                 "MainMenu/SoundButton", new Vector2(95, 95) * EGame.ResolutionCoefficient))
-            .SetTurnedOffButtonTexture(EngineContent.LoadSvg(
+            .SetTurnedOffButtonTexture(EngineContent.LoadSvgTexture(
                 "MainMenu/SoundOffButton", new Vector2(95, 95) * EGame.ResolutionCoefficient))
             .GameObject;
 

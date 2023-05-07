@@ -1,0 +1,108 @@
+﻿{
+  "Name": "Start scene",
+  "BackgroundColor": {
+    "@Color": "DeepSkyBlue"
+  },
+  "Hierarchy": [
+    "AltText",
+    "LoadingScreenBackground",
+    "LoadingSpinner"
+  ],
+  "GameObjects": {
+    "AltText": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Engine.BaseComponents.TextMesh": {
+        "Color": {
+          "@Color": "FloralWhite"
+        },
+        "Font": {
+          "@Asset": {
+            "asset": "Content",
+            "type": "SpriteFont",
+            "filename": "defaultLoadingScreenFont"
+          }
+        },
+        "Width": {
+          "@Multiply": [
+            "@sizeX",
+            "0.75"
+          ]
+        },
+        "WordWrap": {
+          "@BoolValue": "true"
+        },
+        "Text": {
+          "@TextValue": "Welcome here! :)"
+        },
+        "CentralOffset": {
+          "@None": "null"
+        }
+      }
+    },
+    "LoadingScreenBackground": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@SpecValue": "@lsb"
+        }
+      }
+    },
+    "LoadingSpinner": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "loadingSpinner",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@sizeX",
+                    "0.7"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@sizeX",
+                    "0.7"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Engine.BaseComponents.LoadingSpinner": {
+        "Speed": {
+          "@FloatValue": "5"
+        },
+        "LoadNextSceneOnStart": {
+          "@BoolValue": "false"
+        }
+      }
+    }
+  }
+}

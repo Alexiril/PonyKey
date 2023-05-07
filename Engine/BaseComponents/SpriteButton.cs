@@ -32,7 +32,7 @@ public class SpriteButton : Component
     public override void Start()
     {
         if (!GameObject.HasComponent<InputTrigger>())
-            throw new ArgumentException($"Input trigger was not found in the game object '{GameObject.ObjectName}'");
+            throw new ArgumentException($"Input trigger was not found in the game object '{GameObject.Name}'");
         if (!GameObject.HasComponent<Sprite>()) return;
         GetComponent<InputTrigger>().OnPointerDown += _ => Sprite.TextureColor = new Color(255, 200, 255, 255);
         GetComponent<InputTrigger>().OnPointerOver += _ => Sprite.TextureColor = new Color(255, 230, 255, 255);

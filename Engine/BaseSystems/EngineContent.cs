@@ -67,7 +67,7 @@ public static class EngineContent
         return result;
     }
 
-    public static Texture2D LoadSvg(
+    public static Texture2D LoadSvgTexture(
         string assetName,
         Vector2 size,
         string assets = "assets") =>
@@ -101,6 +101,8 @@ public static class EngineContent
         Stream svgStream,
         Vector2 size)
     {
+        if (size.X == 0 || size.Y == 0)
+            return new Texture2D(Game.GraphicsDevice, 0, 0);
         var renderer = new GdiGraphicsRenderer { BackColor = Color.Transparent };
         renderer.Window = new GdiSvgWindow((int)size.X, (int)size.Y, renderer);
         var svgDocument = new SvgDocument(renderer.Window);

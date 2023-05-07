@@ -26,7 +26,7 @@ internal class PoniesTalking : Component
                 case 1:
                     GameObject.Find("PonyTalking")[0]
                         .GetComponent<Sprite>()
-                        .SetTexture(EngineContent.LoadSvg("Common/ApplejackAsking",
+                        .SetTexture(EngineContent.LoadSvgTexture("Common/ApplejackAsking",
                             new Vector2(600, 600) * Engine.BaseSystems.Game.ResolutionCoefficient));
                     GetComponent<TextMesh>()
                         .SetText("Yeah, I'd not mind helping. Yee-haw!")

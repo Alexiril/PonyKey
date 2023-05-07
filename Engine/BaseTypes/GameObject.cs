@@ -7,7 +7,7 @@ namespace Engine.BaseTypes;
 
 public class GameObject
 {
-    public string ObjectName { get; set; }
+    public string Name { get; set; }
 
     public bool Active
     {
@@ -22,7 +22,7 @@ public class GameObject
 
     public Scene ActualScene { get; set; }
 
-    public Transform Transform { get; private set; }
+    public Transform Transform => _transform ??= GetComponent<Transform>();
 
     public GameObject SetActive(bool active)
     {
@@ -30,19 +30,16 @@ public class GameObject
         return this;
     }
 
-    public GameObject(string objectName)
+    public GameObject(string name)
     {
-        ObjectName = objectName;
-        Transform = AddComponent<Transform>();
+        Name = name;
     }
 
     public GameObject(GameObject gameObject)
     {
-        ObjectName = gameObject.ObjectName;
+        Name = gameObject.Name;
         foreach (var component in gameObject._components)
             AddComponent((Component)Activator.CreateInstance(component.GetType(), component));
-
-        Transform = GetComponent<Transform>();
     }
 
     public GameObject AddGameObject(GameObject gameObject) => ActualScene.AddGameObject(gameObject);
@@ -118,7 +115,6 @@ public class GameObject
             _components.Remove(component);
         }
         _components.Clear();
-        Transform = null;
         ActualScene = null;
     }
 
@@ -135,6 +131,8 @@ public class GameObject
 
     private bool _started;
     private bool _active = true;
+
+    private Transform _transform;
 
     private Component AddComponent(Component component)
     {

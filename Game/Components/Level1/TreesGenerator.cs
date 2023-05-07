@@ -20,25 +20,25 @@ internal class TreesGenerator : Component
             .SetTreesTextures(
                 new()
                 {
-                    EngineContent.LoadSvg("Level1/Appletree1", new Vector2(512) * EGame.ResolutionCoefficient),
-                    EngineContent.LoadSvg("Level1/Appletree2", new Vector2(512) * EGame.ResolutionCoefficient)
+                    EngineContent.LoadSvgTexture("Level1/Appletree1", new Vector2(512) * EGame.ResolutionCoefficient),
+                    EngineContent.LoadSvgTexture("Level1/Appletree2", new Vector2(512) * EGame.ResolutionCoefficient)
                 },
                 new()
                 {
-                    EngineContent.LoadSvg("Level1/Tree1", new Vector2(512) * EGame.ResolutionCoefficient),
-                    EngineContent.LoadSvg("Level1/Tree2", new Vector2(512) * EGame.ResolutionCoefficient),
-                    EngineContent.LoadSvg("Level1/Bushes", new Vector2(512) * EGame.ResolutionCoefficient),
+                    EngineContent.LoadSvgTexture("Level1/Tree1", new Vector2(512) * EGame.ResolutionCoefficient),
+                    EngineContent.LoadSvgTexture("Level1/Tree2", new Vector2(512) * EGame.ResolutionCoefficient),
+                    EngineContent.LoadSvgTexture("Level1/Bushes", new Vector2(512) * EGame.ResolutionCoefficient),
                 }
             )
             .SetButtons(
                 EngineContent.GetFilesNames("Buttons")
                     .Select(x => (GetKey(x), EngineContent
-                        .LoadSvg(x.Replace(".svg", ""), new Vector2(100) * EGame.ResolutionCoefficient))).ToList())
+                        .LoadSvgTexture(x.Replace(".svg", ""), new Vector2(100) * EGame.ResolutionCoefficient))).ToList())
             .SetApples(new GameObject("Apples").AddComponent<Sprite>().AddComponent<Apples>().SetTextures(new[]
                 {
-                    EngineContent.LoadSvg("Level1/Apple1", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient)),
-                    EngineContent.LoadSvg("Level1/Apple2", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient)),
-                    EngineContent.LoadSvg("Level1/Apple3", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient))
+                    EngineContent.LoadSvgTexture("Level1/Apple1", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient)),
+                    EngineContent.LoadSvgTexture("Level1/Apple2", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient)),
+                    EngineContent.LoadSvgTexture("Level1/Apple3", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient))
                 })
                 .GameObject)
             .AddComponent<Sprite>()

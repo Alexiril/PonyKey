@@ -35,7 +35,7 @@ internal class Level1 : ILevel
     private static GameObject Background =>
         new GameObject("Background")
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg("Level1/Background0", EGame.ViewportSize))
+            .SetTexture(EngineContent.LoadSvgTexture("Level1/Background0", EGame.ViewportSize))
             .Transform.SetPosition(EGame.ViewportCenter)
             .AddComponent<SoundSource>()
             .SetSound(EngineContent.LoadContent<SoundEffect>("Level1/BackgroundMusicLevel1"))
@@ -67,7 +67,7 @@ internal class Level1 : ILevel
     private static GameObject Background1 =>
         new GameObject("Background1")
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg(
+            .SetTexture(EngineContent.LoadSvgTexture(
                 "Level1/Background1",
                 new Vector2(2560, 720) * EGame.ResolutionCoefficient)
             )
@@ -91,7 +91,7 @@ internal class Level1 : ILevel
     private static GameObject Background2 =>
         new GameObject("Background2")
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg(
+            .SetTexture(EngineContent.LoadSvgTexture(
                 "Level1/Background2",
                 new Vector2(2560, 720) * EGame.ResolutionCoefficient)
             )
@@ -101,7 +101,7 @@ internal class Level1 : ILevel
     private static GameObject PonyTalking =>
         new GameObject("PonyTalking")
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg(
+            .SetTexture(EngineContent.LoadSvgTexture(
                 "Common/TwilightUnhappy",
                 new Vector2(600, 600) * EGame.ResolutionCoefficient)
             )
@@ -123,7 +123,7 @@ internal class Level1 : ILevel
             .SetCenterOffset(EGame.ViewportCenter - EGame.ViewportSize * .3f)
             .AddComponent<PoniesTalking>()
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg(
+            .SetTexture(EngineContent.LoadSvgTexture(
                 "Common/SpeechCloud",
                 new Vector2(365, 365) * EGame.ResolutionCoefficient)
             )
@@ -133,7 +133,7 @@ internal class Level1 : ILevel
         new GameObject("HelperText")
             .SetActive(false)
             .AddComponent<Sprite>()
-            .SetTexture(EngineContent.LoadSvg("Level1/TextHelper",
+            .SetTexture(EngineContent.LoadSvgTexture("Level1/TextHelper",
                 new Vector2(687, 160) * EGame.ResolutionCoefficient))
             .SetTextureColor(Color.White * .8f)
             .Transform.SetPosition(EGame.ViewportCenter + new Vector2(0, -200))

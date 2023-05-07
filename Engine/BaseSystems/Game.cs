@@ -33,7 +33,7 @@ public static class Game
         DebugFont = EngineContent.LoadContent<SpriteFont>( "DebugFont");
         if (!string.IsNullOrEmpty(_loadingScreenBackgroundAssetName))
             LoadingScreenBackground = _loadingScreenBackgroundAssetName.Split(".").Last() == "svg"
-                ? EngineContent.LoadSvg(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
+                ? EngineContent.LoadSvgTexture(_loadingScreenBackgroundAssetName.Split(".")[0], ViewportSize)
                 : EngineContent.LoadContent<Texture2D>( _loadingScreenBackgroundAssetName);
         Master.OnBeforeUpdate += OnBeforeUpdate.Invoke;
         Master.OnBeforeDraw += OnBeforeDraw.Invoke;

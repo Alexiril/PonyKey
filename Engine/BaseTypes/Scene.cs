@@ -47,7 +47,7 @@ public class Scene
     public GameObject Instantiate(GameObject gameObject, int index = -1)
     {
         gameObject = new GameObject(gameObject);
-        gameObject.ObjectName += "(Clone)";
+        gameObject.Name += "(Clone)";
         EventSystem.AddOnceTimeEvent(() => true, _ =>
         {
             if (index != -1) _gameObjects.Insert(index, gameObject);
@@ -60,11 +60,11 @@ public class Scene
 
     public void DestroyGameObject(GameObject gameObject) => _removingGameObjects.Add(gameObject);
 
-    public int RemoveGameObjectsByName(string name) => _gameObjects.RemoveAll(x => x.ObjectName == name);
+    public int RemoveGameObjectsByName(string name) => _gameObjects.RemoveAll(x => x.Name == name);
 
     public int GameObjectsCount => _gameObjects.Count;
 
-    internal List<GameObject> FindGameObjects(string name) => _gameObjects.FindAll(x => x.ObjectName == name);
+    internal List<GameObject> FindGameObjects(string name) => _gameObjects.FindAll(x => x.Name == name);
 
     internal GameObject GetGameObject(int index) => _gameObjects[index];
 
@@ -142,7 +142,7 @@ public class Scene
         {
             Game.DrawSpace.DrawString(
                 Game.DebugFont,
-                $"{gameObject.ObjectName}{(gameObject.Active ? "" : " (Inactive)")}:",
+                $"{gameObject.Name}{(gameObject.Active ? "" : " (Inactive)")}:",
                 new(10, posy),
                 Color.White
             );

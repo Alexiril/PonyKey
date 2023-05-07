@@ -30,3 +30,5 @@
 #begin loadingSpinner.svg
 /copy:loadingSpinner.svg
 
+#begin StartScene.json
+/copy:StartScene.json

@@ -86,7 +86,7 @@ public class Transform : Component
                 SpriteEffects.None,
                 0
             );
-        Game.DrawSpace.DrawString(Game.DebugFont, GameObject.ObjectName, Position, Color.White * .5f);
+        Game.DrawSpace.DrawString(Game.DebugFont, GameObject.Name, Position, Color.White * .5f);
         Game.DrawSpace.End();
 
     }

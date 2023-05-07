@@ -23,6 +23,11 @@ public class TextMesh : Component
         Offset = mesh.Offset;
     }
 
+    public Vector2? CentralOffset
+    {
+        set => SetCentralOffset();
+    }
+
     public string Text
     {
         get => _text;
