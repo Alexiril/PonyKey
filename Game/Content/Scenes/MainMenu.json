@@ -1,0 +1,297 @@
+﻿{
+  "Name": "Main menu",
+  "BackgroundColor": {
+    "@Color": "DeepSkyBlue"
+  },
+  "Hierarchy": [
+    "LoadingSpinner",
+    "Background",
+    "Logo",
+    "PlayButton",
+    "ExitButton",
+    "DisplayButton",
+    "SoundButton",
+    "InfoButton"
+  ],
+  "Assets": {
+    "u07": {
+      "type": "texture-svg",
+      "assetName": "\"MainMenu/DisplayButton\"",
+      "size": "new Vector2(125, 125) * @ResolutionCoefficient"
+    },
+    "u08": {
+      "type": "texture-svg",
+      "assetName": "!float.TryParse(PlayerSettings.GetValue(\"vl\"), out var soundValue)?\"MainMenu/SoundButton\":soundValue > 0 ?\"MainMenu/SoundButton\":\"MinMenu/SoundOffButton\"",
+      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
+    },
+    "u09": {
+      "type": "texture-svg",
+      "assetName": "\"MainMenu/SoundButton\"",
+      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
+    },
+    "u10": {
+      "type": "texture-svg",
+      "assetName": "\"MainMenu/SoundOffButton\"",
+      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
+    },
+    "u11": {
+      "type": "texture-svg",
+      "assetName": "\"MainMenu/InfoButton\"",
+      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
+    }
+  },
+  "GameObjects": {
+    "LoadingSpinner": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "loadingSpinner",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@sizeX",
+                    "0.7"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@sizeX",
+                    "0.7"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Engine.BaseComponents.LoadingSpinner": {
+        "Speed": {
+          "@FloatValue": "5"
+        }
+      },
+      "Game.Components.MainMenu.MainMenuInit": {}
+    },
+    "Background": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "texture-svg",
+            "assetName": "MainMenu/Background",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@FloatValue": "@sizeX"
+                },
+                "Y": {
+                  "@FloatValue": "@sizeY"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Engine.BaseComponents.SoundSource": {
+        "Sound": {
+          "@Asset": {
+            "asset": "Content",
+            "type": "SoundEffect",
+            "filename": "MainMenu/BackgroundMusicMenu"
+          }
+        },
+        "IsLooped": {
+          "@BoolValue": "true"
+        },
+        "Volume": {
+          "@PlayerSettings": {
+            "value": "vl",
+            "default": {
+              "@FloatValue": "1"
+            }
+          }
+        },
+        "PlayAtStart": {
+          "@BoolValue": "true"
+        }
+      }
+    },
+    "Logo": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/Logo",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@FloatValue": "@sizeX"
+                },
+                "Y": {
+                  "@FloatValue": "@sizeY"
+                }
+              }
+            }
+          }
+        }
+      },
+      "MovingText": {}
+    },
+    "PlayButton": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": {
+              "@Multiply": [
+                "sizeY",
+                "1.55"
+              ]
+            }
+          }
+        }
+      },
+      "Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/PlayButton",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@resolution",
+                    "190"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@resolution",
+                    "190"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "Game.Components.MainMenu.MoveMainMenuButtonsEntrance": {},
+      "Game.Components.MainMenu.PlayButton": {}
+    },
+    "ExitButton": {
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": {
+              "@Multiply": [
+                {
+                  "@Add": [
+                    "@centerX",
+                    "225"
+                  ]
+                },
+                "@resolution"
+              ]
+            },
+            "Y": {
+              "@Multiply": [
+                "@sizeY",
+                "1.55"
+              ]
+            }
+          }
+        }
+      },
+      "Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/ExitButton",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@resolution",
+                    "125"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@resolution",
+                    "125"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "SpriteButton": {
+        "OnPointerUp": "_ => @Exit()"
+      }
+    },
+    "DisplayButton": {
+      "Transform": {
+        "Position": "new(@ViewportCenter.X - 225 * @ResolutionCoefficient, @ViewportSize.Y * 1.55f)"
+      },
+      "Sprite": {
+        "Texture": "%u07"
+      },
+      "SpriteButton": {
+        "OnPointerUp": "_ => @ChangeVideoMode()"
+      }
+    },
+    "SoundButton": {
+      "Transform": {
+        "Position": "new(@ViewportCenter.X - 380 * @ResolutionCoefficient, @ViewportSize.Y * 1.57f)"
+      },
+      "Sprite": {
+        "Texture": "%u08"
+      },
+      "Components.MainMenu.SoundButton": {
+        "StandardButtonTexture": "%u09",
+        "TurnedOffButtonTexture": "%u10"
+      }
+    },
+    "InfoButton": {
+      "Transform": {
+        "Position": "new(@ViewportCenter.X + 380 * @ResolutionCoefficient, @ViewportSize.Y * 1.57f)"
+      },
+      "Sprite": {
+        "Texture": "%u11"
+      },
+      "SpriteButton": {
+        "OnPointerUp": "_=>System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo{FileName =\"https://github.com/Alexiril/PonyKey\",UseShellExecute=true})"
+      }
+    }
+  }
+}

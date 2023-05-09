@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Engine.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +22,7 @@ public static class Game
         Master.IsFixedTimeStep = fixedTimeStep;
         Master.TargetElapsedTime = TimeSpan.FromSeconds(1d / framerate);
         _loadingScreenBackgroundAssetName = screenBackgroundAssetName;
-        SceneManager.RegisterLevels(new() { new StartScene() });
+        SceneManager.RegisterLevels(new List<string> { "StartScene.json" });
         EventSystem.OnExit += Exit;
         PlayerSettings.ForceUpdate();
         Graphics.IsFullScreen = bool.TryParse(PlayerSettings.GetValue("fS"), out var fS) && fS;

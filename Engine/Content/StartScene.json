@@ -100,7 +100,7 @@
           "@FloatValue": "5"
         },
         "LoadNextSceneOnStart": {
-          "@BoolValue": "false"
+          "@BoolValue": "true"
         }
       }
     }

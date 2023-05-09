@@ -52,39 +52,59 @@ internal static class SceneBuilder
             "@centerY" => Game.ViewportCenter.Y,
             "@sizeX" => Game.ViewportSize.X,
             "@sizeY" => Game.ViewportSize.Y,
+            "@resolution" => Game.ResolutionCoefficient,
             _ => value
         };
 
-    private static object? CompileValue(JToken? token) =>
+    private static object? CompileValue(object? token) =>
         token == null
             ? default
             : token.GetType() == typeof(JValue)
                 ? CompileString((token as JValue)?.Value)
-                : ((JProperty?)token.First)?.Name switch
-                {
-                    "@Vector" => GetVectorValue(token.First as JProperty),
-                    "@Color" => GetColorValue(((JProperty?)token.First)?.Value.ToString()),
-                    "@FloatValue" => GetFloatValue(((JProperty?)token.First)?.Value),
-                    "@Asset" => GetAssetValue(((JProperty?)token.First)?.Value),
-                    "@BoolValue" => GetBoolValue(((JProperty?)token.First)?.Value),
-                    "@TextValue" => GetTextValue(((JProperty?)token.First)?.Value),
-                    "@SpecValue" => CompileValue(((JProperty?)token.First)?.Value),
-                    "@Multiply" => GetMultipliedValue(((JProperty?)token.First)?.Value as JArray),
-                    "@None" => null,
-                    _ => throw new Exception($"Unexpected token type {((JProperty?)token.First)?.Name}")
-                };
+                : token is string
+                    ? CompileString(token)
+                    : token is JToken jToken
+                        ? ((JProperty?)jToken.First)?.Name switch
+                        {
+                            "@Vector" => GetVectorValue(((JProperty?)jToken.First)?.Value),
+                            "@Color" => GetColorValue(((JProperty?)jToken.First)?.Value.ToString()),
+                            "@FloatValue" => GetFloatValue(((JProperty?)jToken.First)?.Value),
+                            "@Asset" => GetAssetValue(((JProperty?)jToken.First)?.Value),
+                            "@BoolValue" => GetBoolValue(((JProperty?)jToken.First)?.Value),
+                            "@TextValue" => GetTextValue(((JProperty?)jToken.First)?.Value),
+                            "@SpecValue" => CompileValue(((JProperty?)jToken.First)?.Value),
+                            "@Multiply" => GetMultipliedValue(((JProperty?)jToken.First)?.Value as JArray),
+                            "@Add" => GetAddedValue(((JProperty?)jToken.First)?.Value as JArray),
+                            "@PlayerSettings" => GetPlayerSettings(((JProperty?)jToken.First)?.Value),
+                            "@None" => null,
+                            _ => throw new Exception($"Unexpected token type {((JProperty?)jToken.First)?.Name}")
+                        }
+                        : default;
 
-    private static Vector2 GetVectorValue(JProperty? value)
+    private static Vector2 GetVectorValue(JToken? value)
     {
         if (value == null) return default;
-        var x = CompileValue(value.Value.SelectToken("X"));
-        var y = CompileValue(value.Value.SelectToken("Y"));
+        var x = CompileValue(value.SelectToken("X"));
+        var y = CompileValue(value.SelectToken("Y"));
         return new Vector2((float)(x ?? 0), (float)(y ?? 0));
+    }
+
+    private static object? GetPlayerSettings(JToken? value)
+    {
+        if (value == null) return default;
+        var val = CompileString(value.SelectToken("value"));
+        var def = CompileValue(value.SelectToken("default"));
+        return PlayerSettings.GetValue(val?.ToString()) ?? def;
     }
 
     private static float GetMultipliedValue(JArray? values) =>
         values?.Aggregate(1f, (current, value) =>
-            current * float.Parse(CompileString(value)?.ToString() ?? string.Empty)) ?? default;
+            current * float.Parse(CompileValue(value)?.ToString() ?? string.Empty)) ?? default;
+
+    private static float GetAddedValue(JArray? values) =>
+        values?.Aggregate(0f, (current, value) =>
+            current + float.Parse(CompileValue(value)?.ToString() ?? string.Empty)) ?? default;
+
 
     private static float GetFloatValue(JToken? value)
     {

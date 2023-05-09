@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using Engine.BaseTypes;
 
@@ -7,7 +8,7 @@ namespace Engine.BaseSystems;
 
 public static class SceneManager
 {
-    public static void RegisterLevels(List<ILevel> levels) => Levels.AddRange(levels);
+    public static void RegisterLevels(IEnumerable<string> levels) => Levels.AddRange(levels);
 
     internal static void Update()
     {
@@ -35,7 +36,7 @@ public static class SceneManager
 
     private static readonly List<GameObject> NoDestroyObjects = new();
 
-    private static readonly List<ILevel> Levels = new();
+    private static readonly List<string> Levels = new();
 
     private static Scene _preLoadedScene;
 
@@ -50,7 +51,8 @@ public static class SceneManager
 
     private static void ActualSceneLoad(int index)
     {
-        _preLoadedScene = Levels[index].GetScene();
+        _preLoadedScene = SceneBuilder.BuildScene(
+            Encoding.UTF8.GetString(EngineContent.LoadFile(Levels[index]).GetBuffer()));
         _preLoadedScene.AssemblyIndex = index;
         NoDestroyObjects.ForEach(o => _preLoadedScene.AddGameObject(o));
     }

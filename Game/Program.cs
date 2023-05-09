@@ -2,15 +2,16 @@
 using System;
 using System.Windows;
 #endif
+using System.Collections.Generic;
 using static Engine.BaseSystems.Game;
-//using static Engine.BaseSystems.SceneManager;
+using static Engine.BaseSystems.SceneManager;
 
 #if !DEBUG
 try
 {
 #endif
     Init(framerate: 144, fixedTimeStep: true, screenBackgroundAssetName: "Common/LoadingSceneBackground.svg");
-    //RegisterLevels(new() { new MainMenu(), new Level1() });
+    RegisterLevels(new List<string> { "Scenes/MainMenu.json", "Scenes/Level1.json" });
     Run();
 #if !DEBUG
 }

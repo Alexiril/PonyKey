@@ -10,7 +10,7 @@ using EGame = Engine.BaseSystems.Game;
 
 namespace Game.Levels;
 
-internal class MainMenu : ILevel
+internal class MainMenu
 {
     public Scene GetScene() =>
         new Scene("MainMenu")
