@@ -119,3 +119,6 @@
 
 #begin Scenes/MainMenu.json
 /copy:Scenes/MainMenu.json
+
+#begin Scenes/Level1.json
+/copy:Scenes/Level1.json

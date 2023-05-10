@@ -8,57 +8,57 @@ namespace Game.Components.Common;
 
 internal class MovingText : Component
 {
-    internal float WaitingTime { get; set; } = 2500;
+    public float WaitingTime { get; set; } = 2500;
 
-    internal float ShowingTime { get; set; } = 1000;
+    public float ShowingTime { get; set; } = 1000;
 
-    internal float MovingSpeed { get; set; } = .5f;
+    public float MovingSpeed { get; set; } = .5f;
 
-    internal float ColorChangeSpeed { get; set; } = .99f;
+    public float ColorChangeSpeed { get; set; } = .99f;
 
-    internal Vector2 MovingDirection { get; set; } = -Vector2.UnitY;
+    public Vector2 MovingDirection { get; set; } = -Vector2.UnitY;
 
-    internal Func<MovingText, bool> ShouldDestroy { get; set; } = _ => false;
+    public Func<MovingText, bool> ShouldDestroy { get; set; } = _ => false;
 
-    internal Func<MovingText, bool> ShouldStop { get; set; } = _ => false;
+    public Func<MovingText, bool> ShouldStop { get; set; } = _ => false;
 
-    internal MovingText SetWaitingTime(float time)
+    public MovingText SetWaitingTime(float time)
     {
         WaitingTime = time;
         return this;
     }
 
-    internal MovingText SetShowingTime(float time)
+    public MovingText SetShowingTime(float time)
     {
         ShowingTime = time;
         return this;
     }
 
-    internal MovingText SetMovingSpeed(float speed)
+    public MovingText SetMovingSpeed(float speed)
     {
         MovingSpeed = speed;
         return this;
     }
 
-    internal MovingText SetColorChangeSpeed(float speed)
+    public MovingText SetColorChangeSpeed(float speed)
     {
         ColorChangeSpeed = speed;
         return this;
     }
 
-    internal MovingText SetMovingDirection(Vector2 direction)
+    public MovingText SetMovingDirection(Vector2 direction)
     {
         MovingDirection = direction;
         return this;
     }
 
-    internal MovingText SetShouldDestroy(Func<MovingText, bool> shouldDestroy)
+    public MovingText SetShouldDestroy(Func<MovingText, bool> shouldDestroy)
     {
         ShouldDestroy = shouldDestroy;
         return this;
     }
 
-    internal MovingText SetShouldStop(Func<MovingText, bool> shouldStop)
+    public MovingText SetShouldStop(Func<MovingText, bool> shouldStop)
     {
         ShouldStop = shouldStop;
         return this;

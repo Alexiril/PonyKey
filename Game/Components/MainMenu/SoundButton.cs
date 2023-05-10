@@ -21,27 +21,33 @@ internal class SoundButton : SpriteButton
 
     public override void Start()
     {
-        SetOnPointerUp(_ => SetCorrectTexture());
+        SetOnPointerUp(_ => ChangeVolume());
         SetCorrectTexture();
         base.Start();
     }
 
-    private void SetCorrectTexture()
+    private void ChangeVolume()
     {
         var soundSource = GameObject.GetGameObjectByIndex(1).GetComponent<SoundSource>();
         if (soundSource.SoundInstance.Volume < float.Epsilon)
         {
             soundSource.SetVolume(_initialVolume);
-            PlayerSettings.SetValue("vl",_initialVolume.ToString(CultureInfo.InvariantCulture));
-            Sprite.Texture = _standardButton;
+            PlayerSettings.SetValue("vl", _initialVolume.ToString(CultureInfo.InvariantCulture));
         }
         else
         {
             _initialVolume = soundSource.SoundInstance.Volume > 0 ? soundSource.SoundInstance.Volume : 1;
             soundSource.SetVolume(0);
             PlayerSettings.SetValue("vl", "0");
-            Sprite.Texture = _turnedOffButton;
         }
+
+        SetCorrectTexture();
+    }
+
+    private void SetCorrectTexture()
+    {
+        var soundSource = GameObject.GetGameObjectByIndex(1).GetComponent<SoundSource>();
+        Sprite.Texture = soundSource.SoundInstance.Volume > float.Epsilon ? _standardButton : _turnedOffButton;
     }
 
     private Texture2D _standardButton;

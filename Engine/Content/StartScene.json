@@ -35,12 +35,8 @@
             "0.75"
           ]
         },
-        "WordWrap": {
-          "@BoolValue": "true"
-        },
-        "Text": {
-          "@TextValue": "Welcome here! :)"
-        },
+        "WordWrap": "true",
+        "Text": "Welcome here! :)",
         "CentralOffset": {
           "@None": "null"
         }
@@ -56,9 +52,7 @@
         }
       },
       "Engine.BaseComponents.Sprite": {
-        "Texture": {
-          "@SpecValue": "@lsb"
-        }
+        "Texture": "@lsb"
       }
     },
     "LoadingSpinner": {
@@ -96,12 +90,8 @@
         }
       },
       "Engine.BaseComponents.LoadingSpinner": {
-        "Speed": {
-          "@FloatValue": "5"
-        },
-        "LoadNextSceneOnStart": {
-          "@BoolValue": "true"
-        }
+        "Speed": "5",
+        "LoadNextSceneOnStart": "true"
       }
     }
   }

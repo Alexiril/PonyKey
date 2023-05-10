@@ -16,6 +16,7 @@ internal class TreesGenerator : Component
     {
         _random = new Random();
         _gameTree = new GameObject("GameTree")
+            .AddComponent<Transform>()
             .AddComponent<GameTree>()
             .SetTreesTextures(
                 new()
@@ -34,7 +35,8 @@ internal class TreesGenerator : Component
                 EngineContent.GetFilesNames("Buttons")
                     .Select(x => (GetKey(x), EngineContent
                         .LoadSvgTexture(x.Replace(".svg", ""), new Vector2(100) * EGame.ResolutionCoefficient))).ToList())
-            .SetApples(new GameObject("Apples").AddComponent<Sprite>().AddComponent<Apples>().SetTextures(new[]
+            .SetApples(new GameObject("Apples").AddComponent<Transform>().AddComponent<Sprite>().AddComponent<Apples>()
+            .SetTextures(new[]
                 {
                     EngineContent.LoadSvgTexture("Level1/Apple1", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient)),
                     EngineContent.LoadSvgTexture("Level1/Apple2", new(50 * Engine.BaseSystems.Game.ResolutionCoefficient)),

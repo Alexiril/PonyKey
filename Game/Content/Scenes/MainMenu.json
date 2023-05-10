@@ -49,9 +49,7 @@
         }
       },
       "Engine.BaseComponents.LoadingSpinner": {
-        "Speed": {
-          "@FloatValue": "5"
-        }
+        "Speed": "5"
       },
       "Game.Components.MainMenu.MainMenuInit": {}
     },
@@ -72,12 +70,8 @@
             "assetName": "MainMenu/Background",
             "size": {
               "@Vector": {
-                "X": {
-                  "@FloatValue": "@sizeX"
-                },
-                "Y": {
-                  "@FloatValue": "@sizeY"
-                }
+                "X":  "@sizeX",
+                "Y": "@sizeY"
               }
             }
           }
@@ -91,20 +85,14 @@
             "filename": "MainMenu/BackgroundMusicMenu"
           }
         },
-        "IsLooped": {
-          "@BoolValue": "true"
-        },
+        "IsLooped": "true",
         "Volume": {
           "@PlayerSettings": {
             "value": "vl",
-            "default": {
-              "@FloatValue": "1"
-            }
+            "default": "1"
           }
         },
-        "PlayAtStart": {
-          "@BoolValue": "true"
-        }
+        "PlayAtStart": "true"
       }
     },
     "Logo": {
@@ -124,12 +112,8 @@
             "assetName": "MainMenu/Logo",
             "size": {
               "@Vector": {
-                "X": {
-                  "@FloatValue": "@sizeX"
-                },
-                "Y": {
-                  "@FloatValue": "@sizeY"
-                }
+                "X": "@sizeX",
+                "Y": "@sizeY"
               }
             }
           }

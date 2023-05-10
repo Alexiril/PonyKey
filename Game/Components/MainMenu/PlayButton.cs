@@ -1,4 +1,5 @@
-﻿using Engine.BaseComponents;
+﻿using System.Threading.Tasks;
+using Engine.BaseComponents;
 using Engine.BaseSystems;
 
 namespace Game.Components.MainMenu;
@@ -19,6 +20,8 @@ internal class PlayButton : SpriteButton
 
     public override void Update()
     {
+        if (_loadingScene?.Exception != null)
+            throw _loadingScene.Exception;
         if (!_startingNextScene) return;
         if (GameTime.TotalGameTime.TotalMilliseconds - _timeFromClick < 1500)
         {
@@ -33,11 +36,12 @@ internal class PlayButton : SpriteButton
         }
         else
         {
-            SceneManager.LoadSceneAsync(2).ConfigureAwait(false);
+            _loadingScene = SceneManager.LoadSceneAsync(ActualScene.AssemblyIndex+1);
             _startingNextScene = false;
         }
     }
 
     private bool _startingNextScene;
     private double _timeFromClick;
+    private Task _loadingScene;
 }
