@@ -25,6 +25,7 @@ public class TextMesh : Component
 
     public Vector2? CentralOffset
     {
+        // ReSharper disable once ValueParameterNotUsed
         set => SetCentralOffset();
     }
 

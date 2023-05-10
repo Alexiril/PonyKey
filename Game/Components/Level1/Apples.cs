@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Game.Components.Level1;
 
-public class Apples : Component
+internal class Apples : Component
 {
     public Apples()
     {

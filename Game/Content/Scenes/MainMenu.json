@@ -13,33 +13,6 @@
     "SoundButton",
     "InfoButton"
   ],
-  "Assets": {
-    "u07": {
-      "type": "texture-svg",
-      "assetName": "\"MainMenu/DisplayButton\"",
-      "size": "new Vector2(125, 125) * @ResolutionCoefficient"
-    },
-    "u08": {
-      "type": "texture-svg",
-      "assetName": "!float.TryParse(PlayerSettings.GetValue(\"vl\"), out var soundValue)?\"MainMenu/SoundButton\":soundValue > 0 ?\"MainMenu/SoundButton\":\"MinMenu/SoundOffButton\"",
-      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
-    },
-    "u09": {
-      "type": "texture-svg",
-      "assetName": "\"MainMenu/SoundButton\"",
-      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
-    },
-    "u10": {
-      "type": "texture-svg",
-      "assetName": "\"MainMenu/SoundOffButton\"",
-      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
-    },
-    "u11": {
-      "type": "texture-svg",
-      "assetName": "\"MainMenu/InfoButton\"",
-      "size": "new Vector2(95, 95) * @ResolutionCoefficient"
-    }
-  },
   "GameObjects": {
     "LoadingSpinner": {
       "Engine.BaseComponents.Transform": {
@@ -95,7 +68,7 @@
         "Texture": {
           "@Asset": {
             "asset": "SVG",
-            "type": "texture-svg",
+            "type": "Texture",
             "assetName": "MainMenu/Background",
             "size": {
               "@Vector": {
@@ -143,7 +116,7 @@
           }
         }
       },
-      "Sprite": {
+      "Engine.BaseComponents.Sprite": {
         "Texture": {
           "@Asset": {
             "asset": "SVG",
@@ -162,7 +135,7 @@
           }
         }
       },
-      "MovingText": {}
+      "Game.Components.Common.MovingText": {}
     },
     "PlayButton": {
       "Engine.BaseComponents.Transform": {
@@ -171,14 +144,14 @@
             "X": "@centerX",
             "Y": {
               "@Multiply": [
-                "sizeY",
+                "@sizeY",
                 "1.55"
               ]
             }
           }
         }
       },
-      "Sprite": {
+      "Engine.BaseComponents.Sprite": {
         "Texture": {
           "@Asset": {
             "asset": "SVG",
@@ -211,14 +184,14 @@
         "Position": {
           "@Vector": {
             "X": {
-              "@Multiply": [
+              "@Add": [
                 {
-                  "@Add": [
-                    "@centerX",
+                  "@Multiply": [
+                    "@resolution",
                     "225"
                   ]
                 },
-                "@resolution"
+                "@centerX"
               ]
             },
             "Y": {
@@ -230,7 +203,7 @@
           }
         }
       },
-      "Sprite": {
+      "Engine.BaseComponents.Sprite": {
         "Texture": {
           "@Asset": {
             "asset": "SVG",
@@ -255,43 +228,183 @@
           }
         }
       },
-      "SpriteButton": {
-        "OnPointerUp": "_ => @Exit()"
-      }
+      "Engine.BaseComponents.SpriteButton": {}
     },
     "DisplayButton": {
-      "Transform": {
-        "Position": "new(@ViewportCenter.X - 225 * @ResolutionCoefficient, @ViewportSize.Y * 1.55f)"
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": {
+              "@Add": [
+                {
+                  "@Multiply": [
+                    "@resolution",
+                    "-225"
+                  ]
+                },
+                "@centerX"
+              ]
+            },
+            "Y": {
+              "@Multiply": [
+                "@sizeY",
+                "1.55"
+              ]
+            }
+          }
+        }
       },
-      "Sprite": {
-        "Texture": "%u07"
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/DisplayButton",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@resolution",
+                    "125"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@resolution",
+                    "125"
+                  ]
+                }
+              }
+            }
+          }
+        }
       },
-      "SpriteButton": {
-        "OnPointerUp": "_ => @ChangeVideoMode()"
-      }
+      "Engine.BaseComponents.SpriteButton": {}
     },
     "SoundButton": {
-      "Transform": {
-        "Position": "new(@ViewportCenter.X - 380 * @ResolutionCoefficient, @ViewportSize.Y * 1.57f)"
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": {
+              "@Add": [
+                {
+                  "@Multiply": [
+                    "@resolution",
+                    "-380"
+                  ]
+                },
+                "@centerX"
+              ]
+            },
+            "Y": {
+              "@Multiply": [
+                "@sizeY",
+                "1.57"
+              ]
+            }
+          }
+        }
       },
-      "Sprite": {
-        "Texture": "%u08"
-      },
-      "Components.MainMenu.SoundButton": {
-        "StandardButtonTexture": "%u09",
-        "TurnedOffButtonTexture": "%u10"
+      "Engine.BaseComponents.Sprite": {},
+      "Game.Components.MainMenu.SoundButton": {
+        "StandardButtonTexture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/SoundButton",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@resolution",
+                    "95"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@resolution",
+                    "95"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "TurnedOffButtonTexture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/SoundOffButton",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@resolution",
+                    "95"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@resolution",
+                    "95"
+                  ]
+                }
+              }
+            }
+          }
+        }
       }
     },
     "InfoButton": {
-      "Transform": {
-        "Position": "new(@ViewportCenter.X + 380 * @ResolutionCoefficient, @ViewportSize.Y * 1.57f)"
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": {
+              "@Add": [
+                {
+                  "@Multiply": [
+                    "@resolution",
+                    "380"
+                  ]
+                },
+                "@centerX"
+              ]
+            },
+            "Y": {
+              "@Multiply": [
+                "@sizeY",
+                "1.57"
+              ]
+            }
+          }
+        }
       },
-      "Sprite": {
-        "Texture": "%u11"
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "MainMenu/InfoButton",
+            "size": {
+              "@Vector": {
+                "X": {
+                  "@Multiply": [
+                    "@resolution",
+                    "95"
+                  ]
+                },
+                "Y": {
+                  "@Multiply": [
+                    "@resolution",
+                    "95"
+                  ]
+                }
+              }
+            }
+          }
+        }
       },
-      "SpriteButton": {
-        "OnPointerUp": "_=>System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo{FileName =\"https://github.com/Alexiril/PonyKey\",UseShellExecute=true})"
-      }
+      "Engine.BaseComponents.SpriteButton": {}
     }
   }
 }

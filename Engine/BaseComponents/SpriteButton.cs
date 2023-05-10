@@ -33,6 +33,7 @@ public class SpriteButton : Component
     {
         if (!GameObject.HasComponent<InputTrigger>())
             throw new ArgumentException($"Input trigger was not found in the game object '{GameObject.Name}'");
+        GetComponent<InputTrigger>().SetTriggerSizeFromSprite();
         if (!GameObject.HasComponent<Sprite>()) return;
         GetComponent<InputTrigger>().OnPointerDown += _ => Sprite.TextureColor = new Color(255, 200, 255, 255);
         GetComponent<InputTrigger>().OnPointerOver += _ => Sprite.TextureColor = new Color(255, 230, 255, 255);
@@ -42,9 +43,4 @@ public class SpriteButton : Component
     private Action<MouseState> _onPointerUp;
 
     protected override List<Type> Requirements => new() { typeof(InputTrigger), typeof(Sprite) };
-
-    protected override void Initiate()
-    {
-        GetComponent<InputTrigger>().SetTriggerSizeFromSprite();
-    }
 }

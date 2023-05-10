@@ -32,6 +32,9 @@ def ClearBuildTime(buildTimeFolder: str):
 
 def CountLines(rootFolder: str, extensions: list = []):
     def read_files(directory: str, result: list, extensions: list) -> None:
+        last = directory.split("/")[-1]
+        if last in ["build", "bin", "obj"] or last[0] == ".":
+            return
         for file in listdir(directory):
             actual_file = f"{directory}/{file}"
             if isdir(actual_file):
@@ -201,7 +204,7 @@ if (phase == "prebuild"):
     pass
 elif (phase == "postbuild"):
     PackAssets(outFolder, join(outFolder, "Content"))
-    CountLines(rootFolder, ["py"])
+    CountLines(rootFolder, ["py", "json"])
     #ClearBuildTime(buildTimeFolder)
 else:
     raise AssertionError("Not correct build phase.")

@@ -4,7 +4,7 @@ using Engine.BaseTypes;
 
 namespace Game.Components.Level1;
 
-public class Score: Component
+internal class Score: Component
 {
     public uint PlayerScore
     {

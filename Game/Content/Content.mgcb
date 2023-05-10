@@ -116,3 +116,6 @@
 
 #begin MainMenu/SoundOffButton.svg
 /copy:MainMenu/SoundOffButton.svg
+
+#begin Scenes/MainMenu.json
+/copy:Scenes/MainMenu.json

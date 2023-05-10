@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Engine.BaseTypes;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
@@ -12,6 +13,10 @@ internal static class SceneBuilder
 {
     public static Scene BuildScene(string json)
     {
+        var engineAssembly = Assembly.GetAssembly(typeof(Game));
+        var gameAssembly = Assembly.GetEntryAssembly();
+        if (engineAssembly == null || gameAssembly == null)
+            throw new Exception("Cannot load assembly");
         var jsonScene = JObject.Parse(
             new string(json.Where(x => (!char.IsControl(x) || x == '\n') && char.IsAscii(x)).ToArray()));
         var result = new Scene(jsonScene.SelectToken("Name")?.Value<string>() ?? "BTempScene");
@@ -24,19 +29,33 @@ internal static class SceneBuilder
             if (components == null) continue;
             foreach (var component in components)
             {
-                var kind = Type.GetType(((JProperty)component).Name);
-                if (kind?.BaseType != typeof(Component)) continue;
+                var kind = engineAssembly.GetType(((JProperty)component).Name)
+                           ?? gameAssembly.GetType(((JProperty)component).Name);
+                if (kind == null || !kind.IsSubclassOf(typeof(Component)))
+                    throw new Exception($"Not correct component type {((JProperty)component).Name}");
                 var instance = gameObject.AddComponent(kind);
                 if (component.First == null) continue;
                 foreach (var parameter in component.First.Children())
                 {
+                    var value = CompileValue(parameter.First);
                     var property = kind.GetProperty(((JProperty)parameter).Name);
                     if (property == null)
-                        throw new Exception($"Cannot find property {((JProperty)parameter).Name} in {kind}");
-                    var value = CompileValue(parameter.First);
-                    if (value?.GetType() != property.PropertyType && value != null)
-                        value = Convert.ChangeType(value, property.PropertyType);
-                    property.SetValue(instance, value);
+                    {
+                        var method = kind.GetMethod($"Set{((JProperty)parameter).Name}")
+                                     ?? kind.GetMethod(((JProperty)parameter).Name);
+                        if (method == null)
+                            throw new Exception($"Cannot find property {((JProperty)parameter).Name} in {kind}");
+
+                        if (value?.GetType() != method.GetParameters()[0].ParameterType && value != null)
+                            value = Convert.ChangeType(value, method.GetParameters()[0].ParameterType);
+                        method.Invoke(instance, new[] { value });
+                    }
+                    else
+                    {
+                        if (value?.GetType() != property.PropertyType && value != null)
+                            value = Convert.ChangeType(value, property.PropertyType);
+                        property.SetValue(instance, value);
+                    }
                 }
             }
         }
@@ -81,17 +100,23 @@ internal static class SceneBuilder
                         }
                         : default;
 
-    private static Vector2 GetVectorValue(JToken? value)
+    private static object GetVectorValue(JToken? value)
     {
-        if (value == null) return default;
+        if (value == null) throw new NullReferenceException("Not correct vector value");
         var x = CompileValue(value.SelectToken("X"));
         var y = CompileValue(value.SelectToken("Y"));
-        return new Vector2((float)(x ?? 0), (float)(y ?? 0));
+        var z = CompileValue(value.SelectToken("Z"));
+        var w = CompileValue(value.SelectToken("W"));
+        return z == null && w == null
+            ? new Vector2((float)(x ?? 0), (float)(y ?? 0))
+            : w == null && z != null
+                ? new Vector3((float)(x ?? 0), (float)(y ?? 0), (float)z)
+                : new Vector4((float)(x ?? 0), (float)(y ?? 0), (float)(z ?? 0), (float)(w ?? 0));
     }
 
     private static object? GetPlayerSettings(JToken? value)
     {
-        if (value == null) return default;
+        if (value == null) throw new NullReferenceException("Not correct player settings value");
         var val = CompileString(value.SelectToken("value"));
         var def = CompileValue(value.SelectToken("default"));
         return PlayerSettings.GetValue(val?.ToString()) ?? def;
@@ -99,34 +124,34 @@ internal static class SceneBuilder
 
     private static float GetMultipliedValue(JArray? values) =>
         values?.Aggregate(1f, (current, value) =>
-            current * float.Parse(CompileValue(value)?.ToString() ?? string.Empty)) ?? default;
+            current * float.Parse(CompileValue(value)?.ToString() ?? "1")) ?? default;
 
     private static float GetAddedValue(JArray? values) =>
         values?.Aggregate(0f, (current, value) =>
-            current + float.Parse(CompileValue(value)?.ToString() ?? string.Empty)) ?? default;
+            current + float.Parse(CompileValue(value)?.ToString() ?? "0")) ?? default;
 
 
     private static float GetFloatValue(JToken? value)
     {
-        if (value == null) return default;
+        if (value == null) throw new NullReferenceException("Not correct float value");
         var resultValue = CompileValue(value);
-        return !string.IsNullOrEmpty(resultValue?.ToString())
-            ? float.Parse(resultValue as string ?? string.Empty)
-            : default;
+        if (!string.IsNullOrEmpty(resultValue?.ToString()))
+            return float.Parse(resultValue.ToString() ?? "0");
+        throw new Exception($"Not correct float value: {resultValue}, {value}");
     }
 
     private static bool GetBoolValue(JToken? value)
     {
-        if (value == null) return default;
+        if (value == null) throw new NullReferenceException("Not correct bool value");
         var resultValue = CompileValue(value);
-        return !string.IsNullOrEmpty(resultValue?.ToString())
-            ? bool.Parse(resultValue as string ?? string.Empty)
-            : default;
+        if (!string.IsNullOrEmpty(resultValue?.ToString()))
+            return bool.Parse(resultValue.ToString() ?? "false");
+        throw new Exception($"Not correct bool value: {resultValue}, {value}");
     }
 
     private static string? GetTextValue(JToken? value)
     {
-        if (value == null) return default;
+        if (value == null) throw new NullReferenceException("Not correct text value");
         var resultValue = CompileValue(value);
         return !string.IsNullOrEmpty(resultValue?.ToString()) ? resultValue as string ?? string.Empty : default;
     }
@@ -137,7 +162,7 @@ internal static class SceneBuilder
         var asset = value?.SelectToken("asset")?.Value<string>();
         var type = value?.SelectToken("type")?.Value<string>();
         if (asset == null || type == null)
-            return default;
+            throw new Exception($"Not correct asset information, asset: {asset}, type: {type}");
         switch (asset)
         {
             case "Content":
@@ -146,9 +171,9 @@ internal static class SceneBuilder
                     .ExportedTypes
                     .First(t => t.Name == type);
                 var filename = value?.SelectToken("filename")?.Value<string>();
-                return filename != null
-                    ? Convert.ChangeType(EngineContent.LoadContent<object>(filename), actualType)
-                    : default;
+                if (filename == null)
+                    throw new Exception("No filename for the asset");
+                return Convert.ChangeType(EngineContent.LoadContent<object>(filename), actualType);
             case "SVG":
                 var assetName = value?.SelectToken("assetName")?.Value<string>();
                 var size = (Vector2)(CompileValue(value?.SelectToken("size")) ?? Vector2.Zero);
@@ -156,16 +181,16 @@ internal static class SceneBuilder
                 {
                     "Texture" => EngineContent.LoadSvgTexture(assetName, size),
                     "Animation" => EngineContent.LoadSvgAnimation(assetName, size),
-                    _ => default
+                    _ => throw new Exception($"Unknown asset type {type}")
                 };
             default:
-                return default;
+                throw new Exception($"Unknown asset case {asset}");
         }
     }
 
     private static Color GetColorValue(string? value)
     {
-        if (value == null) return default;
+        if (value == null) throw new NullReferenceException("Not correct color value");
         var clrColor = System.Drawing.Color.FromName(value);
         return new Color(clrColor.R, clrColor.G, clrColor.B, clrColor.A);
     }

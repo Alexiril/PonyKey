@@ -40,9 +40,9 @@ public class Sprite : Component
         return this;
     }
 
-    public int Width => Texture.Width;
+    public int Width => Texture?.Width ?? 0;
 
-    public int Height => Texture.Height;
+    public int Height => Texture?.Height ?? 0;
 
     public Vector2 Center => new((float)Width / 2, (float)Height / 2);
 
