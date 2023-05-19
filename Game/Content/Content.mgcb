@@ -16,6 +16,12 @@
 #begin Buttons/Space.svg
 /copy:Buttons/Space.svg
 
+#begin Buttons/A.svg
+/copy:Buttons/A.svg
+
+#begin Buttons/B.svg
+/copy:Buttons/B.svg
+
 #begin Common/ApplejackAsking.svg
 /copy:Common/ApplejackAsking.svg
 
@@ -47,6 +53,9 @@
 
 #begin Level1/Apple1.svg
 /copy:Level1/Apple1.svg
+
+#begin Level1/Menu.svg
+/copy:Level1/Menu.svg
 
 #begin Level1/Apple2.svg
 /copy:Level1/Apple2.svg

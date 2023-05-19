@@ -36,6 +36,7 @@ internal class PlayButton : SpriteButton
         }
         else
         {
+            for (var i = 1; i < ActualScene.GameObjectsCount; i++) GameObject.GetGameObjectByIndex(i).Destroy();
             _loadingScene = SceneManager.LoadSceneAsync(ActualScene.AssemblyIndex+1);
             _startingNextScene = false;
         }

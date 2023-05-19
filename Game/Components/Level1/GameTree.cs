@@ -48,7 +48,7 @@ internal class GameTree : Component
             : _backTrees[random.Next(0, _backTrees.Count)]);
         _ajRunning = GameObject.Find("AJRunning")[0];
         if (!_appleTree) return;
-        _currentButton = random.Next(0, _buttons.Count - 1);
+        _currentButton = random.Next(0, _buttons.Count);
         Sprite.AppendTexture(_buttons[_currentButton].Item2, Sprite.Center + new Vector2(0, -Sprite.Center.Y));
     }
 

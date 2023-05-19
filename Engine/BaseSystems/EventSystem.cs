@@ -11,7 +11,7 @@ public static class EventSystem
 {
     internal static void Update()
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             OnExit?.Invoke();
 #if DEBUG
         var state = Keyboard.GetState();

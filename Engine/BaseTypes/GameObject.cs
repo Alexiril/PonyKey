@@ -7,6 +7,10 @@ namespace Engine.BaseTypes;
 
 public class GameObject
 {
+    public event Action<GameObject> OnActivate;
+
+    public event Action<GameObject> OnDeactivate;
+
     public string Name { get; set; }
 
     public bool Active
@@ -17,6 +21,10 @@ public class GameObject
             _active = value;
             if (!_started)
                 Start();
+            if (value)
+                OnActivate?.Invoke(this);
+            else
+                OnDeactivate?.Invoke(this);
         }
     }
 

@@ -10,7 +10,8 @@
     "Background2",
     "PonyTalking",
     "SpeechCloud",
-    "HelperText"
+    "HelperText",
+    "Menu"
   ],
   "BackgroundColor": {
     "@Color": "DeepSkyBlue"
@@ -60,7 +61,8 @@
         },
         "PlayAtStart": "true"
       },
-      "Game.Components.Level1.Level1Init": {}
+      "Game.Components.Level1.Level1Init": {},
+      "Game.Components.Level1.MenuInvoker": {}
     },
     "ScorePanel": {
       "GameObject": {
@@ -403,6 +405,41 @@
         "ColorChangeSpeed": "0.95",
         "MovingSpeed": "0.2"
       }
+    },
+    "Menu": {
+      "GameObject": {
+        "Active": "false"
+      },
+      "Engine.BaseComponents.Transform": {
+        "Position": {
+          "@Vector": {
+            "X": "@centerX",
+            "Y": "@centerY"
+          }
+        }
+      },
+      "Engine.BaseComponents.Sprite": {
+        "Texture": {
+          "@Asset": {
+            "asset": "SVG",
+            "type": "Texture",
+            "assetName": "Level1/Menu",
+            "size": {
+              "@Multiply": [
+                {
+                  "@Vector": {
+                    "X": "512",
+                    "Y": "512"
+                  }
+                },
+                "@resolution"
+              ]
+            }
+          }
+        }
+      },
+      "Engine.BaseComponents.SpriteButton": {},
+      "Game.Components.Level1.Menu": {}
     }
   }
 }
