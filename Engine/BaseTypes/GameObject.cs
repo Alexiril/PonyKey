@@ -58,13 +58,7 @@ public class GameObject
 
     public Component AddComponent(Type T) => AddComponent((Component)Activator.CreateInstance(T));
 
-    public T GetComponent<T>() where T : Component
-    {
-        foreach (var component in _components)
-            if (component.GetType() == typeof(T))
-                return (T)component;
-        return null;
-    }
+    public T GetComponent<T>() where T : Component => _components.Where(component => component.GetType() == typeof(T)).Cast<T>().FirstOrDefault();
 
     public Sprite Sprite => GetComponent<Sprite>();
 

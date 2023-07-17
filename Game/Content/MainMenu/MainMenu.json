@@ -1,0 +1,152 @@
+﻿{
+  "Name": "Main menu",
+  "BackgroundColor": "DeepSkyBlue",
+  "GameObjects": {
+    "LoadingSpinner": {
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "loadingSpinner",
+            "size": ["0.7 * x", "0.7 * x"]
+          }
+        }
+      },
+      "LoadingSpinner": {
+        "Speed": "5"
+      },
+      "MainMenuInit": {}
+    },
+    "Background": {
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/Background",
+            "size": ["x", "y"]
+          }
+        }
+      },
+      "SoundSource": {
+        "Sound": {
+          "Asset": {
+            "asset": "Content",
+            "filename": "MainMenu/BackgroundMusicMenu"
+          }
+        },
+        "IsLooped": true,
+        "Volume": {
+          "PlayerSettings": {
+            "value": "vl",
+            "default": 1
+          }
+        },
+        "PlayAtStart": true
+      }
+    },
+    "Logo": {
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/Logo",
+            "size": ["x", "y"]
+          }
+        }
+      },
+      "MovingText": {}
+    },
+    "PlayButton": {
+      "Transform": {
+        "Position": ["0.5 * x", "1.55 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/PlayButton",
+            "size": ["190 * r", "190 * r"]
+          }
+        }
+      },
+      "MoveMainMenuButtonsEntrance": {},
+      "PlayButton": {}
+    },
+    "ExitButton": {
+      "Transform": {
+        "Position": ["225 * r + 0.5 * x", "1.55 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/ExitButton",
+            "size": ["125 * r", "125 * r"]
+          }
+        }
+      },
+      "SpriteButton": {}
+    },
+    "DisplayButton": {
+      "Transform": {
+        "Position": ["0 - 225 * r + 0.5 * x", "1.55 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/DisplayButton",
+            "size": ["125 * r", "125 * r"]
+          }
+        }
+      },
+      "SpriteButton": {}
+    },
+    "SoundButton": {
+      "Transform": {
+        "Position": ["0 - 380 * r + 0.5 * x", "1.57 * y"]
+      },
+      "Sprite": {},
+      "SoundButton": {
+        "StandardButtonTexture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/SoundButton",
+            "size": ["95 * r", "95 * r"]
+          }
+        },
+        "TurnedOffButtonTexture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/SoundOffButton",
+            "size": ["95 * r", "95 * r"]
+          }
+        }
+      }
+    },
+    "InfoButton": {
+      "Transform": {
+        "Position": ["380 * r + 0.5 * x", "1.57 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "MainMenu/InfoButton",
+            "size": ["95 * r", "95 * r"]
+          }
+        }
+      },
+      "SpriteButton": {}
+    }
+  }
+}

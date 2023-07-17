@@ -1,97 +1,49 @@
 ﻿{
   "Name": "Start scene",
-  "BackgroundColor": {
-    "@Color": "DeepSkyBlue"
-  },
-  "Hierarchy": [
-    "AltText",
-    "LoadingScreenBackground",
-    "LoadingSpinner"
-  ],
+  "BackgroundColor": [0, 0.74, 1, 1],
   "GameObjects": {
     "AltText": {
-      "Engine.BaseComponents.Transform": {
-        "Position": {
-          "@Vector": {
-            "X": "@centerX",
-            "Y": "@centerY"
-          }
-        }
+      "Transform": {
+        "Position": ["x * 0.5", "0.5 * y"]
       },
-      "Engine.BaseComponents.TextMesh": {
-        "Color": {
-          "@Color": "FloralWhite"
-        },
+      "TextMesh": {
+        "Color": "FloralWhite",
         "Font": {
-          "@Asset": {
+          "Asset": {
             "asset": "Content",
-            "type": "SpriteFont",
             "filename": "defaultLoadingScreenFont"
           }
         },
-        "Width": {
-          "@Multiply": [
-            "@sizeX",
-            "0.75"
-          ]
-        },
-        "WordWrap": "true",
+        "Width": "0.75 * x",
+        "WordWrap": true,
         "Text": "Welcome here! :)",
-        "CentralOffset": {
-          "@None": "null"
-        }
+        "CentralOffset": null
       }
     },
     "LoadingScreenBackground": {
-      "Engine.BaseComponents.Transform": {
-        "Position": {
-          "@Vector": {
-            "X": "@centerX",
-            "Y": "@centerY"
-          }
-        }
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
       },
-      "Engine.BaseComponents.Sprite": {
+      "Sprite": {
         "Texture": "@lsb"
       }
     },
     "LoadingSpinner": {
-      "Engine.BaseComponents.Transform": {
-        "Position": {
-          "@Vector": {
-            "X": "@centerX",
-            "Y": "@centerY"
-          }
-        }
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
       },
-      "Engine.BaseComponents.Sprite": {
+      "Sprite": {
         "Texture": {
-          "@Asset": {
+          "Asset": {
             "asset": "SVG",
-            "type": "Texture",
             "assetName": "loadingSpinner",
-            "size": {
-              "@Vector": {
-                "X": {
-                  "@Multiply": [
-                    "@sizeX",
-                    "0.7"
-                  ]
-                },
-                "Y": {
-                  "@Multiply": [
-                    "@sizeX",
-                    "0.7"
-                  ]
-                }
-              }
-            }
+            "size": ["0.7 * x", "0.7 * x"]
           }
         }
       },
-      "Engine.BaseComponents.LoadingSpinner": {
-        "Speed": "5",
-        "LoadNextSceneOnStart": "true"
+      "LoadingSpinner": {
+        "Speed": 5,
+        "LoadNextSceneOnStart": true
       }
     }
   }

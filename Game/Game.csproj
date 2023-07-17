@@ -30,10 +30,8 @@
         <Message Text="Restoring dotnet tools" Importance="High" />
         <Exec Command="dotnet tool restore" />
     </Target>
-    <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-        <Exec Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; prebuild;&quot;$(SolutionDir)&quot;;Game;&quot;$(OutDir)&quot;" />
-    </Target>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; postbuild;&quot;$(SolutionDir)&quot;;Game;&quot;$(OutDir)&quot;" />
+        <Exec 
+                Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; &quot;$(SolutionDir)&quot;;Game;&quot;$(OutDir)&quot;" />
     </Target>
 </Project>

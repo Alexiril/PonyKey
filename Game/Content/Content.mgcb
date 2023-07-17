@@ -126,8 +126,8 @@
 #begin MainMenu/SoundOffButton.svg
 /copy:MainMenu/SoundOffButton.svg
 
-#begin Scenes/MainMenu.json
-/copy:Scenes/MainMenu.json
+#begin MainMenu/MainMenu.json
+/copy:MainMenu/MainMenu.json
 
-#begin Scenes/Level1.json
-/copy:Scenes/Level1.json
+#begin Level1/Level1.json
+/copy:Level1/Level1.json

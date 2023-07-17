@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -22,7 +21,7 @@ public static class Game
         Master.IsFixedTimeStep = fixedTimeStep;
         Master.TargetElapsedTime = TimeSpan.FromSeconds(1d / framerate);
         _loadingScreenBackgroundAssetName = screenBackgroundAssetName;
-        SceneManager.RegisterLevels(new List<string> { "StartScene.json" });
+        SceneManager.RegisterLevels(new[] { "StartScene.json" });
         EventSystem.OnExit += Exit;
         PlayerSettings.ForceUpdate();
         Graphics.IsFullScreen = bool.TryParse(PlayerSettings.GetValue("fS"), out var fS) && fS;

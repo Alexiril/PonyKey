@@ -1,0 +1,203 @@
+﻿{
+  "Name": "Level 1",
+  "BackgroundColor": "DeepSkyBlue",
+  "GameObjects": {
+    "PersonScore": {
+      "Score": {}
+    },
+    "Background": {
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Level1/Background0",
+            "size": ["x", "y"]
+          }
+        }
+      },
+      "SoundSource": {
+        "Sound": {
+          "Asset": {
+            "asset": "Content",
+            "filename": "Level1/BackgroundMusicLevel1"
+          }
+        },
+        "IsLooped": true,
+        "Volume": {
+          "PlayerSettings": {
+            "value": "vl",
+            "default": 1
+          }
+        },
+        "PlayAtStart": true
+      },
+      "Level1Init": {},
+      "MenuInvoker": {}
+    },
+    "ScorePanel": {
+      "GameObject": {
+        "Active": false
+      },
+      "Transform": {
+        "Position": ["0.5 * x", "0.025 * y"]
+      },
+      "TextMesh": {
+        "Color": "White",
+        "WordWrap": true,
+        "Font": {
+          "Asset": {
+            "asset": "Content",
+            "filename": "Common/TwilightSpeechFont21"
+          }
+        },
+        "Text": "Score: 0",
+        "Width": "200",
+        "Offset": [-50, 0]
+      }
+    },
+    "TreesGenerator": {
+      "GameObject": {
+        "Active": false
+      },
+      "Transform": {
+        "Position": ["1.5 * x", "0.7 * y"]
+      },
+      "TreesGenerator": {}
+    },
+    "Background1": {
+      "Transform": {
+        "Position": ["x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Level1/Background1",
+            "size": ["2560 * r", "720 * r"]
+          }
+        }
+      }
+    },
+    "AJRunning": {
+      "Transform": {
+        "Position": ["0 - 0.2 * x", "0.75 * y"]
+      },
+      "Animator": {
+        "AnimationInformation": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Level1/ajAnimation",
+            "size": ["512 * r", "512 * r"]
+          }
+        },
+        "Playing": true,
+        "Loop": true
+      },
+      "ApplejackRunning": {}
+    },
+    "Background2": {
+      "Transform": {
+        "Position": ["x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Level1/Background2",
+            "size": ["2560 * r", "720 * r"]
+          }
+        }
+      }
+    },
+    "PonyTalking": {
+      "Transform": {
+        "Position": ["0.66 * x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Common/TwilightUnhappy",
+            "size": ["600 * r", "600 * r"]
+          }
+        }
+      }
+    },
+    "SpeechCloud": {
+      "Transform": {
+        "Position": ["0.3 * x", "0.3 * y"]
+      },
+      "TextMesh": {
+        "Color": "Violet",
+        "WordWrap": true,
+        "Font": {
+          "Asset": {
+            "asset": "Content",
+            "filename": "Common/TwilightSpeechFont21"
+          }
+        },
+        "Text": "Hi there! We do need some help here, can you help us?",
+        "Width": 200,
+        "Offset": [-100, -110]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Common/SpeechCloud",
+            "size": ["365 * r", "365 * r"]
+          }
+        }
+      },
+      "InputTrigger": {
+        "TriggerSize": ["0.5 * x", "0.5 * y"],
+        "CenterOffset": ["0.5 * x + (0 - 0.3 * x)", "0.5 * y + (0 - 0.3 * y)"]
+      },
+      "PoniesTalking": {}
+    },
+    "HelperText": {
+      "GameObject": {
+        "Active": false
+      },
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y - 200"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Level1/TextHelper",
+            "size": ["687 * r", "160 * r"]
+          }
+        },
+        "TextureColor": [1, 1, 1, 0.8]
+      },
+      "MovingText": {
+        "ColorChangeSpeed": 0.95,
+        "MovingSpeed": 0.2
+      }
+    },
+    "Menu": {
+      "GameObject": {
+        "Active": false
+      },
+      "Transform": {
+        "Position": ["0.5 * x", "0.5 * y"]
+      },
+      "Sprite": {
+        "Texture": {
+          "Asset": {
+            "asset": "SVG",
+            "assetName": "Level1/Menu",
+            "size": ["512 * r", "512 * r"]
+          }
+        }
+      },
+      "SpriteButton": {},
+      "Menu": {}
+    }
+  }
+}
