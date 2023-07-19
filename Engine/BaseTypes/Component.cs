@@ -18,7 +18,11 @@ public class Component : ICloneable
         set
         {
             _gameObject = value;
-            if (_gameObject == null) return;
+            if (_gameObject == null)
+            {
+                Unload();
+                return;
+            }
             Requirements.ForEach(t => { if (!_gameObject.HasComponent(t)) _gameObject.AddComponent(t); });
             Initiate();
         }

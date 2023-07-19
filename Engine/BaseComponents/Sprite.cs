@@ -86,4 +86,11 @@ public class Sprite : Component
         );
         Game.DrawSpace.End();
     }
+
+    public override void Unload()
+    {
+        Texture?.Dispose();
+        Texture = null;
+
+    }
 }
