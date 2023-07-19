@@ -2,6 +2,10 @@
     <PropertyGroup>
         <TargetFramework>net6.0-windows</TargetFramework>
     </PropertyGroup>
+    <Target Name="RestoreMGCBTools" BeforeTargets="PrepareContentBuilder">
+      <Message Text="Checking MGCB tools" Importance="High" />
+      <Exec Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; pre;&quot;$(SolutionDir)&quot;;Engine;&quot;$(OutDir)&quot;" />
+    </Target>
     <ItemGroup>
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">

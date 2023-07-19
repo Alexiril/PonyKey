@@ -1,8 +1,7 @@
-from os import listdir, chdir
+from os import listdir, chdir, mkdir
 from os.path import join, isdir, isfile
 from sys import argv
 from tarfile import open as taropen
-
 
 def count_lines(root_folder: str, extensions=None):
     if extensions is None:
@@ -47,22 +46,35 @@ def pack_assets(start_folder: str, content_folder: str):
 
 args = argv[1].replace('"', "").split(";")
 
-if len(args) < 3:
+if len(args) < 4:
     print(f"""Sorry. This is not how to use that script.
 You need to start it with the building params.
-Using example: ponykeybuilder.py "rootFolder" "gameFolder" "outFolder"
+Using example: ponykeybuilder.py "pre|post";"rootFolder";"gameFolder";"outFolder"
 Arguments ({len(args)}): {args}""")
     exit(-3)
 
-rootFolder = args[0]
-gameFolder = join(rootFolder, args[1])
-outFolder = join(gameFolder, args[2])
-buildTimeFolder = join(gameFolder, "BuildTime")
+phase = args[0]
+rootFolder = args[1]
+projectFolder = join(rootFolder, args[2])
+outFolder = join(projectFolder, args[3])
+buildTimeFolder = join(projectFolder, "BuildTime")
 print("Starting with:")
+print(f"Phase = {phase}")
 print(f"Root folder = {rootFolder}")
-print(f"Game folder = {gameFolder}")
+print(f"Project folder = {projectFolder}")
 print(f"Out folder = {outFolder}")
 print(f"BuildTime folder = {buildTimeFolder}")
 
-pack_assets(outFolder, join(outFolder, "Content"))
-count_lines(rootFolder, ["cs", "py", "json"])
+if phase == "post":
+    pack_assets(outFolder, join(outFolder, "Content"))
+    count_lines(rootFolder, ["cs", "py", "json"])
+elif phase == "pre":
+    if isdir(join(projectFolder, ".config")) and \
+        isfile(join(projectFolder, ".config", "dotnet-tools.json")):
+        print("Dotnet tools json exists. Probably correct.")
+    elif not isdir(join(projectFolder, ".config")):
+        mkdir(join(projectFolder, ".config"))
+    if not isfile(join(projectFolder, ".config", "dotnet-tools.json")):
+        with open(join(projectFolder, ".config", "dotnet-tools.json"), 'w') as json:
+            json.write("""{"version":1,"isRoot":true,"tools":{"dotnet-mgcb":{"version": "3.8.1.303","commands":["mgcb"]},"dotnet-mgcb-editor":{"version":"3.8.1.303","commands":["mgcb-editor"]},"dotnet-mgcb-editor-linux":{"version":"3.8.1.303","commands":["mgcb-editor-linux"]},"dotnet-mgcb-editor-windows":{"version":"3.8.1.303","commands":["mgcb-editor-windows"]},"dotnet-mgcb-editor-mac":{"version":"3.8.1.303","commands":["mgcb-editor-mac"]}}}""")
+            print("Dotnet tools json manifest was created.")

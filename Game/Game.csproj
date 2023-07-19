@@ -10,7 +10,12 @@
     </PropertyGroup>
     <PropertyGroup>
         <ApplicationManifest>app.manifest</ApplicationManifest>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
+    <Target Name="RestoreMGCBTools" BeforeTargets="PrepareContentBuilder">
+      <Message Text="Checking MGCB tools" Importance="High" />
+      <Exec Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; pre;&quot;$(SolutionDir)&quot;;Game;&quot;$(OutDir)&quot;" />
+    </Target>
     <ItemGroup>
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
         <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.1.303" />
@@ -26,12 +31,18 @@
             <LogicalName>Icon.ico</LogicalName>
         </EmbeddedResource>
     </ItemGroup>
+    <ItemGroup>
+      <None Include="..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
         <Message Text="Restoring dotnet tools" Importance="High" />
         <Exec Command="dotnet tool restore" />
     </Target>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
         <Exec 
-                Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; &quot;$(SolutionDir)&quot;;Game;&quot;$(OutDir)&quot;" />
+                Command="python &quot;$(SolutionDir)Tools/PonyKeyBuilder.py&quot; post;&quot;$(SolutionDir)&quot;;Game;&quot;$(OutDir)&quot;" />
     </Target>
 </Project>

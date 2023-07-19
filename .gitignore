@@ -6,3 +6,4 @@ riderModule.iml
 /.idea/
 /.vs/
 /PonyKey.sln.DotSettings.user
+*.config/
