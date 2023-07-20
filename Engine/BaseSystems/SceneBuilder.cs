@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -172,7 +173,10 @@ internal static class SceneBuilder
                         break;
                     }
                     default:
-                        if (float.TryParse(token, out var f))
+                        if (float.TryParse(token,
+                                NumberStyles.Float | NumberStyles.AllowThousands,
+                                CultureInfo.InvariantCulture,
+                                out var f))
                             output.Push(f);
                         else switch (token)
                         {
@@ -235,7 +239,10 @@ internal static class SceneBuilder
                         ? GetColorValue(token)
                         : token?.ToString() == "@lsb"
                             ? Game.LoadingScreenBackground
-                            : float.TryParse(token?.ToString(), out var valF)
+                            : float.TryParse(token?.ToString(),
+                                NumberStyles.Float | NumberStyles.AllowThousands,
+                                CultureInfo.InvariantCulture,
+                                out var valF)
                                 ? valF
                                 : bool.TryParse(token?.ToString(), out var valB)
                                     ? valB
@@ -264,16 +271,24 @@ internal static class SceneBuilder
     private static Vector4 GetVectorValue(JArray value) =>
         new(
             (float)((value.Count > 0
-                ? float.TryParse(value[0].ToString(), out var x) ? x : CompileValue(value[0].ToString(), typeof(float))
+                ? float.TryParse(value[0].ToString(),
+                    NumberStyles.Float | NumberStyles.AllowThousands,
+                    CultureInfo.InvariantCulture, out var x) ? x : CompileValue(value[0].ToString(), typeof(float))
                 : 0f) ?? 0f),
             (float)((value.Count > 1
-                ? float.TryParse(value[1].ToString(), out var y) ? y : CompileValue(value[1].ToString(), typeof(float))
+                ? float.TryParse(value[1].ToString(),
+                    NumberStyles.Float | NumberStyles.AllowThousands,
+                    CultureInfo.InvariantCulture, out var y) ? y : CompileValue(value[1].ToString(), typeof(float))
                 : 0f) ?? 0f),
             (float)((value.Count > 2
-                ? float.TryParse(value[2].ToString(), out var z) ? z : CompileValue(value[2].ToString(), typeof(float))
+                ? float.TryParse(value[2].ToString(),
+                    NumberStyles.Float | NumberStyles.AllowThousands,
+                    CultureInfo.InvariantCulture, out var z) ? z : CompileValue(value[2].ToString(), typeof(float))
                 : 0f) ?? 0f),
             (float)((value.Count > 3
-                ? float.TryParse(value[3].ToString(), out var w) ? w : CompileValue(value[3].ToString(), typeof(float))
+                ? float.TryParse(value[3].ToString(),
+                    NumberStyles.Float | NumberStyles.AllowThousands,
+                    CultureInfo.InvariantCulture, out var w) ? w : CompileValue(value[3].ToString(), typeof(float))
                 : 0f) ?? 0f)
         );
 
